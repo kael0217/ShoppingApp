@@ -54,17 +54,16 @@
 				            </div>
 				        </div>
 			        </form>
-			        <!-- Login/Register-->		        
-			    	<c:if test="${sessionScope.passengerEmail==null}">
-		        	<div class=" form-inline" >
-		  				<button class="nav navbar-nav btn btn-outline-success my-2 my-sm-0 form-inline" onclick="javascript:location.href='login'">Login</button>
-		  				<button class="nav navbar-nav btn btn-outline-success my-2 my-sm-0 form-inline" onclick="javascript:location.href='register'">Register</button>
-	 				</div>
-	 				</c:if>
-	 				<!-- Login/Register Close-->
 		        </div>
 		        <!-- search close-->
-
+	        	<!-- Login/Register-->		        
+		    	<c:if test="${sessionScope.passengerEmail==null}">
+	        	<div class="col-sm-3 col-rg-2 form-inline btn-group" role="group" aria-label="Basic example" >
+	  				<button class="nav navbar-nav btn btn-secondary my-2 my-sm-0 form-inline" onclick="javascript:location.href='login'">Login</button>
+	  				<button class="nav navbar-nav btn btn-secondary my-2 my-sm-0 form-inline" onclick="javascript:location.href='register'">Register</button>
+ 				</div>
+ 				</c:if>
+ 				<!-- Login/Register Close-->
             </div>
             <!-- /.navbar-collapse --> 	
         </div>
