@@ -13,22 +13,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    
-
 	
     <title>Product List Page</title>
-    
-    <spring:url value="/main/products" var="productListPageURL" />
-	<spring:url value="/main/shopping-cart" var="shoppingCartPageURL" />
-	
-	<spring:url value="/resources/images" var="images" />
-	
-    <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss" />
-    <link href="${bootstrapCss}" rel="stylesheet">
-    <spring:url value="/resources/css/4-col-portfolio.css" var="themeCSS" />
-    <link href="${themeCSS}" rel="stylesheet">
-    <spring:url value="/resources/css/custom.css" var="customCSS" />
-    <link href="${customCSS}" rel="stylesheet">
+    <spring:url value="/resources/images" var="images" />
+
     <style>
     
     <spring:url value="/resources/fonts/glyphicons-halflings-regular.eot"	var="file1" />
@@ -53,49 +41,9 @@
 </head>
 
 <body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="${productListPageURL}">Cool Shoes</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="${productListPageURL}">Product List</a>
-                    </li>
-                    <li>
-                        <a href="${shoppingCartPageURL}">Shopping Cart</a>
-                    </li>
-                </ul>
-                
-                <!-- search -->
-		        <div class="col-sm-3 col-md-3 pull-right">
-			        <form id="search-field-form" class="navbar-form" role="search" action="<c:url value="products" />" method="GET">
-				        <div class="input-group">
-				        	<input id="search-field" type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-				            <div class="input-group-btn">
-			                	<button id="search-field-btn" class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i>
-			                	</button>
-				            </div>
-				        </div>
-			        </form>
-		        </div>
-		        
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
+	<!-- Nav-bar -->
+	<jsp:include page="navbar.jsp"/>
+	<!-- /.Nav-bar -->
 
     <!-- Page Content -->
     <div class="container">
