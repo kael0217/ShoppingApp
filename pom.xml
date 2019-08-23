@@ -13,6 +13,9 @@
 	</parent>
 	<properties>
 		<java.version>1.8</java.version>
+		<spring-cloud-version>2.1.2.RELEASE</spring-cloud-version>
+		<aws-s3-version>1.11.615</aws-s3-version>
+		<aws-sdk-sts-version>1.11.616</aws-sdk-sts-version>
 	</properties>
 
 	<dependencies>
@@ -60,8 +63,29 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper -->
 		<dependency>
-		    <groupId>org.apache.tomcat.embed</groupId>
-		    <artifactId>tomcat-embed-jasper</artifactId>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-aws-context</artifactId>
+			<version>${spring-cloud-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>${aws-s3-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-sts</artifactId>
+			<version>${aws-sdk-sts-version}</version>
 		</dependency>
 	</dependencies>
 

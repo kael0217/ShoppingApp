@@ -12,7 +12,7 @@ import com.levent.pcd.model.Product;
  * Repository Layer is responsible for retrievel of data
  */
 @Repository("productRepository")
-public interface ProductRepository extends MongoRepository<Product, String> {
+public interface ProductRepository extends MongoRepository<Product, String>, AWSS3Helper {
 	
 	  @Query("{ 'productCode' : ?0 }")
 	  Product findByProductCode(String productCode);

@@ -13,6 +13,7 @@ import com.levent.pcd.business.ShoppingHandler;
 import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartEntry;
 import com.levent.pcd.model.ShoppingCartMap;
+import com.levent.pcd.repository.AWSS3Helper;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
 
@@ -34,6 +35,8 @@ public class FrontController {
 	
 	@Autowired
 	private ShoppingCartMap shoppingCartMap;
+	
+
 	
 	@RequestMapping(value = "/products")
 	public ModelAndView listProducts() {
