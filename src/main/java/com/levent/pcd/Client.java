@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 @SpringBootApplication
-@EnableMongoRepositories(basePackages="com.levent.pcd.repository",repositoryImplementationPostfix = "Impl")
+@EnableMongoRepositories(basePackageClasses=com.levent.pcd.repository.ProductRepository.class)
 public class Client implements WebMvcConfigurer {
 
 	public static void main(String[] args) {

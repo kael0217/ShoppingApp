@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartMap;
-import com.levent.pcd.repository.AWSS3Helper;
+import com.levent.pcd.service.AWSS3Helper;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
 

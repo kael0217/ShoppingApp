@@ -1,6 +1,7 @@
-package com.levent.pcd.repository;
+package com.levent.pcd.service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -83,9 +84,9 @@ public class AWSS3HelperImpl implements AWSS3Helper{
 
 	@Override
 	public File getObjectFromUrl(String filename) throws FileNotFoundException {
-		S3Object o = getAmazonS3Client().getObject(awsConfig.getS3().getDefaultBucket(), filename);
-		FileOutputStream fos = new FileOutputStream(new File(filename));
+		S3Object o = getAmazonS3Client().getObject(awsConfig.getS3().getDefaultBucket(), filename);		
 		S3ObjectInputStream s3is = o.getObjectContent();
+//		FileInputStream fos = new FileInputStream(s3is);
 		return null;
 	}
 	@Override

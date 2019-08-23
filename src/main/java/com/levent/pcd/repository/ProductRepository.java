@@ -7,12 +7,13 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.levent.pcd.model.Product;
+import com.levent.pcd.service.AWSS3Helper;
 
 /*
  * Repository Layer is responsible for retrievel of data
  */
 @Repository("productRepository")
-public interface ProductRepository extends MongoRepository<Product, String>, AWSS3Helper {
+public interface ProductRepository extends MongoRepository<Product, String>{
 	
 	  @Query("{ 'productCode' : ?0 }")
 	  Product findByProductCode(String productCode);
