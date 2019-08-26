@@ -81,9 +81,9 @@ public class FrontController {
 	}
 	
 	@RequestMapping(value = "/product-details-{productCode}")
-	public ModelAndView listProductById(@PathVariable("productCode") String productCode) {
+	public ModelAndView listProductById(@PathVariable("productCode") String sku) {
 		
-		Product product = productService.findByProductCode(productCode);
+		Product product = productService.findByProductCode(sku);
 		
 		ModelAndView model = new ModelAndView("product-details");
 		model.addObject("product", product);
