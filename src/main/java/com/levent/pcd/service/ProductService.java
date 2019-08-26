@@ -22,5 +22,6 @@ public interface ProductService {
 	public List<Product> findProductsByName(String searchString);
 	
 	public void addProduct(Product product, BindingResult bindingResult);
+	void updateProductsRemained(Product product, int inStore);
 	
 }

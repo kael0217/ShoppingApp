@@ -3,6 +3,7 @@ package com.levent.pcd.service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,8 +12,11 @@ import com.amazonaws.SdkClientException;
 
 public interface AWSS3Helper {
 	
-	File getObjectFromUrl(String filename) throws FileNotFoundException;
-	String putObject(MultipartFile file) throws AmazonServiceException, SdkClientException, IOException;
 	String deleteFileByKey(String fileName);
+	String putObject(MultipartFile file, String fileName)
+			throws AmazonServiceException, SdkClientException, IOException;
+	String getStreamFromUrl(String filename) throws IOException;
+	File getFileFromUrl(String filename) throws IOException;
+	String getFileUrlByName(String filename);
 	
 }

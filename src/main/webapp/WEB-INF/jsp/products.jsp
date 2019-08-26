@@ -85,7 +85,7 @@
 				            </div>
 				            <c:set var="divCount" value="${divCount + 1}" />
 				            <c:if test="${divCount % 3 == 0}">
-		            	</div>
+		            	</div>		            	
 		            	<div class="row">
 				            </c:if>
 						</c:forEach>
@@ -100,6 +100,7 @@
 
         <!-- Footer -->
         <footer>
+        <img class="img-responsive" src="https://bucket-image-productcatagory.s3.us-east-2.amazonaws.com/01_men_one.jpg" alt="">
             <div class="row">
                 <div class="col-lg-12">
                     <p>Copyright &copy; Divilioglu LTD. 2016</p>
