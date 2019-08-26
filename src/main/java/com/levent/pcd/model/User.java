@@ -26,7 +26,9 @@ public class User{
 	private String password;
 	private List<UserRole> userRoles;
 	@DBRef
+
 	private List<Product> cartItems;
+	//@DBRef
 	private List<Address> addresses;	
-	//private List<Order> orders = new ArrayList<>();
+
 }

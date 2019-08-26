@@ -21,7 +21,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 	 * 
 	 * @see http://stackoverflow.com/a/19805105/3128926
 	 */
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public List<String> findAll() {
 		List<String> list= new ArrayList<>();

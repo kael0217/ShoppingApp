@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,15 +20,28 @@ import lombok.NoArgsConstructor;
 public class Product {
 	
 	@Id private String id;
-	@Version private int version;
-	private List<String> categories;
-	private String productCode;
+
+	@Version
+	private int version;
+	private List<Category> categories;
+	private String type;
 	private String productName;
 	private String imageUrl;
 	private String imageFileName;
-	private double price;
-	private int size;
-	private int inStore;
-	private String color;
+	@Default
+	private double price=100;
+	private String upc;
+	@Default
+	private Integer inStore=1;//quantity
+		@Default
+	private String color="black";
+	@Default
+	private Float shipping=0.0f;
+	private String description;
+	private String manufacturer;
+	private String model;
+	private Integer sku;
+
+
 
 }

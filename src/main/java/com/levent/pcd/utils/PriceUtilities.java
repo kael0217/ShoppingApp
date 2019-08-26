@@ -12,7 +12,9 @@ public class PriceUtilities {
 	
 	// helper method for rounding double value to N decimal places
 	// refer to SO solution: http://stackoverflow.com/a/2808648/3128926
-	private static double roundToNDecimalPlaces(double value, int n) {
+
+	public static double roundToNDecimalPlaces(double value, int n) {
+
 		long factor = (long)Math.pow(10, n);
 		value = value * factor;
 		long temp = Math.round(value);

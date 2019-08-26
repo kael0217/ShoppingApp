@@ -102,7 +102,7 @@
 		<div class="row">
 			<!-- left category  -->
             <div class="col-md-6">
-            	<img class="img-responsive" src="${images}/${product.getImageUrl()}" alt="">
+            	<img class="img-responsive" src="${product.getImageUrl()}" alt="">
             </div>
 	        
 			<!-- right category  -->
@@ -118,7 +118,7 @@
 							</div>
             			</div>
 						<div class="col-lg-3 col-md-3">
-							<button id="add-to-basket-btn" data-product-code="${ product.getProductCode() }" type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#success-modal">Add To Basket</button>
+							<button id="add-to-basket-btn" data-product-code="${ product.sku}" type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#success-modal">Add To Basket</button>
 						</div>
             		</div>
             		<br />

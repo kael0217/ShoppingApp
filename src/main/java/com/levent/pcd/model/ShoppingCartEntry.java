@@ -1,5 +1,9 @@
 package com.levent.pcd.model;
 
+
+import com.levent.pcd.utils.PriceUtilities;
+
+
 public class ShoppingCartEntry {
 	
 	private String imageUrl;
@@ -56,7 +60,9 @@ public class ShoppingCartEntry {
 	}
 
 	public void setProductTotalPrice(double productTotalPrice) {
-		this.productTotalPrice = productTotalPrice;
+
+		this.productTotalPrice = PriceUtilities.roundToNDecimalPlaces(productTotalPrice,2);
+
 	}
 	
 }
