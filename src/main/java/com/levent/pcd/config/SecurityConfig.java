@@ -24,6 +24,7 @@ import com.levent.pcd.model.User;
 import com.levent.pcd.model.UserRole;
 import com.levent.pcd.repository.UserRepository;
 
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
@@ -41,11 +42,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.authoritiesByUsernameQuery("select authorities from user_role where username= ?");*/
 		auth.userDetailsService(service).passwordEncoder(NoOpPasswordEncoder.getInstance());
 	}
+
 	public void configure(HttpSecurity http) throws Exception {
 		http.formLogin().and().logout().invalidateHttpSession(true).logoutUrl("/logout").logoutSuccessUrl("/login");
 	
 	/*	http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).*/
 		}
+
 
 }
 

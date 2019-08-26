@@ -33,6 +33,7 @@ import com.amazonaws.services.securitytoken.model.Credentials;
 import com.amazonaws.services.securitytoken.model.GetSessionTokenRequest;
 import com.levent.pcd.config.AWSConfig;
 
+
 @Service("AWSS3HelperImpl")
 public class AWSS3HelperImpl implements AWSS3Helper {
 

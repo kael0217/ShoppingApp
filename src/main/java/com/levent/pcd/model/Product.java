@@ -8,7 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+
 import lombok.Builder.Default;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,9 +22,9 @@ import lombok.NoArgsConstructor;
 public class Product {
 	
 	@Id private String id;
+
 	@Version
-	@Default
-	private int version=0;
+	private int version;
 	private List<Category> categories;
 	private String type;
 	private String productName;
@@ -41,6 +43,7 @@ public class Product {
 	private String manufacturer;
 	private String model;
 	private int sku;
-	
+
+
 
 }

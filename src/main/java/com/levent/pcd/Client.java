@@ -1,6 +1,5 @@
 package com.levent.pcd;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -14,10 +13,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.levent.pcd.repository.ProductRepository;
 
 
+
 @SpringBootApplication
 @Configuration
 @EnableCaching
 @EnableTransactionManagement
+
 @EnableMongoRepositories(basePackages="com.levent.pcd.repository")
 public class Client implements WebMvcConfigurer {
 	
@@ -29,7 +30,8 @@ public class Client implements WebMvcConfigurer {
 		System.out.println(rep.findById("ObjectId('5d6436be480d4bb96f995895')"));
 
 	}
-	
+
+
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addRedirectViewController("/", "/products");
 	}
