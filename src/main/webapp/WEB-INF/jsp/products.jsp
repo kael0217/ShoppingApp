@@ -79,7 +79,7 @@
 						<c:forEach var="listValue" items="${productList}">
 				            <div class="col-md-3 col-sm-12 col-xs-12 portfolio-item">
 				                <a href="<c:url value='product-details-${listValue.description}' />">
-				                    <img class="img-responsive" src="${images}/${listValue.getImageUrl()}" alt="">
+				                    <img class="img-responsive" src="${listValue.getImageUrl()}" alt="">
 				                </a>
     							<p >${listValue.getProductName()}</p>
 				            </div>
