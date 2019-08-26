@@ -76,7 +76,7 @@ public class RestServicesController {
 	}
 	
 	@GetMapping("/getProducts")
-	@PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public List<Product> getProducts() {
 		return productService.findAll();
 	}
@@ -99,7 +99,7 @@ public class RestServicesController {
 	}	
 	
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/addFileToS3")	
 	public String tryAddFile() {
 		System.out.println("Adding");

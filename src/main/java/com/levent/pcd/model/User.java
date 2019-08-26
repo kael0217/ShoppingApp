@@ -1,6 +1,5 @@
 package com.levent.pcd.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -27,8 +26,7 @@ public class User{
 	private String password;
 	private List<UserRole> userRoles;
 	@DBRef
-	private List<Product> cartItems = new ArrayList<>();
-	//@DBRef
-	private List<Address> addresses = new ArrayList<>();	
+	private List<Product> cartItems;
+	private List<Address> addresses;	
 	//private List<Order> orders = new ArrayList<>();
 }
