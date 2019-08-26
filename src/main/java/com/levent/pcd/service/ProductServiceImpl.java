@@ -50,8 +50,8 @@ public class ProductServiceImpl implements ProductService {
 	
 
 	@Override
-	public void addProduct(Product product, BindingResult bindingResult) {
-		// TODO Auto-generated method stub
+	public void addProduct(Product product) {
+		productRepository.save(product);
 		
 	}
 	

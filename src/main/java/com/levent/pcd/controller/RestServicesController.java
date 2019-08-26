@@ -27,7 +27,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartMap;
 import com.levent.pcd.model.User;
@@ -76,7 +79,7 @@ public class RestServicesController {
 	}
 	
 	@GetMapping("/getProducts")
-	@PreAuthorize("hasRole('ROLE_USER')")
+	//@PreAuthorize("hasRole('ROLE_USER')")
 	public List<Product> getProducts() {
 		return productService.findAll();
 	}
@@ -99,18 +102,17 @@ public class RestServicesController {
 	}	
 	
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping("/addFileToS3")	
-	public String tryAddFile() {
-		System.out.println("Adding");
-		return "Success";
-	}
-	
+
 //	@PreAuthorize("hasRole('ADMIN')")
-//	@PostMapping("/addFileToS3")	
-//	public String addFile(@ModelAttribute Product p,@RequestParam File file) {
-//		return "Success";
-//	}
+    @PostMapping("/addProductWithS3")	
+	public String addFile(@ModelAttribute Product p,@RequestParam MultipartFile file) throws AmazonServiceException, SdkClientException, IOException {
+		String fileName = file.getOriginalFilename();
+		String url = awshelper.putObject(file, fileName);
+		p.setImageFileName(fileName);
+		p.setImageUrl(url);
+		productService.addProduct(p);
+		return url;
+	}
 	@InitBinder
 	public void fileBinder(WebDataBinder binder) {
 		binder.setDisallowedFields("file");

@@ -107,4 +107,9 @@ public class FrontController {
 		return model;
 	}
 	
+	@RequestMapping("/addproduct")
+	public ModelAndView addProductView() {
+		ModelAndView model = new ModelAndView("addproduct");
+		return model;
+	}
 }
