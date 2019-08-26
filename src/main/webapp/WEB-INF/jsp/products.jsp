@@ -66,7 +66,7 @@
 	                <div id="category-options" class="list-group">
 						<c:if test="${not empty categoryList}">
 							<c:forEach var="listValue" items="${categoryList}">
-								<a href="<c:url value='products-by-category-${listValue}' />" class="list-group-item category-select-option" data-category-name="${listValue}">${listValue}</a>
+								<a href="<c:url value='products-by-category-${listValue.productName}' />" class="list-group-item category-select-option" data-category-name="${listValue}">${listValue}</a>
 							</c:forEach>
 						</c:if>
 	                </div>
@@ -78,7 +78,7 @@
 						<div class="row">
 						<c:forEach var="listValue" items="${productList}">
 				            <div class="col-md-3 col-sm-12 col-xs-12 portfolio-item">
-				                <a href="<c:url value='product-details-${listValue.getProductCode()}' />">
+				                <a href="<c:url value='product-details-${listValue.description}' />">
 				                    <img class="img-responsive" src="${images}/${listValue.getImageUrl()}" alt="">
 				                </a>
     							<p >${listValue.getProductName()}</p>
