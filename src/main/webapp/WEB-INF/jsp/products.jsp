@@ -66,7 +66,7 @@
 	                <div id="category-options" class="list-group">
 						<c:if test="${not empty categoryList}">
 							<c:forEach var="listValue" items="${categoryList}">
-								<a href="<c:url value='products-by-category-${listValue.productName}' />" class="list-group-item category-select-option" data-category-name="${listValue}">${listValue}</a>
+								<a href="<c:url value='products-by-category-${listValue.productName}' />" class="list-group-item category-select-option" data-category-name="${listValue.productName}">${listValue.productName}</a>
 							</c:forEach>
 						</c:if>
 	                </div>

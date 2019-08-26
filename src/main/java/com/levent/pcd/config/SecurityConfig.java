@@ -65,12 +65,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		// add it
 		web.httpFirewall(allowUrlEncodedSlashHttpFirewall());
+		
 	}
 
 	@Bean
 	public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
 		StrictHttpFirewall firewall = new StrictHttpFirewall();
 		firewall.setAllowUrlEncodedSlash(true);
+		   firewall.setAllowSemicolon(true);
 		return firewall;
 	}
 
