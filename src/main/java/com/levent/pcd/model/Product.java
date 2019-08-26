@@ -8,9 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-
 import lombok.Builder.Default;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -33,16 +31,16 @@ public class Product {
 	@Default
 	private double price=100;
 	private String upc;
-		@Default
-	private int inStore=1;//quantity
+	@Default
+	private Integer inStore=1;//quantity
 		@Default
 	private String color="black";
 	@Default
-	private float shipping=0;
+	private Float shipping=0.0f;
 	private String description;
 	private String manufacturer;
 	private String model;
-	private int sku;
+	private Integer sku;
 
 
 
