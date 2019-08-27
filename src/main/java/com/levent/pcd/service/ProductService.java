@@ -3,7 +3,6 @@ package com.levent.pcd.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import com.levent.pcd.model.Product;
 
@@ -16,7 +15,7 @@ import com.levent.pcd.model.Product;
 @Service
 public interface ProductService {
 	
-	public List<Product> findAll();
+	public List<Product> findAll(int page, int limit);
 	public Product findBySku(String sku);
 	public List<Product> findProductsByCategory(String categoryName);
 	public List<Product> findProductsByName(String searchString);

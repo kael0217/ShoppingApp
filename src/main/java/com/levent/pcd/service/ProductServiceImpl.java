@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.FileEditor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
@@ -21,8 +21,8 @@ public class ProductServiceImpl implements ProductService {
 	private ProductRepository productRepository;
 	
 	@Override
-	public List<Product> findAll() {
-		return productRepository.findAll();
+	public List<Product> findAll(int page, int limit) {
+		return productRepository.findAll(PageRequest.of(page, limit)).getContent();
 	}
 
 	@Override

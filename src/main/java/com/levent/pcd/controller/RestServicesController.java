@@ -11,11 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -78,7 +75,7 @@ public class RestServicesController {
 	@GetMapping("/getProducts")
 	// @PreAuthorize("hasRole('ROLE_USER')")
 	public List<Product> getProducts() {
-		return productService.findAll();
+		return productService.findAll(0,100);
 	}
 
 	@GetMapping("/getProductBySku/{sku}")

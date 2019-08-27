@@ -77,26 +77,47 @@
 						<c:set var="divCount" scope="page" value="0"/>
 						<div class="row">
 						<c:forEach var="listValue" items="${productList}">
-				            <div class="col-md-3 col-sm-12 col-xs-12 portfolio-item">
+				            <div class="col-md-4 col-sm-12 col-xs-12 portfolio-item">
 				                <a href="<c:url value='product-details-${listValue.id}' />">
-				                    <img class="img-responsive" src="${listValue.getImageUrl()}" alt="">
+				                    <img class="img-responsive" src="${listValue.getImageUrl()}" alt="" width="250px;" height="250px;">
 				                </a>
     							<p >${listValue.getProductName()}</p>
 				            </div>
 				            <c:set var="divCount" value="${divCount + 1}" />
-				            <c:if test="${divCount % 3 == 0}">
-		            	</div>		            	
-		            	<div class="row">
+				            <c:if test="${divCount % 2 == 0}">
+		            		</div>		            	
+		            		<div class="row">
 				            </c:if>
 						</c:forEach>
-						</div>
+					<div class="col-md-4 col-md-offset-3">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination">
+							<c:if test="${page>0 }">
+								<li class="page-item"><a class="page-link" href="./products?page=${page-1}&limit=100"
+									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+										<span class="sr-only">Previous</span>
+								</a></li>
+								</c:if>
+														
+								<li class="page-item"><a   class="page-link" href="#">${page+1}</a></li>
+								<c:if test="${productList.size()==100}">
+								<li class="page-item"><a class="page-link" href="./products?page=${page+1 }&limit=100"
+									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+										<span class="sr-only">Next</span>
+								</a></li>
+								</c:if>
+							</ul>
+
+						</nav>
+					</div>
+				</div>
 					</c:if>
 				</div>
 				
 			</div>
 		</div>
-			
-        <hr>
+	
+	<hr>	
 
         <!-- Footer -->
         <footer>

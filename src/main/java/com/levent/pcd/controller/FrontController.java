@@ -38,13 +38,13 @@ public class FrontController {
 
 	
 	@RequestMapping(value = "/products")
-	public ModelAndView listProducts() {
+	public ModelAndView listProducts(@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="100") int limit) {
 		
 		List<String> categories = categoryService.findAll();
-		List<Product> products = productService.findAll();
+		List<Product> products = productService.findAll(page, limit);
 		
 		ModelAndView model = new ModelAndView("products");
-		
+		model.addObject("page", page);
 		model.addObject("productList", products);
 		model.addObject("categoryList", categories);
 		

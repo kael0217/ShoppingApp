@@ -30,7 +30,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="${productListPageURL}">Cool Shoes</a>
+                <a class="navbar-brand" href="${productListPageURL}">Shopper's Club</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -56,6 +56,12 @@
 			        </form>
 		        </div>
 		        <!-- search close-->
+		        ${sessionScope.passengerEmail}
+		        	<c:if test="${sessionScope.passengerEmail!=null}">
+	        	<div class="col-sm-3 col-rg-2 form-inline btn-group" role="group" aria-label="Basic example" >
+	  				<button class="nav navbar-nav btn btn-secondary my-2 my-sm-0 form-inline" onclick="javascript:location.href='/logout'">Logout</button>
+	  			</div>
+ 				</c:if>
 	        	<!-- Login/Register-->		        
 		    	<c:if test="${sessionScope.passengerEmail==null}">
 	        	<div class="col-sm-3 col-rg-2 form-inline btn-group" role="group" aria-label="Basic example" >
