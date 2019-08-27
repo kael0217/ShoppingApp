@@ -18,17 +18,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class User{
 
-	@Id
+	@Id private String username;
+	private String password;
+	private List<UserRole> userRoles;
+	
 	private Integer userId;
 	private Gender gender;
 	private String mobile;
-	private String username;
-	private String password;
-	private List<UserRole> userRoles;
-	@DBRef
-
-	private List<Product> cartItems;
-	//@DBRef
-	private List<Address> addresses;	
+	
+	private List<Address> addresses;
+	@DBRef private List<Product> cartItems;
+		
 
 }
