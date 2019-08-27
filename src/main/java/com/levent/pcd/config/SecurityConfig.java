@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 */
 		auth.userDetailsService(service).passwordEncoder(NoOpPasswordEncoder.getInstance());
 	}
+	
 
 	public void configure(HttpSecurity http) throws Exception {
 		http.formLogin().and().logout().invalidateHttpSession(true).logoutUrl("/logout").logoutSuccessUrl("/login");
@@ -88,9 +89,9 @@ class UserDetailServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// User u=rep.findByUsername(username);
+	//	User u=rep.findByUsername(username);
 		List<UserRole> userRoles = new ArrayList();
-		userRoles.add(UserRole.USER);
+		userRoles.add(UserRole.ROLE_USER);
 		// userRoles.add(UserRole.ADMIN);
 		User u = User.builder().username("admin").password("admin").userRoles(userRoles).build();
 		if (u.getPassword() == null || u.getUserRoles().isEmpty()) {
@@ -99,7 +100,7 @@ class UserDetailServiceImpl implements UserDetailsService {
 			System.out.println(u);
 			UserBuilder builder = org.springframework.security.core.userdetails.User.builder();
 			return builder.username(username).password(u.getPassword()).authorities(u.getUserRoles().stream()
-					.map(x -> new SimpleGrantedAuthority("ROLE_USER")).collect(Collectors.toList())).build();
+					.map(x -> new SimpleGrantedAuthority(x.name())).collect(Collectors.toList())).build();
 
 			// org.springframework.security.core.userdetails.User.withDefaultPasswordEncoder()(username,u.getPassword(),
 			// u.getUserRoles().stream().map(x-> new
