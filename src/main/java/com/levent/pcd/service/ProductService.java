@@ -3,7 +3,6 @@ package com.levent.pcd.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import com.levent.pcd.model.Product;
 

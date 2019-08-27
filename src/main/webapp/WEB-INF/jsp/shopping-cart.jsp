@@ -50,7 +50,7 @@
 
 <body>
 
-<a href="./logout">Logout</a>
+
 
 	<!-- Nav-bar -->
 	<jsp:include page="navbar.jsp"/>

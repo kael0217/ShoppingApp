@@ -3,6 +3,7 @@ package com.levent.pcd.service;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Component;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.PutObjectResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.levent.pcd.config.AWSConfig;
 import com.levent.pcd.model.Product;
@@ -35,24 +35,29 @@ public class UploadImageToS3Once {
 	public void doUpload() throws AmazonServiceException, SdkClientException, URISyntaxException, IOException {
 		AmazonS3 client = helper.getAmazonS3Client();
 		File file = new File("C:/Users/payal/products.json");
+		File file_done = new File("C:/Users/payal/products_done.json");
 		ObjectMapper mapper = new ObjectMapper();
 		Product[] products = mapper.readValue(file, Product[].class);
+		PrintWriter writer=new PrintWriter(file_done);
 		for (Product product : products) {
 			try {
 				String url = product.getImageUrl();
 				URL url1 = new URL(url);
 				BufferedImage img = ImageIO.read(url1);
 				String filename = url.substring(url.lastIndexOf("/") + 1);
-				File file1 = new File(filename);
+				File file1 = new File("temp.jpg");
 				ImageIO.write(img, "jpg", file1);
-				client.putObject(awsConfig.getS3().getDefaultBucket(), filename, file);
+				client.putObject(awsConfig.getS3().getDefaultBucket(), filename, file1);
 				product.setImageFileName(filename);
 				product.setImageUrl(awsConfig.getS3().getEndPoint()+"/"+ filename);
 				rep.save(product);
 				System.out.println(product.getId()+":"+ product.getImageUrl());
+				writer.println(product.getId());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+		writer.flush();
+		writer.close();
 	}
 }

@@ -31,8 +31,8 @@ public class Client implements WebMvcConfigurer {
 
 	public static void main(String[] args) throws AmazonServiceException, SdkClientException, URISyntaxException, IOException {
 		ApplicationContext ctx=SpringApplication.run(Client.class, args);
-	//	UploadImageToS3Once helper=ctx.getBean(UploadImageToS3Once.class);
-		//helper.doUpload();
+		UploadImageToS3Once helper=ctx.getBean(UploadImageToS3Once.class);
+		helper.doUpload();
 
 	}
 

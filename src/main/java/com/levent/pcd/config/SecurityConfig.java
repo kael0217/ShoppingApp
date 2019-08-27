@@ -1,7 +1,5 @@
 package com.levent.pcd.config;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,6 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.stereotype.Component;
 
 import com.levent.pcd.model.User;
-import com.levent.pcd.model.UserRole;
 import com.levent.pcd.repository.UserRepository;
 
 @Configuration
