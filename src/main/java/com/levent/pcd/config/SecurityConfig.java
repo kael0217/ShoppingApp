@@ -60,14 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 	}
 
-	public void configure(HttpSecurity http) throws Exception {
-		http.formLogin().and().logout().invalidateHttpSession(true).logoutUrl("/logout").logoutSuccessUrl("/login");
-
-		/*
-		 * http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).
-		 */
-	}
-
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// add it
@@ -97,7 +89,7 @@ class UserDetailServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// User u=rep.findByUsername(username);
 		List<UserRole> userRoles = new ArrayList();
-		userRoles.add(UserRole.USER);
+		userRoles.add(UserRole.ROLE_USER);
 		// userRoles.add(UserRole.ADMIN);
 		User u = User.builder().username("admin").password("admin").userRoles(userRoles).build();
 		if (u.getPassword() == null || u.getUserRoles().isEmpty()) {
