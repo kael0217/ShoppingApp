@@ -27,12 +27,12 @@ public class ShoppingHandlerImpl implements ShoppingHandler {
 	public List<ShoppingCartEntry> getShoppingCartEntries(ShoppingCartMap shoppingCartMap) {
 		List<ShoppingCartEntry> shoppingCarts = new ArrayList<>();
 		
-		for(String sku : shoppingCartMap.getCartItems().keySet() ) {
-			Product p = productService.findBySku(sku);
+		for(String id : shoppingCartMap.getCartItems().keySet() ) {
+			Product p = productService.findById(id);
 			
 			ShoppingCartEntry s = new ShoppingCartEntry();
 			
-			int quantity = shoppingCartMap.getQuantity(sku);
+			int quantity = shoppingCartMap.getQuantity(id);
 			
 			s.setImageUrl(p.getImageUrl());
 			s.setProductName(p.getProductName());

@@ -109,8 +109,8 @@ var
 <script src="${resourceBootstrapJs}"></script>
 <script>
 	$(document).ready(function() {
-		$("#add-to-basket-btn").click(function() {
-			var sku = $(this).attr('sku');
+		$(".add-to-basket-btn").click(function() {
+			var id = $(this).attr('id');
 			var quantity = $("#quantity-input").val();
 			
 			if(quantity == '') {
@@ -129,7 +129,7 @@ var
 			$.ajax({
 				url: 'services/addToCart',
 				data: {
-					'sku' : sku,
+					'id' : id,
 					'quantity': quantity
 				}
 			});
@@ -188,8 +188,8 @@ var
 							</div>
 						</div>
 						<div class="col-lg-3 col-md-3">
-							<button id="add-to-basket-btn"
-								sku="${ product.sku}" type="button"
+							<button class="add-to-basket-btn"
+								id="${ product.id}" type="button"
 								class="btn btn-primary btn-md" data-toggle="modal"
 								data-target="#success-modal">Add To Basket</button>
 						</div>

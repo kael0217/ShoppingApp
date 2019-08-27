@@ -9,7 +9,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
@@ -36,6 +35,7 @@ import com.levent.pcd.service.AWSS3Helper;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
 import com.levent.pcd.service.UserService;
+
 
 @RestController
 @RequestMapping(value = "/services")
@@ -64,10 +64,10 @@ public class RestServicesController {
 	// endpoints
 	@RequestMapping("/addToCart")
 	public void addToCart(
-			@RequestParam(value = "productCode") String productCode, 
+			@RequestParam(value = "id") String id, 
 			@RequestParam(value = "quantity") int quantity
 	) {
-		shoppingCartMap.addItem(productCode, quantity);
+		shoppingCartMap.addItem(id, quantity);
 	}
 	
 	@GetMapping("/getCategories")

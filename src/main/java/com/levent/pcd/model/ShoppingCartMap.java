@@ -19,11 +19,11 @@ public class ShoppingCartMap {
 		cartItems = new HashMap<>();
 	}
 	
-	public void addItem(String productCode, int quantity) {
-		if(!cartItems.containsKey(productCode))
-			cartItems.put(productCode, quantity);
+	public void addItem(String id, int quantity) {
+		if(!cartItems.containsKey(id))
+			cartItems.put(id, quantity);
 		else {
-			cartItems.put(productCode, cartItems.get(productCode)+quantity);
+			cartItems.put(id, cartItems.get(id)+quantity);
 		}
 		
 		itemCount += quantity;
@@ -33,8 +33,8 @@ public class ShoppingCartMap {
 		return cartItems;
 	}
 	
-	public int getQuantity(String productCode) {
-		return cartItems.get(productCode);
+	public int getQuantity(String id) {
+		return cartItems.get(id);
 	}
 	
 	public int getItemSize() {
