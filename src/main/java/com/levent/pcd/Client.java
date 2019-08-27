@@ -15,9 +15,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
-import com.levent.pcd.service.UploadImageToS3Once;
-
-
 
 @SpringBootApplication
 @Configuration
