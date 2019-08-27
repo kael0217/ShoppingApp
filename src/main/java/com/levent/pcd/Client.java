@@ -1,20 +1,21 @@
 package com.levent.pcd;
 
-import org.bson.types.ObjectId;
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.security.web.firewall.HttpFirewall;
-import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.levent.pcd.repository.ProductRepository;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
+import com.levent.pcd.service.UploadImageToS3Once;
 
 
 
@@ -28,10 +29,10 @@ public class Client implements WebMvcConfigurer {
 	
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws AmazonServiceException, SdkClientException, URISyntaxException, IOException {
 		ApplicationContext ctx=SpringApplication.run(Client.class, args);
-		ProductRepository rep=ctx.getBean(ProductRepository.class);
-		System.out.println(rep.findById(new ObjectId("5d6436be480d4bb96f995895").toString()));
+	//	UploadImageToS3Once helper=ctx.getBean(UploadImageToS3Once.class);
+		//helper.doUpload();
 
 	}
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -80,9 +81,9 @@ public class RestServicesController {
 		return productService.findAll();
 	}
 	
-	@GetMapping("/getProductByProductCode/{productCode}")
-	public Product getProductByProductCode(@PathVariable String productCode) {
-		return productService.findByProductCode(productCode);
+	@GetMapping("/getProductBySku/{sku}")
+	public Product getProductBySku(@PathVariable String sku) {
+		return productService.findBySku(sku);
 	}
 	
 	@GetMapping("/getProductsByCategories/{categoryName}")

@@ -23,7 +23,7 @@ public class Product {
 
 	@Version
 	private int version;
-	private List<Category> categories;
+	private List<Category> category;
 	private String type;
 	private String productName;
 	private String imageUrl;
@@ -41,7 +41,7 @@ public class Product {
 	private String manufacturer;
 	private String model;
 	private Integer sku;
-
+	private String url;
 
 
 }

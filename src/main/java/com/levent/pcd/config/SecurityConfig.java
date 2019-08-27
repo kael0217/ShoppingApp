@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,11 +53,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(service).passwordEncoder(NoOpPasswordEncoder.getInstance());
 	}
 	
-	@Override
-	public void configure(HttpSecurity http) throws Exception {
-		http.formLogin().and().logout().invalidateHttpSession(true).logoutUrl("/logout").logoutSuccessUrl("/login");
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
-	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -87,7 +81,7 @@ class UserDetailServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// User u=rep.findByUsername(username);
+	//	User u=rep.findByUsername(username);
 		List<UserRole> userRoles = new ArrayList();
 		userRoles.add(UserRole.ROLE_USER);
 		// userRoles.add(UserRole.ADMIN);
@@ -97,11 +91,12 @@ class UserDetailServiceImpl implements UserDetailsService {
 		} else {
 			System.out.println(u);
 			UserBuilder builder = org.springframework.security.core.userdetails.User.builder();
-			return  builder.username(username).password(u.getPassword()).
-					authorities(u.getUserRoles().stream().map(x-> new SimpleGrantedAuthority(x.toString())).collect(Collectors.toList())).build();
-					
-					//org.springframework.security.core.userdetails.User.withDefaultPasswordEncoder()(username,u.getPassword(), 
-					//u.getUserRoles().stream().map(x-> new SimpleGrantedAuthority(x.toString())).collect(Collectors.toList())); 
+			return builder.username(username).password(u.getPassword()).authorities(u.getUserRoles().stream()
+					.map(x -> new SimpleGrantedAuthority(x.name())).collect(Collectors.toList())).build();
+
+			// org.springframework.security.core.userdetails.User.withDefaultPasswordEncoder()(username,u.getPassword(),
+			// u.getUserRoles().stream().map(x-> new
+			// SimpleGrantedAuthority(x.toString())).collect(Collectors.toList()));
 		}
 	}
 }
