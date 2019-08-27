@@ -3,6 +3,7 @@ package com.levent.pcd.model;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class User{
 
-	@Id private String username;
+	@Id @Indexed private String username;
 	private String password;
 	private List<UserRole> userRoles;
 	

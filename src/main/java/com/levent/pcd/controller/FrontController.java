@@ -108,7 +108,13 @@ public class FrontController {
 	
 	@RequestMapping("/addproduct")
 	public ModelAndView addProductView() {
-		ModelAndView model = new ModelAndView("addproduct");
+		ModelAndView model = new ModelAndView("/addproduct");
+		return model;
+	}
+	
+	@RequestMapping("/register")
+	public ModelAndView addRegisterView() {
+		ModelAndView model = new ModelAndView("/register");
 		return model;
 	}
 }

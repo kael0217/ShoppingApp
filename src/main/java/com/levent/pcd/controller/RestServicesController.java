@@ -2,6 +2,7 @@ package com.levent.pcd.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,7 @@ import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartMap;
 import com.levent.pcd.model.User;
 import com.levent.pcd.model.UserEntry;
+import com.levent.pcd.model.UserRole;
 import com.levent.pcd.service.AWSS3Helper;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
@@ -95,6 +97,19 @@ public class RestServicesController {
 	public void saveCart() {
 
 	}
+	
+//	@GetMapping("/addAdmin")
+//	public String addAdmin() {
+//		
+//		List<UserRole> userRoles = new ArrayList<UserRole>();
+//		userRoles.add(UserRole.ROLE_ADMIN);
+//		userRoles.add(UserRole.ROLE_USER);
+//		
+//		User admin = User.builder().username("admin").password("admin").userId(0).userRoles(userRoles).build();
+//		userService.registUser(admin);
+//		
+//		return "DONE!";
+//	}
 
 	@GetMapping("/addProductWithS3")
 	public String testAddFile() {
