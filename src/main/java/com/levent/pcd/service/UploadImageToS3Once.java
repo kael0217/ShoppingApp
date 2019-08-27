@@ -53,11 +53,12 @@ public class UploadImageToS3Once {
 				rep.save(product);
 				System.out.println(product.getId()+":"+ product.getImageUrl());
 				writer.println(product.getId());
+				writer.flush();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		writer.flush();
+		
 		writer.close();
 	}
 }
