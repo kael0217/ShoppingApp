@@ -51,7 +51,7 @@
         <!-- Page Heading -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Shoes
+                <h1 class="page-header">Products:
                     <small>Select categories or search using search box</small>
                 </h1>
             </div>
@@ -66,7 +66,7 @@
 	                <div id="category-options" class="list-group">
 						<c:if test="${not empty categoryList}">
 							<c:forEach var="listValue" items="${categoryList}">
-								<a href="<c:url value='products-by-category-${listValue.productName}' />" class="list-group-item category-select-option" data-category-name="${listValue.productName}">${listValue.productName}</a>
+								<a href="<c:url value='products-by-category-${listValue}' />" class="list-group-item category-select-option" data-category-name="${listValue}">${listValue}</a>
 							</c:forEach>
 						</c:if>
 	                </div>
