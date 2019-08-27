@@ -12,11 +12,11 @@
 <body>
 
 <form action="/services/addProductWithS3" method="POST" enctype="multipart/form-data">
-    <input type="file" name="file"><br /> 
-    <input type="submit" name="submit" value="TESTPOST">
+    <input type="file" name="file"/><br /> 
+    <input type="submit" name="submit" value="TESTPOST"/>
 </form>
 <form action="/services/getProducts" method="get"> 
-    <input type="submit" name="TestService" value="TEST">
+    <input type="submit" name="TestService" value="TEST"/>
 </form>
 
 </body>
