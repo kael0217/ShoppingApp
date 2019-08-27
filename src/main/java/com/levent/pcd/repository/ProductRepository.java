@@ -23,7 +23,7 @@ public interface ProductRepository extends MongoRepository<Product, String>{
 	   * db.products.find({ categories: { '$in':['children'] } })
 	   * 
 	   */
-	  @Query("{ 'categories': { $elemMatch: { $eq: ?0 } } }")
+	  @Query("{ 'category.productName':   ?0 }")
 	  List<Product> findProductsByCategory(String categoryName);
 	  
 	  /*
