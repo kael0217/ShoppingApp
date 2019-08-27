@@ -76,7 +76,7 @@ public class RestServicesController {
 	@GetMapping("/getProducts")
 	// @PreAuthorize("hasRole('ROLE_USER')")
 	public List<Product> getProducts() {
-		return productService.findAll();
+		return productService.findAll(0,100);
 	}
 
 	@GetMapping("/getProductBySku/{sku}")
