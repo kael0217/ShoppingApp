@@ -54,14 +54,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 
-	public void configure(HttpSecurity http) throws Exception {
-		http.formLogin().and().logout().invalidateHttpSession(true).logoutUrl("/logout").logoutSuccessUrl("/login");
-
-		/*
-		 * http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).
-		 */
-	}
-
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// add it
