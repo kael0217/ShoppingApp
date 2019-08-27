@@ -18,7 +18,7 @@
 
 <title>Product Details Page</title>
 
-<spring:url value="/resources/images" var="images" />
+
 
 <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss" />
 <link href="${bootstrapCss}" rel="stylesheet">
@@ -110,7 +110,7 @@ var
 <script>
 	$(document).ready(function() {
 		$("#add-to-basket-btn").click(function() {
-			var productCode = $(this).attr('data-product-code');
+			var sku = $(this).attr('sku');
 			var quantity = $("#quantity-input").val();
 			
 			if(quantity == '') {
@@ -118,11 +118,18 @@ var
 				
 				return;
 			}
+		
+		
+			if(quantity > $("#qty")[0].innerHTML) {
+				$("#modal-body-msg").text('Please enter a valid quantity. ');
+				
+				return;
+			}
 						
 			$.ajax({
 				url: 'services/addToCart',
 				data: {
-					'productCode' : productCode,
+					'sku' : sku,
 					'quantity': quantity
 				}
 			});
@@ -182,7 +189,7 @@ var
 						</div>
 						<div class="col-lg-3 col-md-3">
 							<button id="add-to-basket-btn"
-								data-product-code="${ product.sku}" type="button"
+								sku="${ product.sku}" type="button"
 								class="btn btn-primary btn-md" data-toggle="modal"
 								data-target="#success-modal">Add To Basket</button>
 						</div>
@@ -217,7 +224,7 @@ var
 								</tr>
 								<tr>
 									<td>Quantity Available:</td>
-									<td>${ product.inStore }</td>
+									<td id="qty">${ product.inStore }</td>
 								</tr>
 								<tr>
 									<td>Color:</td>
