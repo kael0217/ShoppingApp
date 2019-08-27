@@ -26,8 +26,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product findByProductCode(String productCode) {
-		return productRepository.findByProductCode(productCode);
+	public Product findBySku(String sku) {
+		return productRepository.findBySku(sku);
 	}
 	
 	@Override
@@ -57,6 +57,11 @@ public class ProductServiceImpl implements ProductService {
 	@InitBinder
 	protected void imageFileBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(java.io.File.class, new FileEditor());
+	}
+
+	@Override
+	public Product findById(String id) {
+		return productRepository.findById(id).orElse(new Product());
 	}
 	
 	

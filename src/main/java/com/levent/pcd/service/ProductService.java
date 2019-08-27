@@ -17,11 +17,12 @@ import com.levent.pcd.model.Product;
 public interface ProductService {
 	
 	public List<Product> findAll();
-	public Product findByProductCode(String productCode);
+	public Product findBySku(String sku);
 	public List<Product> findProductsByCategory(String categoryName);
 	public List<Product> findProductsByName(String searchString);
 	
 	public void addProduct(Product product, BindingResult bindingResult);
 	void updateProductsRemained(Product product, int inStore);
+	public Product findById(String id);
 	
 }

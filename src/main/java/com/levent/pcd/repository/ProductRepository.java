@@ -15,8 +15,7 @@ import com.levent.pcd.model.Product;
 @Repository("productRepository")
 public interface ProductRepository extends MongoRepository<Product, String>{
 	
-	  @Query("{ 'productCode' : ?0 }")
-	  Product findByProductCode(String productCode);
+	
 	  
 	  /*
 	   * Same functionality with the query below
@@ -34,5 +33,8 @@ public interface ProductRepository extends MongoRepository<Product, String>{
 	   */
 	  @Query("{ 'productName':{$regex:?0,$options:'i'} }") 
 	  List<Product> findProductsByProductNameRegex(String searchString);
+
+	  @Query("{ 'sku' : ?0 }")
+	  Product findBySku(String sku);
 	  
 }

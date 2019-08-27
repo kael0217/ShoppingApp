@@ -78,7 +78,7 @@
 						<div class="row">
 						<c:forEach var="listValue" items="${productList}">
 				            <div class="col-md-3 col-sm-12 col-xs-12 portfolio-item">
-				                <a href="<c:url value='product-details-${listValue.description}' />">
+				                <a href="<c:url value='product-details-${listValue.id}' />">
 				                    <img class="img-responsive" src="${listValue.getImageUrl()}" alt="">
 				                </a>
     							<p >${listValue.getProductName()}</p>
@@ -100,7 +100,7 @@
 
         <!-- Footer -->
         <footer>
-        <img class="img-responsive" src="https://bucket-image-productcatagory.s3.us-east-2.amazonaws.com/01_men_one.jpg" alt="">
+       <!--  <img class="img-responsive" src="https://bucket-image-productcatagory.s3.us-east-2.amazonaws.com/01_men_one.jpg" alt=""> -->
             <div class="row">
                 <div class="col-lg-12">
                     <p>Copyright &copy; Divilioglu LTD. 2016</p>

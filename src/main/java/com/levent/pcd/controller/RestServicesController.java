@@ -77,9 +77,9 @@ public class RestServicesController {
 		return productService.findAll();
 	}
 	
-	@GetMapping("/getProductByProductCode/{productCode}")
-	public Product getProductByProductCode(@PathVariable String productCode) {
-		return productService.findByProductCode(productCode);
+	@GetMapping("/getProductBySku/{sku}")
+	public Product getProductBySku(@PathVariable String sku) {
+		return productService.findBySku(sku);
 	}
 	
 	@GetMapping("/getProductsByCategories/{categoryName}")
