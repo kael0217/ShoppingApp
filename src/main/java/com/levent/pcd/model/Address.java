@@ -17,6 +17,6 @@ public class Address {
 	private String state;
 	private String zip;
 	private String country;
-	private List<User> users = new ArrayList<>();
+	private List<UserInfo> users = new ArrayList<>();
 
 }
