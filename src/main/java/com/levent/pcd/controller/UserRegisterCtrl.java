@@ -71,7 +71,7 @@ public class UserRegisterCtrl {
 	public ModelAndView registUser(@ModelAttribute UserInfo userInfo,@ModelAttribute UserAuth userAuth, @RequestParam String username, 
 			HttpSession session, HttpServletRequest request) throws ServletException {
 		ModelAndView model = new ModelAndView();
-		model.setViewName("/register");
+		model.setViewName("/products");
 		
 		List<UserRole> roles = new ArrayList<UserRole>();
 		roles.add(UserRole.ROLE_USER);
