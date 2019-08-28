@@ -1,34 +1,29 @@
 package com.levent.pcd.model;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Document(collection="users")
+@Document(collection="userAuths")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User{
+public class UserAuth {
 
-	@Id @Indexed private String username;
-	private String password;
-	private List<UserRole> userRoles;
+	@Id @Indexed String username;
+	String password;
+	@Default
+	private List<UserRole> userRoles = Arrays.asList(new UserRole[]{UserRole.ROLE_USER});
 	
-	private Integer userId;
-	private Gender gender;
-	private String mobile;
-	
-	private List<Address> addresses;
-	@DBRef private List<Product> cartItems;
-		
-
 }

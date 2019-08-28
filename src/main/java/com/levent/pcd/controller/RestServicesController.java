@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,14 +27,12 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartMap;
-import com.levent.pcd.model.User;
+import com.levent.pcd.model.UserInfo;
 import com.levent.pcd.model.UserEntry;
 import com.levent.pcd.model.UserRole;
 import com.levent.pcd.service.AWSS3Helper;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
-import com.levent.pcd.service.UserService;
-
 
 @RestController
 @RequestMapping(value = "/services")
@@ -44,8 +43,7 @@ public class RestServicesController {
 	private ProductService productService;
 	@Autowired
 	private CategoryService categoryService;
-	@Autowired
-	private UserService userService;
+
 
 	// session scoped POJOs
 	@Autowired
@@ -115,14 +113,15 @@ public class RestServicesController {
 
 //	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/addProductWithS3")
-	public String addFile(@RequestParam MultipartFile file)
+	public String addFile(@ModelAttribute Product p,@RequestParam MultipartFile file)
 			throws AmazonServiceException, SdkClientException, IOException {
 		String fileName = file.getOriginalFilename();
+		System.out.println(file.getSize());
 		String url = awshelper.putObject(file, fileName);
-//		p.setImageFileName(fileName);
-//		p.setImageUrl(url);
-//		productService.addProduct(p);
-		return "WTF";
+		p.setImageFileName(fileName);
+		p.setImageUrl(url);
+		productService.addProduct(p);
+		return url;
 	}
 
 //	@InitBinder
@@ -149,17 +148,5 @@ public class RestServicesController {
 		System.out.println(awshelper.deleteFileByKey(fileName));
 	}
 
-	@PostMapping("/userLogin")
-	public String userLogin(@RequestParam String username, @RequestParam String password) {
 
-		Optional<User> user = userService.checkUser(username, password);
-
-		if (user.isPresent()) {
-			userEntry.setUser(user.get());
-			userEntry.setLogin(true);
-			return "Login Success";
-		} else {
-			return "No user or wrong password";
-		}
-	}
 }

@@ -17,9 +17,6 @@
 
 
 <title>Product Details Page</title>
-
-
-
 <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss" />
 <link href="${bootstrapCss}" rel="stylesheet">
 <spring:url value="/resources/css/4-col-portfolio.css" var="themeCSS" />
@@ -27,71 +24,12 @@
 <spring:url value="/resources/css/custom.css" var="customCSS" />
 <link href="${customCSS}" rel="stylesheet">
 <style>
-<
-spring
-:url
- 
-value
-="/resources/fonts/glyphicons-halflings-regular
-.eot
-"
-	
-var
-="file1"
-/
->
-<
-spring
-:url
- 
-value
-="/resources/fonts/glyphicons-halflings-regular
-.svg
-"
-	
-var
-="file2"
-/
->
-<
-spring
-:url
- 
-value
-="/resources/fonts/glyphicons-halflings-regular
-.ttf
-"
-	
-var
-="file3"
-/
->
-<
-spring
-:url
- 
-value
-="/resources/fonts/glyphicons-halflings-regular
-.woff
-"
-	
-var
-="file4"
-/
->
-<
-spring
-:url
- 
-value
-="/resources/fonts/glyphicons-halflings-regular
-.woff2
-"
-	
-var
-="file5"
-/
->
+<spring:url value="/resources/fonts/glyphicons-halflings-regular.eot" var="file1"/>
+<spring:url value="/resources/fonts/glyphicons-halflings-regular.svg" var="file2"/>
+<spring:url value="/resources/fonts/glyphicons-halflings-regular.ttf" var="file3"/>
+<spring:url value="/resources/fonts/glyphicons-halflings-regular.woff" var="file4"/>
+<spring:url value="/resources/fonts/glyphicons-halflings-regular.woff2" var="file5"/>
+
 @font-face {
 	font-family: 'Glyphicons Halflings';
 	src: url('${file1}');

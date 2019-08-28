@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
@@ -56,22 +56,25 @@
 			        </form>
 		        </div>
 		        <!-- search close-->
-		        ${sessionScope.passengerEmail}
-		        	<c:if test="${sessionScope.passengerEmail!=null}">
-	        	<div class="col-sm-3 col-rg-2 form-inline btn-group" role="group" aria-label="Basic example" >
+
+            </div>
+            <!-- /.navbar-collapse -->
+             	<!-- Login/Register-->
+             	
+             	
+		        <c:if test="${pageContext.request.userPrincipal.name != null}">
+	        	<div class="col-sm-3 col-rg-2" role="group" aria-label="Basic example" >
+	        		<div class= "nav navbar-nav form-inline" style="color:red"> <c:out value="${sessionScope.userEntry.getUser().getNickname()}"/></div>
 	  				<button class="nav navbar-nav btn btn-secondary my-2 my-sm-0 form-inline" onclick="javascript:location.href='/logout'">Logout</button>
 	  			</div>
- 				</c:if>
-	        	<!-- Login/Register-->		        
-		    	<c:if test="${sessionScope.passengerEmail==null}">
+ 				</c:if>		        
+		    	<c:if test="${pageContext.request.userPrincipal.name == null}">
 	        	<div class="col-sm-3 col-rg-2 form-inline btn-group" role="group" aria-label="Basic example" >
 	  				<button class="nav navbar-nav btn btn-secondary my-2 my-sm-0 form-inline" onclick="javascript:location.href='/login'">Login</button>
-	  				<button class="nav navbar-nav btn btn-secondary my-2 my-sm-0 form-inline" onclick="javascript:location.href='register'">Register</button>
+	  				<button class="nav navbar-nav btn btn-secondary my-2 my-sm-0 form-inline" onclick="javascript:location.href='/register'">Register</button>
  				</div>
  				</c:if>
- 				<!-- Login/Register Close-->
-            </div>
-            <!-- /.navbar-collapse --> 	
+ 				<!-- Login/Register Close--> 	
         </div>
         <!-- /.container -->
 

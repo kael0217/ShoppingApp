@@ -117,4 +117,11 @@ public class FrontController {
 		ModelAndView model = new ModelAndView("/register");
 		return model;
 	}
+	
+	@RequestMapping("/login-forward")
+	public ModelAndView addLoginForwardView() {
+		ModelAndView model = new ModelAndView("/login-forward");
+		model.addObject("msg","No username or wrong password, try again or register");
+		return model;
+	}
 }
