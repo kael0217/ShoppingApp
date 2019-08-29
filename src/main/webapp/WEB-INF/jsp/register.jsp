@@ -12,6 +12,16 @@
 <link href="${themeCSS}" rel="stylesheet">
 <spring:url value="/resources/css/custom.css" var="customCSS" />
 <link href="${customCSS}" rel="stylesheet">
+<spring:url value="/resources/js/jquery-3.1.0.min.js" var="resourceJquery" />
+<script src="${resourceJquery}"></script>
+<spring:url value="/resources/js/bootstrap.min.js" var="resourceBootstrapJs" />
+<script src="${resourceBootstrapJs}"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+
 <style>
 body {
 	padding-top: 50px;
@@ -52,12 +62,54 @@ h1 {
 <body>
 	<!-- Nav-bar -->
 	<jsp:include page="navbar.jsp" />
-	<!-- /.Nav-bar -->
+	<!-- /.Nav-bar -->	
+	<!-- validator -->
+	<script>
+	$().ready(function() {
+
 		
-	<div class="container">
-				
+		$('#registerForm').validate({			
+			highlight:function(element) {
+		        $(element).removeClass("badge badge-warning");
+		    },
+			
+			rules : {
+				username:{
+					required : true,
+					minlength : 5
+				},
+				nickname:{
+					required : true,
+					minlength : 5
+				},
+				addresses:{
+					required : true
+				},				
+				password:{
+					required : true,
+					minlength : 5
+				},
+				confirm_password:{
+					required : true,
+					minlength : 5,
+					equalTo : 'password'
+				}
+			},
+			messages:{
+				confirm_password:{
+					equalTo : "Password does not match"
+				}
+			},	   	    
+    	    submitHandler:function(form){
+    	    	form.submit();
+    	    }  
+		});
+	});
+	</script>
+	<!-- /.validator -->	
+	<div class="container">				
 		<div class="form row">
-			<form action="/addUser" method="post" class="form-horizontal">
+			<form action="/addUser" id="registerForm" method="post" class="form-horizontal">
 				
 				<div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1 register">
 					<div class="row text-center"><c:out value="${msg}"></c:out></div>
@@ -69,6 +121,11 @@ h1 {
 					<div class="form-group">
 						<label class="control-label">Password:</label>
 						<input type="password" class="form-control col-sm-8" name="password" placeholder="Input your Password"/>
+						<br />
+					</div>
+					<div class="form-group">
+						<label class="control-label">Confirm password:</label>
+						<input type="password" class="form-control col-sm-8" name="confirm_password" placeholder="Input your Password"/>
 						<br />
 					</div>
 					<div class="form-group">

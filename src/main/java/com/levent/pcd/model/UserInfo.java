@@ -1,6 +1,7 @@
 package com.levent.pcd.model;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -24,7 +25,7 @@ public class UserInfo{
 	private Gender gender;
 	private String mobile;	
 	private List<String> addresses;
-	@DBRef private List<Product> cartItems;
+	private Map<String,Integer> cartItems;
 		
 
 }

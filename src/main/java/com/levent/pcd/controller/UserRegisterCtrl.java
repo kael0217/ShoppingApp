@@ -92,9 +92,9 @@ public class UserRegisterCtrl {
 		userEntry.setUser(userInfo);
 		userEntry.isLogin=true;	
 		
-		System.out.println(userEntry);
+		System.out.println(userEntry);        
+        request.login(userAuth.getUsername(),userAuth.getPassword());
         session.setAttribute("userEntry", userEntry);
-        request.login(userAuth.getUsername(),userAuth.getPassword());  
         
 		model.addObject("msg", "Success!");		
 		return model;

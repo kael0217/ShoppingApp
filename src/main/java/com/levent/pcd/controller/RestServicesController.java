@@ -3,6 +3,7 @@ package com.levent.pcd.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +27,7 @@ import com.amazonaws.SdkClientException;
 import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartMap;
 import com.levent.pcd.model.UserEntry;
+import com.levent.pcd.repository.UserInfoRepository;
 import com.levent.pcd.service.AWSS3Helper;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
@@ -39,6 +41,8 @@ public class RestServicesController {
 	private ProductService productService;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private UserInfoRepository userInfoRepository;
 
 
 	// session scoped POJOs
@@ -83,9 +87,11 @@ public class RestServicesController {
 
 	@PutMapping("/saveCart")
 	@ResponseStatus(code = HttpStatus.OK)
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void saveCart() {
-
+	//@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void saveCart() {		
+		Map<String,Integer> productList = shoppingCartMap.getCartItems();
+		userEntry.getUser().setCartItems(productList);
+		userInfoRepository.save(userEntry.getUser());
 	}
 	
 //	@GetMapping("/addAdmin")
