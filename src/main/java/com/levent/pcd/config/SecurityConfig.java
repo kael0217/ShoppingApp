@@ -86,7 +86,6 @@ class UserDetailServiceImpl implements UserDetailsService {
 
 	@Autowired
 	UserAuthRepository rep;
-
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserAuth u=rep.findByUsername(username);

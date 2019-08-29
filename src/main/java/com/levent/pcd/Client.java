@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -15,6 +16,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
+import com.github.cloudyrock.mongock.SpringBootMongock;
+import com.github.cloudyrock.mongock.SpringBootMongockBuilder;
+import com.mongodb.MongoClient;
 
 @SpringBootApplication
 @Configuration
@@ -36,6 +40,14 @@ public class Client implements WebMvcConfigurer {
 
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addRedirectViewController("/", "/products");
+	}
+	
+	@Bean
+	public SpringBootMongock mongock(ApplicationContext springContext, MongoClient mongoClient) {
+	  return new SpringBootMongockBuilder(mongoClient, "levent", "com.package.to.be.scanned.for.changesets")
+	      .setApplicationContext(springContext) 
+	      .setLockQuickConfig()
+	      .build();
 	}
 	
 }

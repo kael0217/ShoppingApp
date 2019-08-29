@@ -2,9 +2,7 @@ package com.levent.pcd.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,9 +25,7 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartMap;
-import com.levent.pcd.model.UserInfo;
 import com.levent.pcd.model.UserEntry;
-import com.levent.pcd.model.UserRole;
 import com.levent.pcd.service.AWSS3Helper;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
@@ -71,7 +67,6 @@ public class RestServicesController {
 	}
 
 	@GetMapping("/getProducts")
-	// @PreAuthorize("hasRole('ROLE_USER')")
 	public List<Product> getProducts() {
 		return productService.findAll(0,100);
 	}

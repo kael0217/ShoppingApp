@@ -8,13 +8,11 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body>
-    ${msg}
-	<c:if test="${!sessionScope.userEntry.isLogin}">
+<body>    
+		${msg}
 		<div class="col-sm-3 col-rg-2 form-inline btn-group" role="group" aria-label="Basic example">
 			<button class="nav navbar-nav btn btn-secondary my-2 my-sm-0 form-inline" onclick="javascript:location.href='/login'">Try Again</button>
 			<button class="nav navbar-nav btn btn-secondary my-2 my-sm-0 form-inline" onclick="javascript:location.href='/register'">To Register</button>
 		</div>
-	</c:if>
 </body>
 </html>
