@@ -92,7 +92,7 @@ h1 {
 				confirm_password:{
 					required : true,
 					minlength : 5,
-					equalTo : 'password'
+					equalTo : '#password'
 				}
 			},
 			messages:{
@@ -120,7 +120,7 @@ h1 {
 					</div>
 					<div class="form-group">
 						<label class="control-label">Password:</label>
-						<input type="password" class="form-control col-sm-8" name="password" placeholder="Input your Password"/>
+						<input type="password" class="form-control col-sm-8" name="password" id="password" placeholder="Input your Password"/>
 						<br />
 					</div>
 					<div class="form-group">

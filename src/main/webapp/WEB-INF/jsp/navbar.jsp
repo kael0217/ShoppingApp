@@ -44,8 +44,8 @@
                 </ul>
                 
                 <!-- search -->
-		        <div class="col-sm-3 col-md-3 pull-right">
-			        <form id="search-field-form" class="navbar-form" role="search" action="<c:url value="products" />" method="GET">
+		    
+			        <form id="search-field-form" class="navbar-form navbar-left" role="search" action="<c:url value="products" />" method="GET">
 				        <div class="input-group">
 				        	<input id="search-field" type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
 				            <div class="input-group-btn">
@@ -54,28 +54,28 @@
 				            </div>
 				        </div>
 			        </form>
-		        </div>
+		      
 		        <!-- search close-->
 
-            </div>
-            <!-- /.navbar-collapse -->
-            <!-- Login/Register-->
-			<div class="">
+             <div  id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
 				<c:if test="${pageContext.request.userPrincipal.name != null}">
-					<div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right" " role="group" aria-label="Basic example">						
+					<!-- <div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right" " role="group" aria-label="Basic example">		 -->				
+						<li>
 							<button class="btn btn-link border-secondary">
 								<c:out value="Welcome! Dear ${sessionScope.userEntry.getUser().getNickname()}" />
 							</button>
 							<button class="btn btn-default border-secondary" onclick="javascript:location.href='/logout'">Logout</button>						
-					</div>
+					<!-- </div> --></li>
 				</c:if>
 				<c:if test="${pageContext.request.userPrincipal.name == null}">
-					<div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right" role="group" aria-label="Basic example">
+					<!-- <div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right" role="group" aria-label="Basic example"> -->
+					<li>
 						<button class="btn btn-default border-secondary" onclick="javascript:location.href='/login'">Login</button>
 						<button class="btn btn-default border-secondary" onclick="javascript:location.href='/register'">Register</button>
-					</div>
+					</li><!-- </div> -->
 				</c:if>
-			</div>
+			</ul>
 			<!-- Login/Register Close-->
 		</div>
         <!-- /.container -->
