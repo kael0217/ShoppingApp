@@ -1,5 +1,7 @@
 package com.levent.pcd.model;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -26,6 +28,9 @@ public class Product {
 	private int version;
 	private List<Category> category;
 	private String type;
+	
+	private Date dateCreated;
+	
 	@TextIndexed(weight = 100) private String productName;
 	@TextIndexed(weight = 80) private String description;
 	@TextIndexed(weight = 50) private String manufacturer;
@@ -35,12 +40,18 @@ public class Product {
 	@Default
 	private double price=100;
 	private String upc;
-	@Default
-	private Integer inStore=1;//quantity
+	
 	@Default
 	private String color="black";
 	@Default
 	private Float shipping=0.0f;
+	
+	
+	@Default
+	private Integer inStore=1;//quantity
+	@Default
+	private Integer sellCount=0;
+
 
 	private String model;
 	private Integer sku;

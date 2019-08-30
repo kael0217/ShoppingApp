@@ -62,7 +62,7 @@
             <!-- Login/Register-->
 			<div class="">
 				<c:if test="${pageContext.request.userPrincipal.name != null}">
-					<div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right" " role="group" aria-label="Basic example">						
+					<div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right"  role="group" aria-label="Basic example">						
 							<button class="btn btn-link border-secondary">
 								<c:out value="Welcome! Dear ${sessionScope.userEntry.getUser().getNickname()}" />
 							</button>

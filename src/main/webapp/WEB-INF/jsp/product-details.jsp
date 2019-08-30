@@ -55,9 +55,7 @@
 				$("#modal-body-msg").text('Please enter a quantity');
 				
 				return;
-			}
-		
-		
+			}		
 			if(quantity > $("#qty")[0].innerHTML) {
 				$("#modal-body-msg").text('Please enter a valid quantity. ');
 				
@@ -219,7 +217,6 @@
 						To Products</a>
 				</div>
 			</div>
-
 		</div>
 	</div>
 

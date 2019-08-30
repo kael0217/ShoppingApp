@@ -108,7 +108,8 @@
 				<span class="pull-right">Tax: ${ taxPrice }</span>
 	        </div>
 	        <div class="row">
-					<button id="checkout-btn" type="button" class="btn btn-primary btn-md pull-right">Checkout</button>
+	        		<button id="checkout-btn" type="button" class="btn btn-primary btn-md pull-right" onclick="javascript:location.href='/services/saveCart'">Save Cart</button>
+					<button id="checkout-btn" type="button" class="btn btn-primary btn-md pull-right">Checkout</button>					
 	        </div>
 		</div>
 

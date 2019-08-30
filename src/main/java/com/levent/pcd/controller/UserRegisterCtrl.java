@@ -75,7 +75,7 @@ public class UserRegisterCtrl {
 	public ModelAndView registUser(@ModelAttribute UserInfo userInfo,@ModelAttribute UserAuth userAuth, @RequestParam String username, 
 			HttpSession session, HttpServletRequest request) throws ServletException {
 		ModelAndView model = new ModelAndView();
-		model.setViewName("/products");
+		model.setViewName("redirect:/products");
 		
 		List<UserRole> roles = new ArrayList<UserRole>();
 		roles.add(UserRole.ROLE_USER);
@@ -83,7 +83,8 @@ public class UserRegisterCtrl {
 		
 		userInfo.setUsername(username);
 		userAuth.setUsername(username);
-		if (userInfoRep.findByUsername(username)!=null) {			
+		if (userInfoRep.findByUsername(username)!=null) {
+			model.setViewName("/register");
 			model.addObject("msg","Username has been used, try another one.");
 			return model;
 		}
@@ -95,6 +96,7 @@ public class UserRegisterCtrl {
 		System.out.println(userEntry);        
         request.login(userAuth.getUsername(),userAuth.getPassword());
         session.setAttribute("userEntry", userEntry);
+        
         
 		model.addObject("msg", "Success!");		
 		return model;

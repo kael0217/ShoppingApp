@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http.formLogin().successHandler(successHandler).failureHandler(failureHandler).
 		and()
-		.logout().invalidateHttpSession(true).logoutUrl("/logout").logoutSuccessUrl("/login");
+		.logout().logoutUrl("/logout").logoutSuccessUrl("/");
 //		http.csrf().disable();
 	}
 

@@ -85,15 +85,6 @@ public class RestServicesController {
 		return productService.findProductsByCategory(categoryName);
 	}
 
-	@PutMapping("/saveCart")
-	@ResponseStatus(code = HttpStatus.OK)
-	//@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void saveCart() {		
-		Map<String,Integer> productList = shoppingCartMap.getCartItems();
-		userEntry.getUser().setCartItems(productList);
-		userInfoRepository.save(userEntry.getUser());
-	}
-	
 //	@GetMapping("/addAdmin")
 //	public String addAdmin() {
 //		
