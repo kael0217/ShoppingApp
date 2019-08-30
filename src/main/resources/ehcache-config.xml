@@ -2,14 +2,21 @@
 	xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="true"
 	monitoring="autodetect" dynamicConfig="true" >
 	<cache name="imageServerCache" maxEntriesLocalHeap="5000"
-		maxEntriesLocalDisk="1000" eternal="true" diskPersistent="true"
+		maxEntriesLocalDisk="1000" eternal="false" diskPersistent="false"
 		diskSpoolBufferSizeMB="20" timeToIdleSeconds="200"
 		timeToLiveSeconds="500" memoryStoreEvictionPolicy="LFU"
 		transactionalMode="off">
 		<!-- <persistence strategy="localRestartable" /> -->
 	</cache>
 	<cache name="imageStringServerCache" maxEntriesLocalHeap="5000"
-		maxEntriesLocalDisk="1000" eternal="true" diskPersistent="true"
+		maxEntriesLocalDisk="1000" eternal="false" diskPersistent="false"
+		diskSpoolBufferSizeMB="20" timeToIdleSeconds="200"
+		timeToLiveSeconds="500" memoryStoreEvictionPolicy="LFU"
+		transactionalMode="off">
+		<persistence strategy="localRestartable" />
+	</cache>
+	<cache name="userCache" maxEntriesLocalHeap="5000"
+		maxEntriesLocalDisk="1000" eternal="false" diskPersistent="false"
 		diskSpoolBufferSizeMB="20" timeToIdleSeconds="200"
 		timeToLiveSeconds="500" memoryStoreEvictionPolicy="LFU"
 		transactionalMode="off">

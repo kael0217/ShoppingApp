@@ -82,7 +82,6 @@ class UserDetailServiceImpl implements UserDetailsService {
 
 	@Autowired
 	UserAuthRepository rep;
-
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserAuth u=rep.findByUsername(username);
@@ -113,8 +112,7 @@ class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthentication
         System.out.println(userEntry.getUser());
         System.out.println(userEntry.getUser().getNickname());
         System.out.println(userEntry);
-        request.getSession(false).setAttribute("userEntry", userEntry);
-        
+        request.getSession(false).setAttribute("userEntry", userEntry);        
         super.setDefaultTargetUrl("/");
         super.onAuthenticationSuccess(request, response, authentication);
   

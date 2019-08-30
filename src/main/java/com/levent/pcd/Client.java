@@ -1,10 +1,5 @@
 package com.levent.pcd;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -18,10 +13,9 @@ import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.amazonaws.AmazonServiceException;
-import com.amazonaws.SdkClientException;
-import com.levent.pcd.mail.Email;
-import com.levent.pcd.mail.EmailComponent;
+import com.github.cloudyrock.mongock.SpringBootMongock;
+import com.github.cloudyrock.mongock.SpringBootMongockBuilder;
+import com.mongodb.MongoClient;
 
 @SpringBootApplication
 @Configuration
@@ -51,6 +45,7 @@ public class Client implements WebMvcConfigurer {
 		return bean;
 	}
 	
+
 	/*@Bean
 	public JavaMailSenderImpl mailSender() {
 		JavaMailSenderImpl impl= new JavaMailSenderImpl();
@@ -79,4 +74,14 @@ public class Client implements WebMvcConfigurer {
 				</beans:props>
 			</beans:property>
 		</beans:bean>*/
+
+	@Bean
+	public SpringBootMongock mongock(ApplicationContext springContext, MongoClient mongoClient) {
+	  return new SpringBootMongockBuilder(mongoClient, "levent", "com.package.to.be.scanned.for.changesets")
+	      .setApplicationContext(springContext) 
+	      .setLockQuickConfig()
+	      .build();
+	}
+	
+
 }

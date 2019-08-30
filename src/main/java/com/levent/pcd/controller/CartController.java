@@ -2,12 +2,11 @@ package com.levent.pcd.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +23,7 @@ import com.amazonaws.SdkClientException;
 import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartMap;
 import com.levent.pcd.model.UserEntry;
+import com.levent.pcd.repository.UserInfoRepository;
 import com.levent.pcd.service.AWSS3Helper;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
@@ -41,6 +41,8 @@ public class CartController {
 	private ProductService productService;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private UserInfoRepository userInfoRepository;
 
 
 	// session scoped POJOs
@@ -66,7 +68,6 @@ public class CartController {
 	}
 
 	@GetMapping("/getProducts")
-	// @PreAuthorize("hasRole('ROLE_USER')")
 	public List<Product> getProducts() {
 		return productService.findAll(0,100);
 	}
@@ -83,9 +84,11 @@ public class CartController {
 
 	@PutMapping("/saveCart")
 	@ResponseStatus(code = HttpStatus.OK)
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void saveCart() {
-
+	//@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void saveCart() {		
+		Map<String,Integer> productList = shoppingCartMap.getCartItems();
+		userEntry.getUser().setCartItems(productList);
+		userInfoRepository.save(userEntry.getUser());
 	}
 	@PostMapping("/addProductWithS3")
 	public String addFile(@ModelAttribute Product p,@RequestParam MultipartFile file)

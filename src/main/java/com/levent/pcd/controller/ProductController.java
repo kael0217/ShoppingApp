@@ -30,8 +30,6 @@ public class ProductController {
 	@Autowired
 	private ShoppingHandler shoppingHandler;
 	
-	// session scoped POJOs
-	
 	@Autowired
 	private ShoppingCartMap shoppingCartMap;
 	
@@ -56,7 +54,7 @@ public class ProductController {
 	 */
 	@RequestMapping(value = "/products", params="srch-term")
 	public ModelAndView listProductsByNameSearch(@RequestParam("srch-term") String searchTerm) {
-		List<Product> products = productService.findProductsByName(searchTerm);
+		List<Product> products = productService.searchProductsByRegex(searchTerm);
 		List<String> categories = categoryService.findAll();
 		
 		ModelAndView model = new ModelAndView("products");

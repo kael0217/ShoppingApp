@@ -41,6 +41,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
+	public List<Product> searchProductsByRegex(String searchString){
+		return productRepository.findByProductNameRegexOrManufacturerRegexOrDescriptionRegex(searchString, searchString,searchString);
+	}
+	
+	@Override
 	@Transactional
 	public void updateProductsRemained(Product product, int inStore) {
 		product.setInStore(inStore);

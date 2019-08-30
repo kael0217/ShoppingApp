@@ -8,6 +8,7 @@ import com.levent.pcd.model.UserInfo;
 @Repository("userInfoRepository")
 public interface UserInfoRepository extends MongoRepository<UserInfo,String> {	
 	
+	//
 	UserInfo findByUsername(String username);
 	
 }
