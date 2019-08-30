@@ -10,7 +10,7 @@ import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 
 public interface AWSS3Helper {
-	public AmazonS3 getAmazonS3Client() ;
+	
 	
 	String deleteFileByKey(String fileName);
 	String putObject(MultipartFile file, String fileName)

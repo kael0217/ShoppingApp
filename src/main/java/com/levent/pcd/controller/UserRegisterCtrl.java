@@ -1,16 +1,13 @@
 package com.levent.pcd.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,12 +22,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
-import com.levent.pcd.model.UserInfo;
-import com.levent.pcd.model.UserRole;
 import com.levent.pcd.model.UserAuth;
 import com.levent.pcd.model.UserEntry;
+import com.levent.pcd.model.UserInfo;
+import com.levent.pcd.model.UserRole;
 import com.levent.pcd.repository.UserAuthRepository;
 import com.levent.pcd.repository.UserInfoRepository;
 
