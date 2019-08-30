@@ -1,4 +1,4 @@
-package com.levent.pcd.service;
+/*package com.levent.pcd.service;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,7 +25,7 @@ import com.levent.pcd.repository.ProductRepository;
 public class UploadImageToS3Once {
 
 	@Autowired
-	AWSS3Helper helper;
+	AWSLogin helper;
 	@Autowired
 	ProductRepository rep;
 
@@ -66,3 +66,4 @@ public class UploadImageToS3Once {
 		writer.close();
 	}
 }
+*/

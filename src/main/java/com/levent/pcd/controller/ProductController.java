@@ -17,7 +17,7 @@ import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
 
 @Controller
-public class FrontController {
+public class ProductController {
 	
 	// services
 	

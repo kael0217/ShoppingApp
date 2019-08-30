@@ -1,17 +1,13 @@
 package com.levent.pcd.controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,17 +23,19 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartMap;
-import com.levent.pcd.model.UserInfo;
 import com.levent.pcd.model.UserEntry;
-import com.levent.pcd.model.UserRole;
 import com.levent.pcd.service.AWSS3Helper;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
 
 @RestController
 @RequestMapping(value = "/services")
-public class RestServicesController {
+public class CartController {
 
+	@Autowired
+	@Qualifier("AWSS3HelperImpl")
+	private AWSS3Helper awshelper;
+	
 	// services
 	@Autowired
 	private ProductService productService;
@@ -51,10 +49,7 @@ public class RestServicesController {
 	@Autowired
 	private UserEntry userEntry;
 
-	// AWS
-	@Autowired
-	@Qualifier("AWSS3HelperImpl")
-	private AWSS3Helper awshelper;
+
 
 	// endpoints
 	@RequestMapping("/addToCart")
@@ -92,7 +87,18 @@ public class RestServicesController {
 	public void saveCart() {
 
 	}
-	
+	@PostMapping("/addProductWithS3")
+	public String addFile(@ModelAttribute Product p,@RequestParam MultipartFile file)
+			throws AmazonServiceException, SdkClientException, IOException {
+		String fileName = file.getOriginalFilename();
+		System.out.println(file.getSize());
+		String url = awshelper.putObject(file, fileName);
+		p.setImageFileName(fileName);
+		p.setImageUrl(url);
+		productService.addProduct(p);
+		return url;
+	}
+
 //	@GetMapping("/addAdmin")
 //	public String addAdmin() {
 //		
@@ -106,47 +112,6 @@ public class RestServicesController {
 //		return "DONE!";
 //	}
 
-	@GetMapping("/addProductWithS3")
-	public String testAddFile() {
-		return "NMDWSM";
-	}
-
-//	@PreAuthorize("hasRole('ADMIN')")
-	@PostMapping("/addProductWithS3")
-	public String addFile(@ModelAttribute Product p,@RequestParam MultipartFile file)
-			throws AmazonServiceException, SdkClientException, IOException {
-		String fileName = file.getOriginalFilename();
-		System.out.println(file.getSize());
-		String url = awshelper.putObject(file, fileName);
-		p.setImageFileName(fileName);
-		p.setImageUrl(url);
-		productService.addProduct(p);
-		return url;
-	}
-
-//	@InitBinder
-//	public void fileBinder(WebDataBinder binder) {
-//		binder.setDisallowedFields("file");
-//	}
-
-	@GetMapping("/getImageByKey/{fileName}")
-	public String getImageByKey(@PathVariable String fileName) throws FileNotFoundException, IOException {
-		System.out.println(awshelper.getFileUrlByName(fileName));
-		return awshelper.getFileFromUrl(fileName).getPath();
-	}
-
-	@GetMapping("/getImageStringByKey/{fileName}")
-	public String getImageStringByKey(@PathVariable String fileName) throws FileNotFoundException, IOException {
-		String image = awshelper.getStreamFromUrl("01_men_one.jpg");
-		return image;
-	}
-
-	@DeleteMapping("/deleteFileByKey/{fileName}")
-	@ResponseStatus(code = HttpStatus.OK)
-	public void deleteFileByKey(@PathVariable String fileName) {
-		System.out.println(fileName);
-		System.out.println(awshelper.deleteFileByKey(fileName));
-	}
 
 
 }
