@@ -4,25 +4,48 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.levent.pcd.mail.Email;
 import com.levent.pcd.mail.EmailComponent;
 import com.levent.pcd.model.UserEntry;
 import com.levent.pcd.model.UserInfo;
+import com.levent.pcd.service.PayPalClient;
 
 @Controller
 public class PaymentController {
 
 	@Autowired
 	EmailComponent emailComponent;
+	private final PayPalClient payPalClient;
+
+	@Autowired
+	PaymentController(PayPalClient payPalClient) {
+		this.payPalClient = payPalClient;
+	}
+
+	@PostMapping(value = "/make/payment")
+	public Map<String, Object> makePayment(@RequestParam("sum") String sum) {
+		return payPalClient.createPayment(sum);
+	}
+
+	@PostMapping(value = "/complete/payment")
+	public Map<String, Object> completePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId,
+			@RequestParam("payerId") String payerId) {
+		return payPalClient.completePayment(request);
+	}
 
 	@GetMapping("/payment_success")
 	public String processPaymentSuccess(HttpSession session) throws Exception {
+		System.out.println("get*********");
 		UserEntry entry = (UserEntry) session.getAttribute("userEntry");
 		UserInfo user = entry.getUser();
 		Map<String, String> templateTokens = new HashMap<String, String>();

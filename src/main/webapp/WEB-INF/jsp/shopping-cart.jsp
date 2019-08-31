@@ -37,12 +37,16 @@ spring
 
 
 
+
+
 :url
 
 
 
 
+
  
+
 
 
 
@@ -56,9 +60,13 @@ value
 
 
 
+
+
 ="/
 resources
 /fonts/glyphicons-halflings-regular
+
+
 
 
 
@@ -76,6 +84,8 @@ resources
 
 
 
+
+
 "
 var
 
@@ -86,8 +96,12 @@ var
 
 
 
+
+
 ="
 file1
+
+
 
 
 
@@ -107,12 +121,16 @@ spring
 
 
 
+
+
 :url
 
 
 
 
+
  
+
 
 
 
@@ -126,9 +144,13 @@ value
 
 
 
+
+
 ="/
 resources
 /fonts/glyphicons-halflings-regular
+
+
 
 
 
@@ -146,6 +168,8 @@ resources
 
 
 
+
+
 "
 var
 
@@ -156,8 +180,12 @@ var
 
 
 
+
+
 ="
 file2
+
+
 
 
 
@@ -177,12 +205,16 @@ spring
 
 
 
+
+
 :url
 
 
 
 
+
  
+
 
 
 
@@ -196,9 +228,13 @@ value
 
 
 
+
+
 ="/
 resources
 /fonts/glyphicons-halflings-regular
+
+
 
 
 
@@ -216,6 +252,8 @@ resources
 
 
 
+
+
 "
 var
 
@@ -226,8 +264,12 @@ var
 
 
 
+
+
 ="
 file3
+
+
 
 
 
@@ -247,12 +289,16 @@ spring
 
 
 
+
+
 :url
 
 
 
 
+
  
+
 
 
 
@@ -266,9 +312,13 @@ value
 
 
 
+
+
 ="/
 resources
 /fonts/glyphicons-halflings-regular
+
+
 
 
 
@@ -286,6 +336,8 @@ resources
 
 
 
+
+
 "
 var
 
@@ -296,8 +348,12 @@ var
 
 
 
+
+
 ="
 file4
+
+
 
 
 
@@ -317,7 +373,10 @@ spring
 
 
 
+
+
 :url
+
 
 
 
@@ -327,7 +386,10 @@ spring
 
 
 
+
 value
+
+
 
 
 
@@ -347,7 +409,11 @@ resources
 
 
 
+
+
 .woff2
+
+
 
 
 
@@ -366,8 +432,12 @@ var
 
 
 
+
+
 ="
 file5
+
+
 
 
 
@@ -415,54 +485,57 @@ file5
 		</div>
 		<!-- /.row -->
 
-<jsp:useBean id="order" class="com.levent.pcd.model.Order" scope="request"></jsp:useBean>
-<jsp:setProperty property="totalPrice" name="order" value="${totalPrice}"/>
-<jsp:setProperty property="totalProducts" name="order" value="${totalProducts}"/>
+		<jsp:useBean id="order" class="com.levent.pcd.model.Order"
+			scope="request"></jsp:useBean>
+		<jsp:setProperty property="totalPrice" name="order"
+			value="${totalPrice}" />
+		<jsp:setProperty property="totalProducts" name="order"
+			value="${totalProducts}" />
 
 		<div>
+			<form action="./make/payment" method="post">
+				<div class="row">
+					<!-- left category  -->
+					<c:if test="${not empty shoppingCartEnries}">
+						<c:forEach var="cartEntry" items="${shoppingCartEnries}">
 
-			<div class="row">
-				<!-- left category  -->
-				<c:if test="${not empty shoppingCartEnries}">
-					<c:forEach var="cartEntry" items="${shoppingCartEnries}">
+							<div class="row">
+								<div class="col-lg-3 col-md-3">
+									<img class="img-responsive" src="${cartEntry.getImageUrl()}"
+										alt="">
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<p>${cartEntry.getProductName()},${cartEntry.getPrice()}</p>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<p>Quantity: ${cartEntry.getQuantity()}</p>
+								</div>
+								<div class="col-lg-3 col-md-3">
+
+									<p>Total: ${cartEntry.getProductTotalPrice()}</p>
+
+								</div>
+							</div>
+							<hr>
+
+						</c:forEach>
 
 						<div class="row">
-							<div class="col-lg-3 col-md-3">
-								<img class="img-responsive" src="${cartEntry.getImageUrl()}"
-									alt="">
-							</div>
-							<div class="col-lg-3 col-md-3">
-								<p>${cartEntry.getProductName()},${cartEntry.getPrice()}</p>
-							</div>
-							<div class="col-lg-3 col-md-3">
-								<p>Quantity: ${cartEntry.getQuantity()}</p>
-							</div>
-							<div class="col-lg-3 col-md-3">
-
-								<p>Total: ${cartEntry.getProductTotalPrice()}</p>
-
-							</div>
+							<h4>${shoppingItemSize}itemsonyourbasket.</h4>
 						</div>
-						<hr>
 
-					</c:forEach>
+					</c:if>
+				</div>
+				<div class="row">
+					<span class="pull-right">Total: ${ totalPrice }</span>
+					<c:set var="total" value="${totalPrice}"></c:set>
+				</div>
+				<div class="row">
+					<span class="pull-right">Tax: ${ taxPrice }</span>
+				</div>
+				<div class="row">
 
-					<div class="row">
-						<h4>${shoppingItemSize}itemsonyourbasket.</h4>
-					</div>
-
-				</c:if>
-			</div>
-			<div class="row">
-				<span class="pull-right">Total: ${ totalPrice }</span>
-				<c:set var="total" value="${totalPrice}"></c:set>
-			</div>
-			<div class="row">
-				<span class="pull-right">Tax: ${ taxPrice }</span>
-			</div>
-			<div class="row">
-
-
+					<%-- 
 				<form action="https://www.sandbox.paypal.com/cgi-bin/webscr"
 					method="POST">
 					<input type="hidden" name="cmd" value="_cart" /> <input
@@ -476,9 +549,9 @@ file5
 						<input type="hidden" name="amount_${itemCount}"
 							value="${entry.productTotalPrice}" />
 					</c:forEach>
-					<input type="hidden"	name="USER" value="INR" /> 
-					<input type="hidden"	name="PWD" value="INR" /> 
-					<input type="hidden"	name="SIGNATURE" value="INR" /> 
+					<input type="hidden"	name="USER" value="${paypal.username}" /> 
+					<input type="hidden"	name="PWD" value="${paypal.password}" /> 
+					<input type="hidden"	name="SIGNATURE" value="${paypal.signature}" /> 
 				 <input type="hidden"	name="currency_code" value="INR" /> 
 				 <input type="hidden"
 						name="business" value="payal-facilitator@rjtcompuquest.com" /> <input
@@ -489,8 +562,11 @@ file5
 						type="image" name="submit"
 						src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
 						alt="Paypal-Safe and easier way to pay online" />
+				</form> --%>
+				<input type="hidden" value="${totalPrice+taxPrice }" name="sum">
+					<input type="submit" value="Make Payment">
+				</div>
 				</form>
-			</div>
 		</div>
 		<!-- Footer -->
 		<footer>
