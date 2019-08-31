@@ -493,7 +493,7 @@ file5
 			value="${totalProducts}" />
 
 		<div>
-			<form action="./make_payment" method="post">
+			<form action="./make_payment" method="get">
 				<div class="row">
 					<!-- left category  -->
 					<c:if test="${not empty shoppingCartEnries}">

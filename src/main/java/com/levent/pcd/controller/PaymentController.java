@@ -1,5 +1,6 @@
 package com.levent.pcd.controller;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.levent.pcd.mail.Email;
 import com.levent.pcd.mail.EmailComponent;
@@ -111,14 +112,14 @@ public class PaymentController {
 	
 
 	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
-	@PostMapping( "/make_payment")
-	public String makePayment(@RequestParam("sum") String sum) {
-		return payPalClient.createPayment(sum);
+	@GetMapping( "/make_payment")
+	public String makePayment(@RequestParam("sum") String sum, HttpServletRequest request) {
+		 return payPalClient.createPayment(sum, request.getContextPath());
 	}
 
 	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
-	@PostMapping("/complete_payment")
-	public Map<String, Object> completePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId,
+	@GetMapping("/complete_payment")
+	public String completePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId,
 			@RequestParam("payerId") String payerId) {
 		return payPalClient.completePayment(request);
 	}

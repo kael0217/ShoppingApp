@@ -1,5 +1,6 @@
 package com.levent.pcd.service;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +29,7 @@ import com.paypal.base.rest.PayPalRESTException;
 //	    @Autowired
 //	    PayPalClient(){}
 
-	    public String createPayment(String sum){
+	    public String createPayment(String sum, String string){
 	        Map<String, Object> response = new HashMap<String, Object>();
 	        Amount amount = new Amount();
 	        amount.setCurrency("INR");
@@ -51,8 +52,9 @@ import com.paypal.base.rest.PayPalRESTException;
 	        redirectUrls.setReturnUrl("http://localhost:9000/payment_success");
 	        payment.setRedirectUrls(redirectUrls);
 	        Payment createdPayment;
+	        String redirectUrl = "";
 	        try {
-	            String redirectUrl = "";
+	          
 	            APIContext context = new APIContext(clientId, clientSecret, "sandbox");
 	            createdPayment = payment.create(context);
 	            if(createdPayment!=null){
@@ -65,16 +67,18 @@ import com.paypal.base.rest.PayPalRESTException;
 	                }
 	                response.put("status", "success");
 	                response.put("redirect_url", redirectUrl);
+	                
 	            }
 	        } catch (PayPalRESTException e) {
 	            System.out.println("Error happened during payment creation!");
 	            return "redirect:/payment_failure";
 	        }
-	        return "redirect:/payment_success";
+	        
+	        return "redirect:"+redirectUrl;
 	    }
 
 
-	    public Map<String, Object> completePayment(HttpServletRequest req){
+	    public String completePayment(HttpServletRequest req){
 	        Map<String, Object> response = new HashMap();
 	        Payment payment = new Payment();
 	        payment.setId(req.getParameter("paymentId"));
@@ -89,8 +93,9 @@ import com.paypal.base.rest.PayPalRESTException;
 	            }
 	        } catch (PayPalRESTException e) {
 	            System.err.println(e.getDetails());
+	            return "redirect:/payment_failure";
 	        }
-	        return response;
+	        return "redirect:/products";
 	    }
 
 
