@@ -31,7 +31,7 @@ public class Product {
 	
 	private Date dateCreated;
 	
-	@TextIndexed(weight = 100) private String productName;
+	@TextIndexed(weight = 200) private String productName;
 	@TextIndexed(weight = 80) private String description;
 	@TextIndexed(weight = 50) private String manufacturer;
 	
