@@ -20,7 +20,7 @@ public interface ProductRepository extends MongoRepository<Product, String> {
 	 * db.products.find({ categories: { '$in':['children'] } })
 	 * 
 	 */
-	@Query("{'$or': [ {'productName':{$regex:?0,$options:'i'}}, {'manufacturer':{$regex:?0,$options:'i'}}, {'description':{$regex:?0,$options:'i'}} ]}")
+	@Query("{ $text:{$search: ?0}}")
 	List<Product> searchProduct(String keyword);
 	
 	List<Product> findByProductNameRegexOrManufacturerRegexOrDescriptionRegex(String productName, String manufacturer, String description);
