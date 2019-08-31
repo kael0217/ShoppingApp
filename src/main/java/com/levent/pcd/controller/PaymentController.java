@@ -59,22 +59,25 @@ public class PaymentController {
 		templateTokens.put("EMAIL_ORDER_THANKS", "Thanks for your purchase!");
 		templateTokens.put("EMAIL_ORDER_DETAILS_TITLE", "Your order details are:");
 		templateTokens.put("ADDRESS_BILLING_TITLE", "Address details:");
-
+		templateTokens.put("EMAIL_ORDER_NUMBER",Math.random()+"");
 		templateTokens.put("ADDRESS_BILLING", user.getAddresses().get(0));
 		templateTokens.put("ADDRESS_DELIVERY_TITLE", "Address details:");
-
+		templateTokens.put("EMAIL_CUSTOMER_FIRSTNAME",user.getNickname());
 		templateTokens.put("ADDRESS_DELIVERY", user.getAddresses().get(0));
 		templateTokens.put("ORDER_STATUS", "success!");
 		templateTokens.put("EMAIL_DISCLAIMER", "@shoppersClub");
 		templateTokens.put("LOGOPATH","Shopper's Club");
 		templateTokens.put("EMAIL_FOOTER_COPYRIGHT", "@Copyright");
-
+		templateTokens.put("EMAIL_CUSTOMER_CONTACT","Shopper's Club: 637736336");
+		templateTokens.put("EMAIL_CONTACT_NAME_LABEL","Shopper's Club");
+		templateTokens.put("EMAIL_CONTACT_NAME","Shoppers Club");
+		templateTokens.put("ORDER_PRODUCTS_DETAILS",session.getAttribute("shoppingCartMap")==null?"":session.getAttribute("shoppingCartMap").toString());
 		Email email = new Email();
 		email.setFrom("Default store");
 		email.setFromEmail("jahanvi.bansal@gmail.com");
 		email.setSubject("Contact");
 		email.setTo("payal@rjtcompuquest.com");
-		email.setTemplateName("email_template_contact.ftl");
+		email.setTemplateName("email_template_checkout.ftl");
 		email.setTemplateTokens(templateTokens);
 
 		emailComponent.send(email);
@@ -90,6 +93,7 @@ public class PaymentController {
 		Map<String, String> templateTokens = new HashMap<String, String>();
 		templateTokens.put("LABEL_HI", "Hello");
 		templateTokens.put("EMAIL_STORE_NAME", user.getUsername());
+		templateTokens.put("EMAIL_CUSTOMER_CONTACT","Shopper's Club: 637736336");
 
 		templateTokens.put("EMAIL_ORDER_DATE", LocalDate.now().toString());
 		templateTokens.put("EMAIL_ORDER_THANKS", "Thanks for your purchase!");
@@ -102,7 +106,7 @@ public class PaymentController {
 		templateTokens.put("ADDRESS_DELIVERY", user.getAddresses().get(0));
 		templateTokens.put("ORDER_STATUS", "Failed!");
 		templateTokens.put("EMAIL_DISCLAIMER", "@shoppersClub");
-
+		templateTokens.put("EMAIL_CONTACT_NAME","Shoppers Club");
 		templateTokens.put("EMAIL_FOOTER_COPYRIGHT", "@Copyright");
 		templateTokens.put("LOGOPATH","Shopper's Club");
 		Email email = new Email();
@@ -110,7 +114,7 @@ public class PaymentController {
 		email.setFromEmail("jahanvi.bansal@gmail.com");
 		email.setSubject("Contact");
 		email.setTo("payal@rjtcompuquest.com");
-		email.setTemplateName("email_template_contact.ftl");
+		email.setTemplateName("email_template_checkout.ftl");
 		email.setTemplateTokens(templateTokens);
 
 		emailComponent.send(email);

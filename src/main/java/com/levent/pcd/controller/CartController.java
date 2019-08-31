@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.levent.pcd.model.Product;
+import com.levent.pcd.model.ShoppingCartEntry;
 import com.levent.pcd.model.ShoppingCartMap;
 import com.levent.pcd.model.UserEntry;
 import com.levent.pcd.repository.UserInfoRepository;
@@ -57,9 +58,9 @@ public class CartController {
 	@RequestMapping("/addToCart")
 	public void addToCart(
 			@RequestParam(value = "id") String id, 
-			@RequestParam(value = "quantity") int quantity
+			@ModelAttribute ShoppingCartEntry entry
 	) {
-		shoppingCartMap.addItem(id, quantity);
+		shoppingCartMap.addItem(id, entry);
 	}
 
 	@GetMapping("/getCategories")
@@ -86,7 +87,7 @@ public class CartController {
 	@ResponseStatus(code = HttpStatus.OK)
 	//@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void saveCart() {		
-		Map<String,Integer> productList = shoppingCartMap.getCartItems();
+		Map<String,ShoppingCartEntry> productList = shoppingCartMap.getCartItems();
 		userEntry.getUser().setCartItems(productList);
 		userInfoRepository.save(userEntry.getUser());
 	}

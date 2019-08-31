@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.levent.pcd.model.ShoppingCartEntry;
 import com.levent.pcd.model.ShoppingCartMap;
 import com.levent.pcd.model.UserEntry;
 import com.levent.pcd.repository.UserInfoRepository;
@@ -24,7 +25,7 @@ public class saveCartCtrl {
 	@RequestMapping("saveCartItem")
 	public ModelAndView saveCartItem() {
 		
-		Map<String,Integer> productList = shoppingCartMap.getCartItems();
+		Map<String, ShoppingCartEntry> productList = shoppingCartMap.getCartItems();
 		userEntry.getUser().setCartItems(productList);
 		userInfoRepository.save(userEntry.getUser());
 		

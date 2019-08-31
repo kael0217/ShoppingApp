@@ -511,8 +511,8 @@ file5
 									<p>Quantity: ${cartEntry.getQuantity()}</p>
 								</div>
 								<div class="col-lg-3 col-md-3">
-
-									<p>Total: ${cartEntry.getProductTotalPrice()}</p>
+										Total Price:
+									<p id="totalPrice" > ${cartEntry.getProductTotalPrice()}</p>
 
 								</div>
 							</div>
