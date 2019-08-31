@@ -33,7 +33,7 @@
                 <a class="navbar-brand" href="${productListPageURL}">Shopper's Club</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="${productListPageURL}">Product List</a>
@@ -60,8 +60,10 @@
              <div  id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
 				<c:if test="${pageContext.request.userPrincipal.name != null}">
+
 					<!-- <div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right" " role="group" aria-label="Basic example">		 -->				
 						<li>
+
 							<button class="btn btn-link border-secondary">
 								<c:out value="Welcome! Dear ${sessionScope.userEntry.getUser().getNickname()}" />
 							</button>
@@ -79,7 +81,7 @@
 			<!-- Login/Register Close-->
 		</div>
         <!-- /.container -->
-
+</div>
     </nav>
 </body>
 </html>

@@ -76,11 +76,14 @@ h1 {
 			rules : {
 				username:{
 					required : true,
-					minlength : 5
+					minlength : 5,
+					maxlength : 30,
+					email: true
 				},
 				nickname:{
 					required : true,
-					minlength : 5
+					minlength : 5,
+					maxlength : 12
 				},
 				addresses:{
 					required : true
@@ -93,6 +96,12 @@ h1 {
 					required : true,
 					minlength : 5,
 					equalTo : '#password'
+
+				},
+				mobile:{
+					minlength : 5,
+					number : true
+
 				}
 			},
 			messages:{
@@ -114,8 +123,8 @@ h1 {
 				<div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1 register">
 					<div class="row text-center"><c:out value="${msg}"></c:out></div>
 					<div class="form-group">
-						<label class="control-label">Account Name:</label>
-						<input type="text" name="username" class="form-control col-sm-8" placeholder="Unique Account ID" />
+						<label class="control-label">Email:</label>
+						<input type="text" name="username" class="form-control col-sm-8" placeholder="Will also be your account name" />
 						<br />
 					</div>
 					<div class="form-group">

@@ -22,6 +22,8 @@ public interface ProductRepository extends MongoRepository<Product, String> {
 	 */
 	
 	List<Product> findByProductNameRegexOrManufacturerRegexOrDescriptionRegex(String productName, String manufacturer, String description);
+	List<Product> findTop8ByOrderBySellCountDesc();
+	List<Product> findTop8ByOrderByDateCreatedDesc();
 
 	@Query("{ 'category.productName':   ?0 }")
 	List<Product> findProductsByCategory(String categoryName);
