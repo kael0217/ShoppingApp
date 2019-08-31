@@ -42,7 +42,8 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public List<Product> searchProductsByRegex(String searchString){
-		return productRepository.findByProductNameRegexOrManufacturerRegexOrDescriptionRegex(searchString, searchString,searchString);
+		//return productRepository.findByProductNameRegexOrManufacturerRegexOrDescriptionRegex(searchString, searchString,searchString);
+		return productRepository.searchProduct(searchString);
 	}
 	
 	@Override

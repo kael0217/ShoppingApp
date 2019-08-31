@@ -81,7 +81,7 @@ public class UserRegisterCtrl {
 		userAuth.setUsername(username);
 		if (userInfoRep.findByUsername(username)!=null) {
 			model.setViewName("/register");
-			model.addObject("msg","Username has been used, try another one.");
+			model.addObject("msg","Email has been used, try another one.");
 			return model;
 		}
 		userInfoRep.save(userInfo);
