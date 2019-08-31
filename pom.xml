@@ -129,6 +129,11 @@
 		<!-- Add to use with Spring -->
 		<dependency>
 			<groupId>com.github.cloudyrock.mongock</groupId>
+			<artifactId>mongock-core</artifactId>
+			<version>3.0.2.BETA</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.cloudyrock.mongock</groupId>
 			<artifactId>mongock-spring</artifactId>
 			<version>3.0.2.BETA</version>
 		</dependency>
