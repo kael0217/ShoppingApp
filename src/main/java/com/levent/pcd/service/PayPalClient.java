@@ -49,7 +49,7 @@ import com.paypal.base.rest.PayPalRESTException;
 
 	        RedirectUrls redirectUrls = new RedirectUrls();
 	        redirectUrls.setCancelUrl("http://localhost:9000/payment_failure");
-	        redirectUrls.setReturnUrl("http://localhost:9000/payment_success");
+	        redirectUrls.setReturnUrl("http://localhost:9000/payment_start");
 	        payment.setRedirectUrls(redirectUrls);
 	        Payment createdPayment;
 	        String redirectUrl = "";
@@ -79,12 +79,12 @@ import com.paypal.base.rest.PayPalRESTException;
 	    }
 
 
-	    public String completePayment(HttpServletRequest req){
+	    public String completePayment(String paymentId, String payerId){
 	        Map<String, Object> response = new HashMap();
 	        Payment payment = new Payment();
-	        payment.setId(req.getParameter("paymentId"));
+	        payment.setId(paymentId);
 	        PaymentExecution paymentExecution = new PaymentExecution();
-	        paymentExecution.setPayerId(req.getParameter("payerId"));
+	        paymentExecution.setPayerId(payerId);
 	        try {
 	            APIContext context = new APIContext(clientId, clientSecret, "sandbox");
 	            Payment createdPayment = payment.execute(context, paymentExecution);

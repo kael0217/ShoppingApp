@@ -23,6 +23,8 @@ public class ShoppingCartMap {
 		if(!cartItems.containsKey(id))
 			cartItems.put(id, entry);
 		else {
+			ShoppingCartEntry entry1=cartItems.get(id);
+			entry.setQuantity(entry1.getQuantity()+ entry.getQuantity());
 			cartItems.put(id, entry);
 		}
 		

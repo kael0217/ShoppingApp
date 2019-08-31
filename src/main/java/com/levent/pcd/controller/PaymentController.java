@@ -1,6 +1,5 @@
 package com.levent.pcd.controller;
 
-import java.net.URI;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,13 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.RequestEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 
 import com.levent.pcd.mail.Email;
 import com.levent.pcd.mail.EmailComponent;
@@ -34,14 +30,14 @@ public class PaymentController {
 	@Autowired ShoppingCartMap shoppingCartMap;
 
 
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
-	@GetMapping("/payment_success")
-	public String processPaymentSuccess(HttpSession session, @RequestParam("paymentId") String paymentId,
+	@Autowired UserEntry entry;
+	@GetMapping("/payment_start")
+	@PreAuthorize("hasAnyRole({'ROLE_ADMIN', 'ROLE_USER'})")
+	public String processPaymentSuccess( @RequestParam("paymentId") String paymentId,
 			@RequestParam("PayerID") String payerId) throws Exception {
 		
 		System.out.println("&*************"+ payerId);
-		UserEntry entry = (UserEntry) session.getAttribute("userEntry");
-		UserInfo user = entry.getUser();
+		UserInfo user= entry.getUser();
 		Map<String, String> templateTokens = new HashMap<String, String>();
 		templateTokens.put("LABEL_HI", "Hello");
 		templateTokens.put("EMAIL_STORE_NAME", user.getUsername());
@@ -55,15 +51,15 @@ public class PaymentController {
 		templateTokens.put("ADDRESS_DELIVERY_TITLE", "Address details:");
 		templateTokens.put("EMAIL_CUSTOMER_FIRSTNAME",user.getNickname());
 		templateTokens.put("ADDRESS_DELIVERY", user.getAddresses().get(0));
-		templateTokens.put("ORDER_STATUS", "success!");
+		templateTokens.put("ORDER_STATUS", "Payment Initated!");
 		templateTokens.put("EMAIL_DISCLAIMER", "@shoppersClub");
 		templateTokens.put("LOGOPATH","Shopper's Club");
 		templateTokens.put("EMAIL_FOOTER_COPYRIGHT", "@Copyright");
 		templateTokens.put("EMAIL_CUSTOMER_CONTACT","Shopper's Club: 637736336");
 		templateTokens.put("EMAIL_CONTACT_NAME_LABEL","Shopper's Club");
 		templateTokens.put("EMAIL_CONTACT_NAME","Shoppers Club");
-		templateTokens.put("ORDER_PRODUCTS_DETAILS",shoppingCartMap.getCartItems()+"");
-		System.out.println("shoppingCart Map"+shoppingCartMap.getCartItems());
+		templateTokens.put("ORDER_PRODUCTS_DETAILS",shoppingCartMap.getCartItems().values().toString());
+		System.out.println("shoppingCart Map"+shoppingCartMap.getCartItems().values());
 		Email email = new Email();
 		email.setFrom("Default store");
 		email.setFromEmail("jahanvi.bansal@gmail.com");
@@ -78,11 +74,10 @@ public class PaymentController {
 		return "redirect:/complete_payment?paymentId="+ paymentId+"&PayerID="+payerId;
 	}
 
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
+	@PreAuthorize("hasAnyRole({'ROLE_ADMIN', 'ROLE_USER'})")
 	@GetMapping("/payment_failure")
-	public String processPaymentFailure(HttpSession session) throws Exception {
-		UserEntry entry = (UserEntry) session.getAttribute("userEntry");
-		UserInfo user = entry.getUser();
+	public String processPaymentFailure() throws Exception {
+		UserInfo user= entry.getUser();
 		Map<String, String> templateTokens = new HashMap<String, String>();
 		templateTokens.put("LABEL_HI", "Hello");
 		templateTokens.put("EMAIL_STORE_NAME", user.getUsername());
@@ -117,17 +112,15 @@ public class PaymentController {
 		return "redirect:/products";
 	}
 	
-
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
+	@PreAuthorize("hasAnyRole({'ROLE_ADMIN', 'ROLE_USER'})")
 	@GetMapping( "/make_payment")
 	public String makePayment(@RequestParam("sum") String sum, HttpServletRequest request) {
 		 return payPalClient.createPayment(sum, request.getContextPath());
 	}
-
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
+	@PreAuthorize("hasAnyRole({'ROLE_ADMIN', 'ROLE_USER'})")
 	@GetMapping("/complete_payment")
-	public String completePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId,
+	public String completePayment( @RequestParam("paymentId") String paymentId,
 			@RequestParam("PayerID") String payerId) {
-		return payPalClient.completePayment(request);
+		return payPalClient.completePayment(paymentId, payerId);
 	}
 }
