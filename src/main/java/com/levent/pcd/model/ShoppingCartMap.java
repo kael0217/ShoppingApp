@@ -41,4 +41,10 @@ public class ShoppingCartMap {
 		return itemCount;
 	}
 	
+
+	public void empty() {
+		cartItems.clear();
+		itemCount=0;
+	}
+	
 }

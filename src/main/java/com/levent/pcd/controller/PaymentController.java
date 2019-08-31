@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.levent.pcd.mail.Email;
 import com.levent.pcd.mail.EmailComponent;
+import com.levent.pcd.model.ShoppingCartMap;
 import com.levent.pcd.model.UserEntry;
 import com.levent.pcd.model.UserInfo;
 import com.levent.pcd.service.PayPalClient;
@@ -26,6 +27,8 @@ public class PaymentController {
 	@Autowired
 	EmailComponent emailComponent;
 	private final PayPalClient payPalClient;
+	
+	@Autowired ShoppingCartMap shoppingCartMap;
 
 	@Autowired
 	public PaymentController(PayPalClient payPalClient) {
@@ -48,7 +51,6 @@ public class PaymentController {
 	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
 	@GetMapping("/payment_success")
 	public String processPaymentSuccess(HttpSession session) throws Exception {
-		System.out.println("get*********");
 		UserEntry entry = (UserEntry) session.getAttribute("userEntry");
 		UserInfo user = entry.getUser();
 		Map<String, String> templateTokens = new HashMap<String, String>();
@@ -71,7 +73,8 @@ public class PaymentController {
 		templateTokens.put("EMAIL_CUSTOMER_CONTACT","Shopper's Club: 637736336");
 		templateTokens.put("EMAIL_CONTACT_NAME_LABEL","Shopper's Club");
 		templateTokens.put("EMAIL_CONTACT_NAME","Shoppers Club");
-		templateTokens.put("ORDER_PRODUCTS_DETAILS",session.getAttribute("shoppingCartMap")==null?"":session.getAttribute("shoppingCartMap").toString());
+		templateTokens.put("ORDER_PRODUCTS_DETAILS",shoppingCartMap.getCartItems()+"");
+		System.out.println("shoppingCart Map"+shoppingCartMap.getCartItems());
 		Email email = new Email();
 		email.setFrom("Default store");
 		email.setFromEmail("jahanvi.bansal@gmail.com");
@@ -82,6 +85,7 @@ public class PaymentController {
 
 		emailComponent.send(email);
 		System.out.println("sent!");
+		shoppingCartMap.empty();
 		return "redirect:/products";
 	}
 
