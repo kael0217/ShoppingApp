@@ -14,7 +14,9 @@ import org.bson.Document;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+import com.levent.pcd.model.UserAuth;
 import com.levent.pcd.model.UserInfo;
+import com.levent.pcd.model.UserRole;
 import com.levent.pcd.repository.ProductRepository;
 import com.levent.pcd.repository.UserAuthRepository;
 import com.levent.pcd.repository.UserInfoRepository;
@@ -60,10 +62,19 @@ public class MigrationChangeSet {
 		   collection.bulkWrite(docs, new BulkWriteOptions().ordered(false));
 		}
 	}
-//	@Bean
-//	@ChangeSet(order = "001", id = "addDefaultUser", author = "G.LI", version = "1")
-//	public void change02(MongoTemplate template) throws IOException{
-//		UserInfo adminInfo = UserInfo.builder().nickname("ADMIN").username("admin@admin").build();
-//		
-//	}
+	@Bean
+	@ChangeSet(order = "002", id = "addDefaultUser", author = "G.LI", version = "1")
+	public void change02(MongoTemplate template) throws IOException{
+		UserInfo adminInfo = UserInfo.builder().nickname("ADMIN").username("admin@admin").build();
+		UserAuth adminAuth = UserAuth.builder().username("admin@admin").password("admin").build();
+		List<UserRole> roles = new ArrayList<UserRole>();
+		roles.add(UserRole.ROLE_USER);
+		roles.add(UserRole.ROLE_ADMIN);
+		adminAuth.setUserRoles(roles);
+		
+		template.insert(adminAuth,"userAuths");
+		template.insert(adminInfo,"userInfos");
+		
+		
+	}
 }
