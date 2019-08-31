@@ -1,9 +1,9 @@
 package com.levent.pcd.model;
 
 
-import com.levent.pcd.utils.PriceUtilities;
+import lombok.Data;
 
-
+@Data
 public class ShoppingCartEntry {
 	
 	private String imageUrl;
@@ -23,46 +23,6 @@ public class ShoppingCartEntry {
 		this.productTotalPrice = productTotalPrice;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
-	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
 
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public double getProductTotalPrice() {
-		return productTotalPrice;
-	}
-
-	public void setProductTotalPrice(double productTotalPrice) {
-
-		this.productTotalPrice = PriceUtilities.roundToNDecimalPlaces(productTotalPrice,2);
-
-	}
-	
 }

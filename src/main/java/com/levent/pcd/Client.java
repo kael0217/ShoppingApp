@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.github.cloudyrock.mongock.SpringBootMongock;
 import com.github.cloudyrock.mongock.SpringBootMongockBuilder;
+import com.levent.pcd.config.SecurityConfig;
 import com.mongodb.MongoClient;
 
 @SpringBootApplication
@@ -22,6 +24,7 @@ import com.mongodb.MongoClient;
 @EnableCaching
 @EnableTransactionManagement
 @EnableMongoRepositories(basePackages="com.levent.pcd.repository")
+@Import(SecurityConfig.class)
 public class Client implements WebMvcConfigurer {
 	
 

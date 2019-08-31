@@ -41,6 +41,7 @@ import com.levent.pcd.repository.UserInfoRepository;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Autowired UserEntry entry;
 	@Autowired UserDetailServiceImpl service;
 	@Autowired CustomAuthenticationSuccessHandler successHandler;
 	@Autowired CustomAuthenticationFailureHandler failureHandler;
@@ -112,7 +113,7 @@ class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthentication
         System.out.println(userEntry.getUser());
         System.out.println(userEntry.getUser().getNickname());
         System.out.println(userEntry);
-        request.getSession(false).setAttribute("userEntry", userEntry);        
+       /* request.getSession(false).setAttribute("userEntry", userEntry);  */      
         super.setDefaultTargetUrl("/");
         super.onAuthenticationSuccess(request, response, authentication);
   

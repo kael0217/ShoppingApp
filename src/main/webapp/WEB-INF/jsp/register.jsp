@@ -96,10 +96,12 @@ h1 {
 					required : true,
 					minlength : 5,
 					equalTo : '#password'
+
 				},
 				mobile:{
 					minlength : 5,
 					number : true
+
 				}
 			},
 			messages:{

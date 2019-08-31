@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +24,7 @@ public class UserInfo{
 	private Gender gender;
 	private String mobile;	
 	private List<String> addresses;
-	private Map<String,Integer> cartItems;
+	private Map<String,ShoppingCartEntry> cartItems;
 		
 
 }

@@ -7,6 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.levent.pcd.model.Product;
+import com.levent.pcd.model.ShoppingCartEntry;
 import com.levent.pcd.model.ShoppingCartMap;
 import com.levent.pcd.model.UserEntry;
 import com.levent.pcd.repository.UserInfoRepository;
@@ -54,12 +58,15 @@ public class CartController {
 
 
 	// endpoints
+	
 	@RequestMapping("/addToCart")
 	public void addToCart(
 			@RequestParam(value = "id") String id, 
-			@RequestParam(value = "quantity") int quantity
+			@ModelAttribute ShoppingCartEntry entry
 	) {
-		shoppingCartMap.addItem(id, quantity);
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getCredentials());
+		System.out.println(userEntry.getUser());
+		shoppingCartMap.addItem(id, entry);
 	}
 
 	@GetMapping("/getCategories")
@@ -82,11 +89,12 @@ public class CartController {
 		return productService.findProductsByCategory(categoryName);
 	}
 
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PutMapping("/saveCart")
 	@ResponseStatus(code = HttpStatus.OK)
 	//@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void saveCart() {		
-		Map<String,Integer> productList = shoppingCartMap.getCartItems();
+		Map<String,ShoppingCartEntry> productList = shoppingCartMap.getCartItems();
 		userEntry.getUser().setCartItems(productList);
 		userInfoRepository.save(userEntry.getUser());
 	}

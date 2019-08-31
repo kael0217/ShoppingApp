@@ -43,7 +43,7 @@ public class UserRegisterCtrl {
 //	}
 	
 	@PostMapping("/addAdmin")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public ModelAndView registAdmin(@ModelAttribute UserInfo userInfo,@ModelAttribute UserAuth userAuth, @RequestParam String username) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("/register");
@@ -91,7 +91,7 @@ public class UserRegisterCtrl {
 		
 		System.out.println(userEntry);        
         request.login(userAuth.getUsername(),userAuth.getPassword());
-        session.setAttribute("userEntry", userEntry);
+        /*session.setAttribute("userEntry", userEntry);*/
         
         
 		model.addObject("msg", "Success!");		

@@ -1,4 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"
+
+import="com.levent.pcd.model.UserEntry"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
@@ -33,19 +35,20 @@
                 <a class="navbar-brand" href="${productListPageURL}">Shopper's Club</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="${productListPageURL}">Product List</a>
                     </li>
+                   
                     <li>
                         <a href="${shoppingCartPageURL}">Shopping Cart</a>
                     </li>
                 </ul>
                 
                 <!-- search -->
-		        <div class="col-sm-3 col-md-3 pull-right">
-			        <form id="search-field-form" class="navbar-form" role="search" action="<c:url value="products" />" method="GET">
+		    
+			        <form id="search-field-form" class="navbar-form navbar-left" role="search" action="<c:url value="products" />" method="GET">
 				        <div class="input-group">
 				        	<input id="search-field" type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
 				            <div class="input-group-btn">
@@ -54,32 +57,41 @@
 				            </div>
 				        </div>
 			        </form>
-		        </div>
+		      
 		        <!-- search close-->
-
-            </div>
-            <!-- /.navbar-collapse -->
-            <!-- Login/Register-->
-			<div class="">
+  
+             <div  id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav">
+            
 				<c:if test="${pageContext.request.userPrincipal.name != null}">
-					<div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right"  role="group" aria-label="Basic example">						
+
+					<!-- <div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right" " role="group" aria-label="Basic example">		 -->				
+						<li>
+
 							<button class="btn btn-link border-secondary">
+							
 								<c:out value="Welcome! Dear ${sessionScope.userEntry.getUser().getNickname()}" />
+								
 							</button>
 							<button class="btn btn-default border-secondary" onclick="javascript:location.href='/logout'">Logout</button>						
-					</div>
+					<!-- </div> --></li>
 				</c:if>
 				<c:if test="${pageContext.request.userPrincipal.name == null}">
-					<div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right" role="group" aria-label="Basic example">
+					<!-- <div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right" role="group" aria-label="Basic example"> -->
+					<li>
+					<c:if test="${pageContext.request.userPrincipal.name == null}">
 						<button class="btn btn-default border-secondary" onclick="javascript:location.href='/login'">Login</button>
+						</c:if>
+						<c:if test="${pageContext.request.userPrincipal.name == null}">
 						<button class="btn btn-default border-secondary" onclick="javascript:location.href='/register'">Register</button>
-					</div>
+						</c:if>
+					</li><!-- </div> -->
 				</c:if>
-			</div>
+			</ul>
 			<!-- Login/Register Close-->
 		</div>
         <!-- /.container -->
-
+</div>
     </nav>
 </body>
 </html>

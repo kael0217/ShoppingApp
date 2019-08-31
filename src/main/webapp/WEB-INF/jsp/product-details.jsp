@@ -50,7 +50,10 @@
 		$(".add-to-basket-btn").click(function() {
 			var id = $(this).attr('id');
 			var quantity = $("#quantity-input").val();
-			
+			var imageUrl=document.getElementsByTagName("img")[0].src;
+			var price= parseInt($("#price")[0].innerHTML);
+			var productTotalPrice= parseInt(price)*parseInt(quantity);
+			var prodName= $("#prodName")[0].innerHTML;
 			if(quantity == '') {
 				$("#modal-body-msg").text('Please enter a quantity');
 				
@@ -66,7 +69,13 @@
 				url: 'services/addToCart',
 				data: {
 					'id' : id,
-					'quantity': quantity
+					'quantity': quantity,
+					'imageUrl': imageUrl,
+					'price': price,
+					'productTotalPrice': productTotalPrice,
+					'productName': prodName
+				
+				
 				}
 			});
 			
@@ -113,8 +122,8 @@
 			<!-- right category  -->
 			<div class="col-md-6">
 				<div>
-					<h3>${ product.getProductName() }</h3>
-					<p>${ product.getPrice() }TL</p>
+					<h3 id="prodName">${ product.getProductName() }</h3>
+					<p id="price">${ product.getPrice() }TL</p>
 					<div class="row">
 						<div class="col-lg-6 col-md-6">
 							<div class="input-group">
@@ -137,6 +146,7 @@
 								<td>Product Details</td>
 							</thead>
 							<tbody>
+							
 								<tr>
 									<td>Description:</td>
 									<td>${ product.description }</td>
@@ -154,6 +164,7 @@
 									<td>Price:</td>
 									<td>${ product.price }</td>
 								</tr>
+								
 								<tr>
 									<td>UPC:</td>
 									<td>${ product.upc }</td>

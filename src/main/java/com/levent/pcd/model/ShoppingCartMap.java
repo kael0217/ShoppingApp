@@ -7,38 +7,46 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("shoppingCartMap")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ShoppingCartMap {
 	
 	int itemCount;
-	Map<String, Integer> cartItems;
+	Map<String, ShoppingCartEntry> cartItems;
 	
 	public ShoppingCartMap() {
 		itemCount = 0;
 		cartItems = new HashMap<>();
 	}
 	
-	public void addItem(String id, int quantity) {
+	public void addItem(String id, ShoppingCartEntry entry) {
 		if(!cartItems.containsKey(id))
-			cartItems.put(id, quantity);
+			cartItems.put(id, entry);
 		else {
-			cartItems.put(id, cartItems.get(id)+quantity);
+			ShoppingCartEntry entry1=cartItems.get(id);
+			entry.setQuantity(entry1.getQuantity()+ entry.getQuantity());
+			cartItems.put(id, entry);
 		}
 		
-		itemCount += quantity;
+		itemCount += entry.getQuantity();
 	}
 
-	public Map<String, Integer> getCartItems() {
+	public Map<String, ShoppingCartEntry> getCartItems() {
 		return cartItems;
 	}
 	
 	public int getQuantity(String id) {
-		return cartItems.get(id);
+		return cartItems.get(id).getQuantity();
 	}
 	
 	public int getItemSize() {
 		return itemCount;
+	}
+	
+
+	public void empty() {
+		cartItems.clear();
+		itemCount=0;
 	}
 	
 }
