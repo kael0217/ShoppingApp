@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,24 +28,21 @@ public class PaymentController {
 	private final PayPalClient payPalClient;
 
 	@Autowired
-	public PaymentController(PayPalClient payPalClient) {
+	PaymentController(PayPalClient payPalClient) {
 		this.payPalClient = payPalClient;
 	}
 
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
 	@PostMapping(value = "/make/payment")
 	public Map<String, Object> makePayment(@RequestParam("sum") String sum) {
 		return payPalClient.createPayment(sum);
 	}
 
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
 	@PostMapping(value = "/complete/payment")
 	public Map<String, Object> completePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId,
 			@RequestParam("payerId") String payerId) {
 		return payPalClient.completePayment(request);
 	}
 
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
 	@GetMapping("/payment_success")
 	public String processPaymentSuccess(HttpSession session) throws Exception {
 		System.out.println("get*********");
@@ -82,7 +79,6 @@ public class PaymentController {
 		return "redirect:/products";
 	}
 
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
 	@GetMapping("/payment_failure")
 	public String processPaymentFailure(HttpSession session) throws Exception {
 		UserEntry entry = (UserEntry) session.getAttribute("userEntry");
