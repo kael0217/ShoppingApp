@@ -32,11 +32,16 @@ public class PaymentController {
 
 	@Autowired UserEntry entry;
 	@GetMapping("/payment_start")
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN', 'ROLE_USER'})")
-	public String processPaymentSuccess( @RequestParam("paymentId") String paymentId,
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
+	public String processPaymentStart( @RequestParam("paymentId") String paymentId,
 			@RequestParam("PayerID") String payerId) throws Exception {
+		return "redirect:/complete_payment?paymentId="+ paymentId+"&PayerID="+payerId;
+	}
+	
+	@GetMapping("/payment_success")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
+	public String processPaymentSuccess( ) throws Exception {
 		
-		System.out.println("&*************"+ payerId);
 		UserInfo user= entry.getUser();
 		Map<String, String> templateTokens = new HashMap<String, String>();
 		templateTokens.put("LABEL_HI", "Hello");
@@ -51,7 +56,7 @@ public class PaymentController {
 		templateTokens.put("ADDRESS_DELIVERY_TITLE", "Address details:");
 		templateTokens.put("EMAIL_CUSTOMER_FIRSTNAME",user.getNickname());
 		templateTokens.put("ADDRESS_DELIVERY", user.getAddresses().get(0));
-		templateTokens.put("ORDER_STATUS", "Payment Initated!");
+		templateTokens.put("ORDER_STATUS", "Payment Success!");
 		templateTokens.put("EMAIL_DISCLAIMER", "@shoppersClub");
 		templateTokens.put("LOGOPATH","Shopper's Club");
 		templateTokens.put("EMAIL_FOOTER_COPYRIGHT", "@Copyright");
@@ -71,10 +76,10 @@ public class PaymentController {
 		emailComponent.send(email);
 		System.out.println("sent!");
 		shoppingCartMap.empty();
-		return "redirect:/complete_payment?paymentId="+ paymentId+"&PayerID="+payerId;
+		return "products";
 	}
 
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN', 'ROLE_USER'})")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping("/payment_failure")
 	public String processPaymentFailure() throws Exception {
 		UserInfo user= entry.getUser();
@@ -112,12 +117,12 @@ public class PaymentController {
 		return "redirect:/products";
 	}
 	
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN', 'ROLE_USER'})")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping( "/make_payment")
 	public String makePayment(@RequestParam("sum") String sum, HttpServletRequest request) {
 		 return payPalClient.createPayment(sum, request.getContextPath());
 	}
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN', 'ROLE_USER'})")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping("/complete_payment")
 	public String completePayment( @RequestParam("paymentId") String paymentId,
 			@RequestParam("PayerID") String payerId) {

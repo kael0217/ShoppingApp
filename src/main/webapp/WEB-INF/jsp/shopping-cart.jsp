@@ -39,13 +39,17 @@ spring
 
 
 
+
+
 :url
 
 
 
 
 
+
  
+
 
 
 
@@ -62,9 +66,13 @@ value
 
 
 
+
+
 ="/
 resources
 /fonts/glyphicons-halflings-regular
+
+
 
 
 
@@ -86,6 +94,8 @@ resources
 
 
 
+
+
 "
 var
 
@@ -98,8 +108,12 @@ var
 
 
 
+
+
 ="
 file1
+
+
 
 
 
@@ -123,13 +137,17 @@ spring
 
 
 
+
+
 :url
 
 
 
 
 
+
  
+
 
 
 
@@ -146,9 +164,13 @@ value
 
 
 
+
+
 ="/
 resources
 /fonts/glyphicons-halflings-regular
+
+
 
 
 
@@ -170,6 +192,8 @@ resources
 
 
 
+
+
 "
 var
 
@@ -182,8 +206,12 @@ var
 
 
 
+
+
 ="
 file2
+
+
 
 
 
@@ -207,13 +235,17 @@ spring
 
 
 
+
+
 :url
 
 
 
 
 
+
  
+
 
 
 
@@ -230,9 +262,13 @@ value
 
 
 
+
+
 ="/
 resources
 /fonts/glyphicons-halflings-regular
+
+
 
 
 
@@ -254,6 +290,8 @@ resources
 
 
 
+
+
 "
 var
 
@@ -266,8 +304,12 @@ var
 
 
 
+
+
 ="
 file3
+
+
 
 
 
@@ -291,13 +333,17 @@ spring
 
 
 
+
+
 :url
 
 
 
 
 
+
  
+
 
 
 
@@ -314,9 +360,13 @@ value
 
 
 
+
+
 ="/
 resources
 /fonts/glyphicons-halflings-regular
+
+
 
 
 
@@ -338,6 +388,8 @@ resources
 
 
 
+
+
 "
 var
 
@@ -350,8 +402,12 @@ var
 
 
 
+
+
 ="
 file4
+
+
 
 
 
@@ -375,7 +431,10 @@ spring
 
 
 
+
+
 :url
+
 
 
 
@@ -387,7 +446,10 @@ spring
 
 
 
+
 value
+
+
 
 
 
@@ -411,7 +473,11 @@ resources
 
 
 
+
+
 .woff2
+
+
 
 
 
@@ -434,8 +500,12 @@ var
 
 
 
+
+
 ="
 file5
+
+
 
 
 
@@ -493,10 +563,11 @@ file5
 			value="${totalProducts}" />
 
 		<div>
-			<form action="./make_payment" method="get">
-				<div class="row">
-					<!-- left category  -->
-					<c:if test="${not empty shoppingCartEnries}">
+
+			<div class="row">
+				<!-- left category  -->
+				<c:if test="${not empty shoppingCartEnries}">
+					<form action="./make_payment" method="get">
 						<c:forEach var="cartEntry" items="${shoppingCartEnries}">
 
 							<div class="row">
@@ -511,8 +582,8 @@ file5
 									<p>Quantity: ${cartEntry.getQuantity()}</p>
 								</div>
 								<div class="col-lg-3 col-md-3">
-										Total Price:
-									<p id="totalPrice" > ${cartEntry.getProductTotalPrice()}</p>
+									Total Price:
+									<p id="totalPrice">${cartEntry.getProductTotalPrice()}</p>
 
 								</div>
 							</div>
@@ -520,22 +591,27 @@ file5
 
 						</c:forEach>
 
-						<div class="row">
-							<h4>${shoppingItemSize}itemsonyourbasket.</h4>
-						</div>
+						<input type="hidden" value="${totalPrice+taxPrice }" name="sum">
+						<input type="submit" value="Make Payment">
 
-					</c:if>
-				</div>
-				<div class="row">
-					<span class="pull-right">Total: ${ totalPrice }</span>
-					<c:set var="total" value="${totalPrice}"></c:set>
-				</div>
-				<div class="row">
-					<span class="pull-right">Tax: ${ taxPrice }</span>
-				</div>
-				<div class="row">
+					</form>
+				</c:if>
+			</div>
+			<div class="row">
+				<h4>${shoppingItemSize}items in your bucket!.</h4>
+			</div>
 
-					<%-- 
+		</div>
+		<div class="row">
+			<span class="pull-right">Total: ${ totalPrice }</span>
+			<c:set var="total" value="${totalPrice}"></c:set>
+		</div>
+		<div class="row">
+			<span class="pull-right">Tax: ${ taxPrice }</span>
+		</div>
+
+
+		<%-- 
 				<form action="https://www.sandbox.paypal.com/cgi-bin/webscr"
 					method="POST">
 					<input type="hidden" name="cmd" value="_cart" /> <input
@@ -563,20 +639,18 @@ file5
 						src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
 						alt="Paypal-Safe and easier way to pay online" />
 				</form> --%>
-				<input type="hidden" value="${totalPrice+taxPrice }" name="sum">
-					<input type="submit" value="Make Payment">
-				</div>
-				</form>
-		</div>
-		<!-- Footer -->
-		<footer>
-			<div class="row">
-				<div class="col-lg-12">
-					<p>Copyright &copy; Divilioglu LTD. 2016</p>
-				</div>
+
+
+	</div>
+	<!-- Footer -->
+	<footer>
+		<div class="row">
+			<div class="col-lg-12">
+				<p>Copyright &copy; Divilioglu LTD. 2016</p>
 			</div>
-			<!-- /.row -->
-		</footer>
+		</div>
+		<!-- /.row -->
+	</footer>
 
 	</div>
 	<!-- /.container -->

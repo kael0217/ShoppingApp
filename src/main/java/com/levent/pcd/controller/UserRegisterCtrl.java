@@ -43,7 +43,7 @@ public class UserRegisterCtrl {
 	}
 	
 	@PostMapping("/addAdmin")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public ModelAndView registAdmin(@ModelAttribute UserInfo userInfo,@ModelAttribute UserAuth userAuth, @RequestParam String username) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("/register");

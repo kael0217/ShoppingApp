@@ -1,4 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"
+
+import="com.levent.pcd.model.UserEntry"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
@@ -38,6 +40,7 @@
                     <li>
                         <a href="${productListPageURL}">Product List</a>
                     </li>
+                   
                     <li>
                         <a href="${shoppingCartPageURL}">Shopping Cart</a>
                     </li>
@@ -56,16 +59,19 @@
 			        </form>
 		      
 		        <!-- search close-->
-
+  
              <div  id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
+            
 				<c:if test="${pageContext.request.userPrincipal.name != null}">
 
 					<!-- <div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right" " role="group" aria-label="Basic example">		 -->				
 						<li>
 
 							<button class="btn btn-link border-secondary">
+							
 								<c:out value="Welcome! Dear ${sessionScope.userEntry.getUser().getNickname()}" />
+								
 							</button>
 							<button class="btn btn-default border-secondary" onclick="javascript:location.href='/logout'">Logout</button>						
 					<!-- </div> --></li>
@@ -73,8 +79,12 @@
 				<c:if test="${pageContext.request.userPrincipal.name == null}">
 					<!-- <div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right" role="group" aria-label="Basic example"> -->
 					<li>
+					<c:if test="${pageContext.request.userPrincipal.name == null}">
 						<button class="btn btn-default border-secondary" onclick="javascript:location.href='/login'">Login</button>
+						</c:if>
+						<c:if test="${pageContext.request.userPrincipal.name == null}">
 						<button class="btn btn-default border-secondary" onclick="javascript:location.href='/register'">Register</button>
+						</c:if>
 					</li><!-- </div> -->
 				</c:if>
 			</ul>

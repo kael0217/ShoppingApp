@@ -96,7 +96,7 @@ import com.paypal.base.rest.PayPalRESTException;
 	            System.err.println(e.getDetails());
 	            return "redirect:/payment_failure";
 	        }
-	        return "redirect:/products";
+	        return "redirect:/payment_success";
 	    }
 
 
