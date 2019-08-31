@@ -33,13 +33,13 @@ public class PaymentController {
 	}
 
 	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
-	@PostMapping(value = "/make/payment")
+	@PostMapping(value = "/make_payment")
 	public Map<String, Object> makePayment(@RequestParam("sum") String sum) {
 		return payPalClient.createPayment(sum);
 	}
 
 	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
-	@PostMapping(value = "/complete/payment")
+	@PostMapping(value = "/complete_payment")
 	public Map<String, Object> completePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId,
 			@RequestParam("payerId") String payerId) {
 		return payPalClient.completePayment(request);
@@ -66,7 +66,7 @@ public class PaymentController {
 		templateTokens.put("ADDRESS_DELIVERY", user.getAddresses().get(0));
 		templateTokens.put("ORDER_STATUS", "success!");
 		templateTokens.put("EMAIL_DISCLAIMER", "@shoppersClub");
-
+		templateTokens.put("LOGOPATH","Shopper's Club");
 		templateTokens.put("EMAIL_FOOTER_COPYRIGHT", "@Copyright");
 
 		Email email = new Email();
@@ -104,7 +104,7 @@ public class PaymentController {
 		templateTokens.put("EMAIL_DISCLAIMER", "@shoppersClub");
 
 		templateTokens.put("EMAIL_FOOTER_COPYRIGHT", "@Copyright");
-
+		templateTokens.put("LOGOPATH","Shopper's Club");
 		Email email = new Email();
 		email.setFrom("Default store");
 		email.setFromEmail("jahanvi.bansal@gmail.com");
