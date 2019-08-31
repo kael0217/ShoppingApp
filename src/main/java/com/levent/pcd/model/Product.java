@@ -1,6 +1,5 @@
 package com.levent.pcd.model;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -31,9 +30,9 @@ public class Product {
 	
 	private Date dateCreated;
 	
-	@TextIndexed(weight = 200) private String productName;
-	@TextIndexed(weight = 80) private String description;
-	@TextIndexed(weight = 50) private String manufacturer;
+	@TextIndexed(weight = 99999) private String productName;
+	@TextIndexed(weight = 1) private String description;
+	@TextIndexed(weight = 1) private String manufacturer;
 	
 	private String imageUrl;
 	private String imageFileName;

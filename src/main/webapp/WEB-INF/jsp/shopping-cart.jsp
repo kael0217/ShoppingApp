@@ -27,356 +27,17 @@
 <spring:url value="/resources/css/custom.css" var="customCSS" />
 <link href="${customCSS}" rel="stylesheet">
 <style>
-<
-spring
+<spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss" />
+<link href="${bootstrapCss}" rel="stylesheet">
+<spring:url value="/resources/css/4-col-portfolio.css" var="themeCSS" />
+<link href="${themeCSS}" rel="stylesheet">
+<spring:url value="/resources/css/custom.css" var="customCSS" />
+<link href="${customCSS}" rel="stylesheet">
+<spring:url value="/resources/js/jquery-3.1.0.min.js" var="resourceJquery" />
+<script src="${resourceJquery}"></script>
+<spring:url value="/resources/js/bootstrap.min.js" var="resourceBootstrapJs" />
+<script src="${resourceBootstrapJs}"></script>
 
-
-
-
-
-
-
-
-:url
-
-
-
-
- 
-
-
-
-
-value
-
-
-
-
-
-
-
-
-="/
-resources
-/fonts/glyphicons-halflings-regular
-
-
-
-
-
-
-
-
-.eot
-
-
-
-
-
-
-
-
-"
-var
-
-
-
-
-
-
-
-
-="
-file1
-
-
-
-
-
-
-"
-/
->
-<
-spring
-
-
-
-
-
-
-
-
-:url
-
-
-
-
- 
-
-
-
-
-value
-
-
-
-
-
-
-
-
-="/
-resources
-/fonts/glyphicons-halflings-regular
-
-
-
-
-
-
-
-
-.svg
-
-
-
-
-
-
-
-
-"
-var
-
-
-
-
-
-
-
-
-="
-file2
-
-
-
-
-
-
-"
-/
->
-<
-spring
-
-
-
-
-
-
-
-
-:url
-
-
-
-
- 
-
-
-
-
-value
-
-
-
-
-
-
-
-
-="/
-resources
-/fonts/glyphicons-halflings-regular
-
-
-
-
-
-
-
-
-.ttf
-
-
-
-
-
-
-
-
-"
-var
-
-
-
-
-
-
-
-
-="
-file3
-
-
-
-
-
-
-"
-/
->
-<
-spring
-
-
-
-
-
-
-
-
-:url
-
-
-
-
- 
-
-
-
-
-value
-
-
-
-
-
-
-
-
-="/
-resources
-/fonts/glyphicons-halflings-regular
-
-
-
-
-
-
-
-
-.woff
-
-
-
-
-
-
-
-
-"
-var
-
-
-
-
-
-
-
-
-="
-file4
-
-
-
-
-
-
-"
-/
->
-<
-spring
-
-
-
-
-
-
-
-
-:url
-
-
-
-
- 
-
-
-
-
-value
-
-
-
-
-
-
-
-
-="/
-resources
-/fonts/glyphicons-halflings-regular
-
-
-
-
-
-
-
-
-.woff2
-
-
-
-
-
-
-
-
-"
-var
-
-
-
-
-
-
-
-
-="
-file5
-
-
-
-
-
-
-"
-/
->
 @font-face {
 	font-family: 'Glyphicons Halflings';
 	src: url('${file1}');
@@ -448,7 +109,7 @@ file5
 					</c:forEach>
 
 					<div class="row">
-						<h4>${shoppingItemSize}itemsonyourbasket.</h4>
+						<h4><c:out value="${shoppingItemSize} items on your basket."/> </h4>
 					</div>
 
 				</c:if>
@@ -463,32 +124,25 @@ file5
 			<div class="row">
 
 
-				<form action="https://www.sandbox.paypal.com/cgi-bin/webscr"
-					method="POST">
-					<input type="hidden" name="cmd" value="_cart" /> <input
-						type="hidden" name="upload" value="1" />
+				<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="POST">
+					<input type="hidden" name="cmd" value="_cart" />
+					<input type="hidden" name="upload" value="1" />
 					<c:set var="itemCount" value="1" />
 					<c:forEach items="${shoppingCartEnries}" var="entry">
-						<input type="hidden" name="item_name_${itemCount}"
-							value="${entry.productName}" />
-						<input type="hidden" name="quantity_${itemCount}"
-							value="${entry.quantity}" />
-						<input type="hidden" name="amount_${itemCount}"
-							value="${entry.productTotalPrice}" />
+						<input type="hidden" name="item_name_${itemCount}" value="${entry.productName}" />
+						<input type="hidden" name="quantity_${itemCount}" value="${entry.quantity}" />
+						<input type="hidden" name="amount_${itemCount}" value="${entry.productTotalPrice}" />
 					</c:forEach>
-					<input type="hidden"	name="USER" value="INR" /> 
-					<input type="hidden"	name="PWD" value="INR" /> 
-					<input type="hidden"	name="SIGNATURE" value="INR" /> 
-				 <input type="hidden"	name="currency_code" value="INR" /> 
-				 <input type="hidden"
-						name="business" value="payal-facilitator@rjtcompuquest.com" /> <input
-						type="hidden" name="return"
-						value="http://localhost:9000/payment_success" /> <input
-						type="hidden" name="cancel"
-						value="payal-facilitator@rjtcompuquest.com" /> <input
-						type="image" name="submit"
-						src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
-						alt="Paypal-Safe and easier way to pay online" />
+					<input type="hidden" name="USER" value="INR" />
+					<input type="hidden" name="PWD" value="INR" />
+					<input type="hidden" name="SIGNATURE" value="INR" />
+					<input type="hidden" name="currency_code" value="INR" />
+					<input type="hidden" name="business" value="payal-facilitator@rjtcompuquest.com" />
+					<input type="hidden" name="return" value="http://localhost:9000/payment_success" />
+					<input type="hidden" name="cancel" value="payal-facilitator@rjtcompuquest.com" />
+					<input type="image" name="submit" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" alt="Paypal-Safe and easier way to pay online" />
+					<c:if test="${pageContext.request.userPrincipal.name != null}">					
+					</c:if>>
 				</form>
 			</div>
 		</div>

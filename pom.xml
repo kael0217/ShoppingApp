@@ -116,8 +116,15 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.cloudyrock.mongock</groupId>
+			<artifactId>mongock-core</artifactId>
+			<version>3.0.2.BETA</version>
+		</dependency>
+
+		<!-- Add to use with Spring -->
+		<dependency>
+			<groupId>com.github.cloudyrock.mongock</groupId>
 			<artifactId>mongock-spring</artifactId>
-			<version>3.0.0.BETA</version>
+			<version>3.0.2.BETA</version>
 		</dependency>
 
 
@@ -143,11 +150,11 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
-<dependency>
-    <groupId>javax.mail</groupId>
-    <artifactId>mail</artifactId>
-    <version>1.5.0-b01</version>
-</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.5.0-b01</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
