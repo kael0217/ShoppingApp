@@ -1,5 +1,6 @@
 package com.levent.pcd;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -44,6 +45,16 @@ public class Client implements WebMvcConfigurer {
 		bean.setTemplateLoaderPath("classpath:/templates/email");
 		return bean;
 	}
+
+	@Bean
+	@Autowired
+	public SpringBootMongock mongock(ApplicationContext springContext, MongoClient mongoClient) {
+	  return new SpringBootMongockBuilder(mongoClient, "levent", "com.levent.pcd.changelog.MigrationChangeSet")
+	      .setApplicationContext(springContext) 
+	      .setLockQuickConfig()
+	      .build();
+	}
+	
 	
 
 	/*@Bean
@@ -74,14 +85,5 @@ public class Client implements WebMvcConfigurer {
 				</beans:props>
 			</beans:property>
 		</beans:bean>*/
-
-	@Bean
-	public SpringBootMongock mongock(ApplicationContext springContext, MongoClient mongoClient) {
-	  return new SpringBootMongockBuilder(mongoClient, "levent", "com.package.to.be.scanned.for.changesets")
-	      .setApplicationContext(springContext) 
-	      .setLockQuickConfig()
-	      .build();
-	}
-	
 
 }

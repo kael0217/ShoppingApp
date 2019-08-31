@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.github.cloudyrock.mongock.SpringBootMongock;
 import com.github.cloudyrock.mongock.SpringBootMongockBuilder;
+import com.levent.pcd.changelog.MigrationChangeSet;
 import com.levent.pcd.config.SecurityConfig;
 import com.mongodb.MongoClient;
 
@@ -80,11 +81,9 @@ public class Client implements WebMvcConfigurer {
 
 	@Bean
 	public SpringBootMongock mongock(ApplicationContext springContext, MongoClient mongoClient) {
-	  return new SpringBootMongockBuilder(mongoClient, "levent", "com.package.to.be.scanned.for.changesets")
-	      .setApplicationContext(springContext) 
-	      .setLockQuickConfig()
-	      .build();
+		System.out.println(MigrationChangeSet.class.getPackage().getName());
+		return new SpringBootMongockBuilder(mongoClient, "levent", MigrationChangeSet.class.getPackage().getName())
+				.setApplicationContext(springContext).setLockQuickConfig().build();
 	}
-	
 
 }
