@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.levent.pcd.mail.Email;
 import com.levent.pcd.mail.EmailComponent;
@@ -34,7 +36,10 @@ public class PaymentController {
 
 	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
 	@GetMapping("/payment_success")
-	public String processPaymentSuccess(HttpSession session) throws Exception {
+	public String processPaymentSuccess(HttpSession session, @RequestParam("paymentId") String paymentId,
+			@RequestParam("PayerID") String payerId) throws Exception {
+		
+		System.out.println("&*************"+ payerId);
 		UserEntry entry = (UserEntry) session.getAttribute("userEntry");
 		UserInfo user = entry.getUser();
 		Map<String, String> templateTokens = new HashMap<String, String>();
@@ -70,7 +75,7 @@ public class PaymentController {
 		emailComponent.send(email);
 		System.out.println("sent!");
 		shoppingCartMap.empty();
-		return "redirect:/products";
+		return "redirect:/complete_payment?paymentId="+ paymentId+"&PayerID="+payerId;
 	}
 
 	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
@@ -81,22 +86,24 @@ public class PaymentController {
 		Map<String, String> templateTokens = new HashMap<String, String>();
 		templateTokens.put("LABEL_HI", "Hello");
 		templateTokens.put("EMAIL_STORE_NAME", user.getUsername());
-		templateTokens.put("EMAIL_CUSTOMER_CONTACT","Shopper's Club: 637736336");
 
 		templateTokens.put("EMAIL_ORDER_DATE", LocalDate.now().toString());
 		templateTokens.put("EMAIL_ORDER_THANKS", "Thanks for your purchase!");
 		templateTokens.put("EMAIL_ORDER_DETAILS_TITLE", "Your order details are:");
 		templateTokens.put("ADDRESS_BILLING_TITLE", "Address details:");
-
+		templateTokens.put("EMAIL_ORDER_NUMBER",Math.random()+"");
 		templateTokens.put("ADDRESS_BILLING", user.getAddresses().get(0));
 		templateTokens.put("ADDRESS_DELIVERY_TITLE", "Address details:");
-
+		templateTokens.put("EMAIL_CUSTOMER_FIRSTNAME",user.getNickname());
 		templateTokens.put("ADDRESS_DELIVERY", user.getAddresses().get(0));
-		templateTokens.put("ORDER_STATUS", "Failed!");
+		templateTokens.put("ORDER_STATUS", "Failed!!");
 		templateTokens.put("EMAIL_DISCLAIMER", "@shoppersClub");
-		templateTokens.put("EMAIL_CONTACT_NAME","Shoppers Club");
-		templateTokens.put("EMAIL_FOOTER_COPYRIGHT", "@Copyright");
 		templateTokens.put("LOGOPATH","Shopper's Club");
+		templateTokens.put("EMAIL_FOOTER_COPYRIGHT", "@Copyright");
+		templateTokens.put("EMAIL_CUSTOMER_CONTACT","Shopper's Club: 637736336");
+		templateTokens.put("EMAIL_CONTACT_NAME_LABEL","Shopper's Club");
+		templateTokens.put("EMAIL_CONTACT_NAME","Shoppers Club");
+		templateTokens.put("ORDER_PRODUCTS_DETAILS",shoppingCartMap.getCartItems()+"");
 		Email email = new Email();
 		email.setFrom("Default store");
 		email.setFromEmail("jahanvi.bansal@gmail.com");
@@ -120,7 +127,7 @@ public class PaymentController {
 	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
 	@GetMapping("/complete_payment")
 	public String completePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId,
-			@RequestParam("payerId") String payerId) {
+			@RequestParam("PayerID") String payerId) {
 		return payPalClient.completePayment(request);
 	}
 }

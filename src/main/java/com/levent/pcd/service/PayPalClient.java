@@ -65,6 +65,7 @@ import com.paypal.base.rest.PayPalRESTException;
 	                        break;
 	                    }
 	                }
+	                System.out.println(createdPayment);
 	                response.put("status", "success");
 	                response.put("redirect_url", redirectUrl);
 	                
