@@ -52,9 +52,7 @@
 			var quantity = $("#quantity-input").val();
 			var imageUrl=document.getElementsByTagName("img")[0].src;
 			var price= parseInt($("#price")[0].innerHTML);
-			alert(price);
 			var productTotalPrice= parseInt(price)*parseInt(quantity);
-			alert(productTotalPrice);
 			var prodName= $("#prodName")[0].innerHTML;
 			if(quantity == '') {
 				$("#modal-body-msg").text('Please enter a quantity');

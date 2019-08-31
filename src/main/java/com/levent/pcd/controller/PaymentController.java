@@ -26,27 +26,10 @@ public class PaymentController {
 
 	@Autowired
 	EmailComponent emailComponent;
-	private final PayPalClient payPalClient;
+	@Autowired PayPalClient payPalClient;
 	
 	@Autowired ShoppingCartMap shoppingCartMap;
 
-	@Autowired
-	public PaymentController(PayPalClient payPalClient) {
-		this.payPalClient = payPalClient;
-	}
-
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
-	@PostMapping(value = "/make_payment")
-	public Map<String, Object> makePayment(@RequestParam("sum") String sum) {
-		return payPalClient.createPayment(sum);
-	}
-
-	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
-	@PostMapping(value = "/complete_payment")
-	public Map<String, Object> completePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId,
-			@RequestParam("payerId") String payerId) {
-		return payPalClient.completePayment(request);
-	}
 
 	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
 	@GetMapping("/payment_success")
@@ -124,5 +107,19 @@ public class PaymentController {
 		emailComponent.send(email);
 		System.out.println("sent!");
 		return "redirect:/products";
+	}
+	
+
+	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
+	@PostMapping( "/make_payment")
+	public String makePayment(@RequestParam("sum") String sum) {
+		return payPalClient.createPayment(sum);
+	}
+
+	@PreAuthorize("hasAnyRole({'ROLE_ADMIN','ROLE_USER'})")
+	@PostMapping("/complete_payment")
+	public Map<String, Object> completePayment(HttpServletRequest request, @RequestParam("paymentId") String paymentId,
+			@RequestParam("payerId") String payerId) {
+		return payPalClient.completePayment(request);
 	}
 }

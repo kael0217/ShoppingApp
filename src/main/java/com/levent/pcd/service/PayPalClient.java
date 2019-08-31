@@ -28,7 +28,7 @@ import com.paypal.base.rest.PayPalRESTException;
 //	    @Autowired
 //	    PayPalClient(){}
 
-	    public Map<String, Object> createPayment(String sum){
+	    public String createPayment(String sum){
 	        Map<String, Object> response = new HashMap<String, Object>();
 	        Amount amount = new Amount();
 	        amount.setCurrency("INR");
@@ -68,8 +68,9 @@ import com.paypal.base.rest.PayPalRESTException;
 	            }
 	        } catch (PayPalRESTException e) {
 	            System.out.println("Error happened during payment creation!");
+	            return "redirect:/payment_failure";
 	        }
-	        return response;
+	        return "redirect:/payment_success";
 	    }
 
 
