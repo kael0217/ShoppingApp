@@ -126,8 +126,30 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.cloudyrock.mongock</groupId>
+			<artifactId>mongock-core</artifactId>
+			<version>3.0.2.BETA</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+
+		<!-- Add to use with Spring -->
+		<dependency>
+			<groupId>com.github.cloudyrock.mongock</groupId>
+			<artifactId>mongock-core</artifactId>
+			<version>3.0.2.BETA</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.cloudyrock.mongock</groupId>
 			<artifactId>mongock-spring</artifactId>
-			<version>3.0.0.BETA</version>
+			<version>3.0.2.BETA</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
 		</dependency>
 
 

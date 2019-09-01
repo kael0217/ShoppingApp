@@ -19,11 +19,6 @@ public class S3Controller {
 	@Autowired
 	@Qualifier("AWSS3HelperImpl")
 	private AWSS3Helper awshelper;
-	
-	@GetMapping("/addProductWithS3")
-	public String testAddFile() {
-		return "NMDWSM";
-	}
 
 //	@PreAuthorize("hasRole('ADMIN')")
 

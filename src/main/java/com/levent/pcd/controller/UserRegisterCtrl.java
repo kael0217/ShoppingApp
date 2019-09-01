@@ -36,11 +36,11 @@ public class UserRegisterCtrl {
 	@Autowired UserAuthRepository userAuthRep;
 	@Autowired UserEntry userEntry;
 	
-	@GetMapping("/addUser")
-	@ResponseBody
-	public String testPath(@RequestParam("username") String username) {
-		return "Path Correctly";
-	}
+//	@GetMapping("/addUser")
+//	@ResponseBody
+//	public String testPath(@RequestParam("username") String username) {
+//		return "Path Correctly";
+//	}
 	
 	@PostMapping("/addAdmin")
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
