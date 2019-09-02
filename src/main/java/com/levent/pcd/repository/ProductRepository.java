@@ -2,6 +2,8 @@ package com.levent.pcd.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -21,14 +23,17 @@ public interface ProductRepository extends MongoRepository<Product, String>, Pro
 	 * 
 	 */
 	//@Query("{'$or': [ {'productName':{$regex:?0,$options:'i'}}, {'manufacturer':{$regex:?0,$options:'i'}}, {'description':{$regex:?0,$options:'i'}} ]}")
-	@Query("{ $text:{$search: ?0}}")
+
+	
+	List<Product> findByInStoreGreaterThan(int inStore, Pageable page);
+	
+	
+	
+	@Query("{inStore:{$gt:0}, $text:{$search: ?0}}")
 	List<Product> searchProduct(String keyword);
 	
-	List<Product> findByProductNameRegexOrManufacturerRegexOrDescriptionRegex(String productName, String manufacturer, String description);
-	List<Product> findTop8ByOrderBySellCountDesc();
-	List<Product> findTop8ByOrderByDateCreatedDesc();
 
-	@Query("{ 'category.productName':   ?0 }")
+	@Query("{ inStore:{$gt:0},'category.productName':   ?0 }")
 	List<Product> findProductsByCategory(String categoryName);
 
 	/*
@@ -37,10 +42,10 @@ public interface ProductRepository extends MongoRepository<Product, String>, Pro
 	 * @Query("{ 'productName': /?0/i }")
 	 * 
 	 */
-	@Query("{ 'productName':{$regex:?0,$options:'i'} }")
+	@Query("{inStore:{$gt:0}, 'productName':{$regex:?0,$options:'i'} }")
 	List<Product> findProductsByProductNameRegex(String searchString);
 
-	@Query("{ 'sku' : ?0 }")
+	@Query("{inStore:{$gt:0}, 'sku' : ?0 }")
 	Product findBySku(String sku);
 
 }

@@ -1,17 +1,13 @@
 package com.levent.pcd.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.FileEditor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
@@ -36,7 +32,8 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public List<Product> findAll(int page, int limit) {
-		return productRepository.findAll(PageRequest.of(page, limit)).getContent();
+		
+		return productRepository.findByInStoreGreaterThan(0, PageRequest.of(page, limit));
 	}
 
 	@Override

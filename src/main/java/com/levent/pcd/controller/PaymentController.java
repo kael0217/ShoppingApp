@@ -78,7 +78,7 @@ public class PaymentController {
 		emailComponent.send(email);
 		System.out.println("sent!");
 		
-		return "products";
+		return "redirect:/products";
 	}
 
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
