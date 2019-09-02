@@ -57,7 +57,7 @@ public class ProductController {
 	public ModelAndView listProductsByNameSearch(@RequestParam("srch-term") String searchTerm) {
 		List<Product> products = productService.searchProductsByRegex(searchTerm);
 		List<String> categories = categoryService.findAll();
-		
+		System.out.println(searchTerm);
 		ModelAndView model = new ModelAndView("products");
 		
 		model.addObject("categoryList", categories);

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,7 @@ public class ProductIntegrationTest {
 	private MockMvc mockMvc;
 
 	@Test
+	@Ignore
 	public void testListProducts() throws Exception {
 		
 		ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/products"));
@@ -61,13 +63,18 @@ public class ProductIntegrationTest {
         assertEquals("products",mav.getViewName());	
         assertEquals(0,mav.getModel().get("page"));
         assertNotNull(mav.getModel().get("products"));
-//		HttpEntity entity= new HttpEntity<>(new HttpHeaders());
-//		ResponseEntity<ModelAndView> response=template.exchange("http://localhost:"+port+"/products", HttpMethod.GET, entity, ModelAndView.class);
-//		System.out.println(response.getBody());
-//		ModelAndView mv=(ModelAndView)response.getBody();
-//		assertEquals("products",mv.getViewName());
-//		assertEquals(1,mv.getModel().get("page"));
-//		assertNotNull(mv.getModel().get("products"));
+	}
+	
+	@Test
+	public void testlistProductsByNameSearch() throws Exception {
+		
+		ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/products").param("srch-term", "batt"));
+        MvcResult mvcResult = resultActions.andReturn();
+        ModelAndView mav = mvcResult.getModelAndView();
+        
+        assertEquals("products",mav.getViewName());	
+        assertNotNull(mav.getModel().get("productList"));
+        assertNotNull(mav.getModel().get("categoryList"));
 	}
 	
 

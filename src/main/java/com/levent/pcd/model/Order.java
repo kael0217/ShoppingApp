@@ -15,5 +15,5 @@ public class Order {
 	private String orderId;
 	double totalPrice;
 	int totalProducts;
-	 private String username;
+	private String username;
 }

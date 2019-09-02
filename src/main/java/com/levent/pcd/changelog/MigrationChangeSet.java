@@ -14,6 +14,7 @@ import org.bson.Document;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+import com.levent.pcd.model.Product;
 import com.levent.pcd.model.UserAuth;
 import com.levent.pcd.model.UserInfo;
 import com.levent.pcd.model.UserRole;
@@ -38,13 +39,12 @@ public class MigrationChangeSet {
 		System.out.println(f.exists());
 		
 		System.out.println(template);
-		template.getCollection("products").drop();
-		List<InsertOneModel<Document>> docs = new ArrayList<>();
-		
+		List<InsertOneModel<Document>> docs = new ArrayList<>();		
 		
 		int count = 0;
 		int batch = 100;
 		MongoCollection<Document> collection = template.getCollection("products");
+		
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 		      String line;
 		      while ((line = br.readLine()) != null) {
@@ -61,6 +61,9 @@ public class MigrationChangeSet {
 		if (count > 0) {
 		   collection.bulkWrite(docs, new BulkWriteOptions().ordered(false));
 		}
+		Product p = new Product();		
+		p = template.save(p,"products");
+		template.remove(p,"products");
 	}
 	@Bean
 	@ChangeSet(order = "002", id = "addDefaultUser", author = "G.LI", version = "1")
