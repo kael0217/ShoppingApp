@@ -20,10 +20,9 @@ public interface ProductService {
 	
 	public List<Product> findAll(int page, int limit);
 	public Product findBySku(String sku);
-	public List<Product> findProductsByCategory(String categoryName);
+	public List<Product> findProductsByCategory(String categoryName, int page, int size);
 	public List<Product> findProductsByName(String searchString);
 	public List<Product> searchProductsByRegex(String searchString);
-	
 	
 	void updateProductsRemained(Product product, int inStore);
 

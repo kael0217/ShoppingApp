@@ -42,8 +42,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public List<Product> findProductsByCategory(String categoryName) {
-		return productRepository.findProductsByCategory(categoryName);
+	public List<Product> findProductsByCategory(String categoryName, int page, int size) {
+		return productRepository.findProductsByCategoryProductNameAndInStoreGreaterThan(categoryName, 0,PageRequest.of(page, size));
 	}
 
 	@Override

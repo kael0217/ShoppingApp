@@ -70,8 +70,8 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/products-by-category-{categoryName}")
-	public ModelAndView listProductsByCategory(@PathVariable("categoryName") String categoryName) {
-		List<Product> products = productService.findProductsByCategory(categoryName);
+	public ModelAndView listProductsByCategory(@PathVariable("categoryName") String categoryName,@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="100") int limit) {
+		List<Product> products = productService.findProductsByCategory(categoryName, page, limit);
 		List<String> categories = categoryService.findAll();
 		
 		ModelAndView model = new ModelAndView("products");

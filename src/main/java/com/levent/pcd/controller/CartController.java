@@ -58,11 +58,10 @@ public class CartController {
 	private UserEntry userEntry;
 
 
-
-	// endpoints
 	
 	@PostMapping("/addToCart")
 	public String addToCart(@ModelAttribute ShoppingCartEntry entry	, BindingResult result,Model model) {
+		System.out.println("In addto cart");
 		if(result.hasErrors()) {
 			System.out.println(result.getAllErrors());
 		}
@@ -79,7 +78,7 @@ public class CartController {
 			model.addAttribute("message", "Currently the number of items for this product in repository is only "+ quantityAvailable);
 			
 		}
-		return "forward:products";
+		return "forward:/products";
 	}
 
 	@ResponseBody
@@ -102,8 +101,8 @@ public class CartController {
 
 	@ResponseBody
 	@GetMapping("/getProductsByCategories/{categoryName}")
-	public List<Product> getProductById(@PathVariable String categoryName) {
-		return productService.findProductsByCategory(categoryName);
+	public List<Product> getProductById(@PathVariable String categoryName,@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="100") int limit) {
+		return productService.findProductsByCategory(categoryName, page, limit);
 	}
 
 	@ResponseBody
