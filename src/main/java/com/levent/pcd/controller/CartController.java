@@ -100,7 +100,6 @@ public class CartController {
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PutMapping("/saveCart")
 	@ResponseStatus(code = HttpStatus.OK)
-	//@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void saveCart() {		
 		Map<String,ShoppingCartEntry> productList = shoppingCartMap.getCartItems();
 		userEntry.getUser().setCartItems(productList);

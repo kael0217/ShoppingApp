@@ -30,7 +30,7 @@ import com.paypal.base.rest.PayPalRESTException;
 	    String clientId = "ASTze2vhR30SxI6vOYNPVLfy_F9KmqxIagySXObBtmbAyXJYMxvwBWNQHv42uYRqLrHdLxm-IHV95C5Y";
 	    String clientSecret = "EHN-bcn02PKbwlEkBWtiMXTPMF0F39pLl_N-qy2rI4LzBcepeJlFkCL1bKOYwWJLT69tgYz-2OqLpfr1";
 
-	    @Autowired ShoppingCartMap cart;
+	 
 	    String orderId;
 	    
 	    @Autowired ProductService pService;
@@ -108,7 +108,7 @@ import com.paypal.base.rest.PayPalRESTException;
 	        rep.save(Order.builder().orderId(orderId).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_SUCCESS).username(username).build());
 	        
 	        
-	        pService.updateProductsRemained(orderId,cart.getCartItems().values(),username);
+	        pService.updateProductsRemained(orderId,username);
 	        return "redirect:/payment_success";
 	    }
 

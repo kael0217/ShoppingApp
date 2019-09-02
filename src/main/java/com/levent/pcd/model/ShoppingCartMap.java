@@ -42,11 +42,13 @@ public class ShoppingCartMap {
 	public int getItemSize() {
 		return itemCount;
 	}
+
+	public void removeItem(String id) {
+		cartItems.remove(id);
+		
+	}
 	
 
-	public void empty() {
-		cartItems.clear();
-		itemCount=0;
-	}
+
 	
 }

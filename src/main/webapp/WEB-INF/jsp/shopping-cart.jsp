@@ -76,12 +76,7 @@
 		</div>
 		<!-- /.row -->
 
-		<jsp:useBean id="order" class="com.levent.pcd.model.Order"
-			scope="request"></jsp:useBean>
-		<jsp:setProperty property="totalPrice" name="order"
-			value="${totalPrice}" />
-		<jsp:setProperty property="totalProducts" name="order"
-			value="${totalProducts}" />
+		
 
 		<div>
 
@@ -89,8 +84,9 @@
 				<!-- left category  -->
 				<c:if test="${not empty shoppingCartEnries}">
 					<form action="./make_payment" method="get">
+					<c:set var="totalPrice" value="0"/>
 						<c:forEach var="cartEntry" items="${shoppingCartEnries}">
-
+							
 							<div class="row">
 								<div class="col-lg-3 col-md-3">
 									<img class="img-responsive" src="${cartEntry.getImageUrl()}"
@@ -105,6 +101,11 @@
 								<div class="col-lg-3 col-md-3">
 									Total Price:
 									<p id="totalPrice">${cartEntry.getProductTotalPrice()}</p>
+									<c:set value="${totalPrice+ cartEntry.getProductTotalPrice()}" var="totalPrice"></c:set>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									Status
+									<p id="status" style="color:red">${cartEntry.status}</p>
 
 								</div>
 							</div>
@@ -117,7 +118,7 @@
 						</div>
 						<hr>
 
-					</c:forEach>
+				
 
 					<div class="row">
 						<h4><c:out value="${shoppingItemSize} items on your basket."/> </h4>
@@ -129,9 +130,7 @@
 					</form>
 				</c:if>
 			</div>
-			<div class="row">
-				<h4>${shoppingItemSize}items in your bucket!.</h4>
-			</div>
+		
 
 		</div>
 		<div class="row">
@@ -143,33 +142,7 @@
 		</div>
 
 
-		<%-- 
-				<form action="https://www.sandbox.paypal.com/cgi-bin/webscr"
-					method="POST">
-					<input type="hidden" name="cmd" value="_cart" /> <input
-						type="hidden" name="upload" value="1" />
-					<c:set var="itemCount" value="1" />
-					<c:forEach items="${shoppingCartEnries}" var="entry">
-						<input type="hidden" name="item_name_${itemCount}" value="${entry.productName}" />
-						<input type="hidden" name="quantity_${itemCount}" value="${entry.quantity}" />
-						<input type="hidden" name="amount_${itemCount}" value="${entry.productTotalPrice}" />
-					</c:forEach>
-					<input type="hidden"	name="USER" value="${paypal.username}" /> 
-					<input type="hidden"	name="PWD" value="${paypal.password}" /> 
-					<input type="hidden"	name="SIGNATURE" value="${paypal.signature}" /> 
-				 <input type="hidden"	name="currency_code" value="INR" /> 
-				 <input type="hidden"
-						name="business" value="payal-facilitator@rjtcompuquest.com" /> <input
-						type="hidden" name="return"
-						value="http://localhost:9000/payment_success" /> <input
-						type="hidden" name="cancel"
-						value="payal-facilitator@rjtcompuquest.com" /> <input
-						type="image" name="submit"
-						src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
-						alt="Paypal-Safe and easier way to pay online" />
-				</form> --%>
-
-
+	
 	</div>
 	<!-- Footer -->
 	<footer>
