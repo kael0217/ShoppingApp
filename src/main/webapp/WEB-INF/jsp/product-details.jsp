@@ -46,8 +46,8 @@
 	var="resourceBootstrapJs" />
 <script src="${resourceBootstrapJs}"></script>
 <script>
-	$(document).ready(function() {
-		$(".add-to-basket-btn").click(function() {
+	function validateData(){
+		
 			var id = $(this).attr('id');
 			var quantity = $("#quantity-input").val();
 		/* 	var imageUrl=document.getElementsByTagName("img")[0].src;
@@ -65,18 +65,12 @@
 				return false;
 			}
 		
-			});
+			return true;
+	};
 			
-			var msg = quantity + ' items added to your cart.';
-			$("#modal-body-msg").text(msg);
-		});
 		
-		$("#ok-modal-button").click(function() {
-			// refresh input
-			$("#quantity-input").val('');
-		});
 		
-	});
+	
 	
 	</script>
 </head>
@@ -131,7 +125,7 @@
 							<input class="add-to-basket-btn"
 								id="${ product.id}" type="submit"
 								class="btn btn-primary btn-md" data-toggle="modal"
-								data-target="#success-modal" value="Add to basket">
+								data-target="#success-modal" value="Add to basket" onclick="validateData()">
 						</div>
 					</div>
 					<br />

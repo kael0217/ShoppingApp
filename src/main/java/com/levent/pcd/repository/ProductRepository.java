@@ -15,14 +15,6 @@ import com.levent.pcd.model.Product;
 @Repository("productRepository")
 public interface ProductRepository extends MongoRepository<Product, String>, ProductRepositoryCustom {
 
-	/*
-	 * Same functionality with the query below
-	 * 
-	 * db.products.find({ categories: { '$in':['children'] } })
-	 * 
-	 */
-	//@Query("{'$or': [ {'productName':{$regex:?0,$options:'i'}}, {'manufacturer':{$regex:?0,$options:'i'}}, {'description':{$regex:?0,$options:'i'}} ]}")
-
 	
 	List<Product> findByInStoreGreaterThan(int inStore, Pageable page);
 	
