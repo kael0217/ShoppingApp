@@ -46,8 +46,8 @@
 	var="resourceBootstrapJs" />
 <script src="${resourceBootstrapJs}"></script>
 <script>
-	$(document).ready(function() {
-		$(".add-to-basket-btn").click(function() {
+	function validateData(){
+		
 			var id = $(this).attr('id');
 			var quantity = $("#quantity-input").val();
 		/* 	var imageUrl=document.getElementsByTagName("img")[0].src;
@@ -65,18 +65,12 @@
 				return false;
 			}
 		
-			});
+			return true;
+	};
 			
-			var msg = quantity + ' items added to your cart.';
-			$("#modal-body-msg").text(msg);
-		});
 		
-		$("#ok-modal-button").click(function() {
-			// refresh input
-			$("#quantity-input").val('');
-		});
 		
-	});
+	
 	
 	</script>
 </head>
@@ -126,11 +120,12 @@
 						<input type="hidden"  name="price" value="${product.price}"/>
 						<input type="hidden"  name="prodName" value="${product.productName}"/>
 						<input type="hidden" name="productTotalPrice" value="0"/>
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 						<div class="col-lg-3 col-md-3">
 							<input class="add-to-basket-btn"
 								id="${ product.id}" type="submit"
 								class="btn btn-primary btn-md" data-toggle="modal"
-								data-target="#success-modal" value="Add to basket">
+								data-target="#success-modal" value="Add to basket" onclick="validateData()">
 						</div>
 					</div>
 					<br />
