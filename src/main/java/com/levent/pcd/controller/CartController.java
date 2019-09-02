@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.AmazonServiceException;
@@ -33,7 +34,7 @@ import com.levent.pcd.service.AWSS3Helper;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
 
-@RestController
+@Controller
 @RequestMapping(value = "/services")
 public class CartController {
 
@@ -57,46 +58,54 @@ public class CartController {
 	private UserEntry userEntry;
 
 
-
-	// endpoints
 	
-	@RequestMapping("/addToCart")
-	public String addToCart(@ModelAttribute ShoppingCartEntry entry	) {
+	@PostMapping("/addToCart")
+	public String addToCart(@ModelAttribute ShoppingCartEntry entry	, BindingResult result,Model model) {
+		System.out.println("In addto cart");
+		if(result.hasErrors()) {
+			System.out.println(result.getAllErrors());
+		}
+		entry.setProductTotalPrice(entry.getPrice()* entry.getQuantity());
 		System.out.println(SecurityContextHolder.getContext().getAuthentication().getCredentials());
 		System.out.println(userEntry.getUser());
 		int quantityAvailable=productService.findById(entry.getId()).getInStore();
 		int required= entry.getQuantity();
 		if(quantityAvailable>=required) {
 			shoppingCartMap.addItem(entry.getId(), entry);
-			return "";
-			//TODO in ajax: if response string is not empty.. refresh ur page with quantity available
+			model.addAttribute("message", "Product added to cart!");
 		}
 		else {
-			return "Currently the number of items for this product in repository is only "+ quantityAvailable;
+			model.addAttribute("message", "Currently the number of items for this product in repository is only "+ quantityAvailable);
 			
 		}
+		return "forward:/products";
 	}
 
+	@ResponseBody
 	@GetMapping("/getCategories")
 	public List<String> getCategories() {
 		return categoryService.findAll();
 	}
 
+	@ResponseBody
 	@GetMapping("/getProducts")
 	public List<Product> getProducts() {
 		return productService.findAll(0,100);
 	}
 
+	@ResponseBody
 	@GetMapping("/getProductBySku/{sku}")
 	public Product getProductBySku(@PathVariable String sku) {
 		return productService.findBySku(sku);
 	}
 
+	@ResponseBody
 	@GetMapping("/getProductsByCategories/{categoryName}")
-	public List<Product> getProductById(@PathVariable String categoryName) {
-		return productService.findProductsByCategory(categoryName);
+	public List<Product> getProductById(@PathVariable String categoryName,@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="100") int limit) {
+		return productService.findProductsByCategory(categoryName, page, limit);
 	}
 
+	@ResponseBody
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PutMapping("/saveCart")
 	@ResponseStatus(code = HttpStatus.OK)
@@ -105,6 +114,8 @@ public class CartController {
 		userEntry.getUser().setCartItems(productList);
 		userInfoRepository.save(userEntry.getUser());
 	}
+	
+	@ResponseBody
 	@PostMapping("/addProductWithS3")
 	public String addFile(@ModelAttribute Product p,@RequestParam MultipartFile file)
 			throws AmazonServiceException, SdkClientException, IOException {

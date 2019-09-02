@@ -2,7 +2,6 @@ package com.levent.pcd.repository;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -33,8 +32,8 @@ public interface ProductRepository extends MongoRepository<Product, String>, Pro
 	List<Product> searchProduct(String keyword);
 	
 
-	@Query("{ inStore:{$gt:0},'category.productName':   ?0 }")
-	List<Product> findProductsByCategory(String categoryName);
+	/*@Query("{ inStore:{$gt:0},'category.productName':   ?0 }")*/
+	List<Product> findProductsByCategoryProductNameAndInStoreGreaterThan(String productName,int inStore, Pageable page);
 
 	/*
 	 * db.products.find( { 'productName': /mens/i } );
