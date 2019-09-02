@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,13 +61,20 @@ public class CartController {
 	// endpoints
 	
 	@RequestMapping("/addToCart")
-	public void addToCart(
-			@RequestParam(value = "id") String id, 
-			@ModelAttribute ShoppingCartEntry entry
-	) {
+	public String addToCart(@ModelAttribute ShoppingCartEntry entry	) {
 		System.out.println(SecurityContextHolder.getContext().getAuthentication().getCredentials());
 		System.out.println(userEntry.getUser());
-		shoppingCartMap.addItem(id, entry);
+		int quantityAvailable=productService.findById(entry.getId()).getInStore();
+		int required= entry.getQuantity();
+		if(quantityAvailable>=required) {
+			shoppingCartMap.addItem(entry.getId(), entry);
+			return "";
+			//TODO in ajax: if response string is not empty.. refresh ur page with quantity available
+		}
+		else {
+			return "Currently the number of items for this product in repository is only "+ quantityAvailable;
+			
+		}
 	}
 
 	@GetMapping("/getCategories")

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +17,7 @@ import com.levent.pcd.mail.EmailComponent;
 import com.levent.pcd.model.ShoppingCartMap;
 import com.levent.pcd.model.UserEntry;
 import com.levent.pcd.model.UserInfo;
+import com.levent.pcd.repository.OrderRepository;
 import com.levent.pcd.service.PayPalClient;
 
 @Controller
@@ -31,16 +31,18 @@ public class PaymentController {
 
 
 	@Autowired UserEntry entry;
+	@Autowired OrderRepository rep;
 	@GetMapping("/payment_start")
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
 	public String processPaymentStart( @RequestParam("paymentId") String paymentId,
-			@RequestParam("PayerID") String payerId) throws Exception {
-		return "redirect:/complete_payment?paymentId="+ paymentId+"&PayerID="+payerId;
+			@RequestParam("PayerID") String payerId,  @RequestParam("sum") String sum) throws Exception {
+		
+		return "redirect:/complete_payment?paymentId="+ paymentId+"&PayerID="+payerId+"&sum="+sum;
 	}
 	
 	@GetMapping("/payment_success")
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-	public String processPaymentSuccess( ) throws Exception {
+	public String sendPaymentSuccessMail( ) throws Exception {
 		
 		UserInfo user= entry.getUser();
 		Map<String, String> templateTokens = new HashMap<String, String>();
@@ -120,12 +122,12 @@ public class PaymentController {
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping( "/make_payment")
 	public String makePayment(@RequestParam("sum") String sum, HttpServletRequest request) {
-		 return payPalClient.createPayment(sum, request.getContextPath());
+		 return payPalClient.createPayment(sum, request.getContextPath(), entry.getUser().getUsername());
 	}
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping("/complete_payment")
 	public String completePayment( @RequestParam("paymentId") String paymentId,
-			@RequestParam("PayerID") String payerId) {
-		return payPalClient.completePayment(paymentId, payerId);
+			@RequestParam("PayerID") String payerId , @RequestParam("sum") String sum) {
+		return payPalClient.completePayment(paymentId, payerId,entry.getUser().getUsername(), sum);
 	}
 }

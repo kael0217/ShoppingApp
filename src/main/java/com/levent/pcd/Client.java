@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy.RepositoryDetectionStrategies;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -26,7 +29,7 @@ import com.mongodb.MongoClient;
 @EnableTransactionManagement
 @EnableMongoRepositories(basePackages="com.levent.pcd.repository")
 @Import(SecurityConfig.class)
-public class Client implements WebMvcConfigurer {
+public class Client  implements WebMvcConfigurer, RepositoryRestConfigurer {
 	
 
 	public static void main(String[] args) throws Exception {
@@ -34,7 +37,10 @@ public class Client implements WebMvcConfigurer {
 		
 	}
 
-
+	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
+		config.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);
+		
+	}
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addRedirectViewController("/", "/products");
 		registry.addViewController("/payment").setViewName("payment");
