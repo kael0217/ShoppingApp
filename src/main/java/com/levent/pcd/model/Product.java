@@ -47,7 +47,7 @@ public class Product {
 	
 	
 	@Default
-	private Integer inStore=0;//quantity
+	private Integer inStore=1;//quantity
 	@Default
 	private Integer sellCount=0;
 
