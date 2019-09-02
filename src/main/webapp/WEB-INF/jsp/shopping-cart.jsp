@@ -123,10 +123,11 @@ script
 								</div>
 								<c:set  var="count" value="${count+ cartEntry.getQuantity()}"></c:set>
 								<div class="col-lg-3 col-md-3">
-									Total Price:
-									<p id="totalPrice">${cartEntry.getProductTotalPrice()}</p>
-									<c:set value="${totalPrice+ cartEntry.getProductTotalPrice()}"
+								
+									
+									<c:set value="${totalPrice+ cartEntry.getProductTotalPrice()*cartEntry.getQuantity()}"
 										var="totalPrice"></c:set>
+											Total Price:<c:out value="${cartEntry.getProductTotalPrice()*cartEntry.getQuantity()}"></c:out>
 								</div>
 								<div class="col-lg-3 col-md-3">
 									Status
