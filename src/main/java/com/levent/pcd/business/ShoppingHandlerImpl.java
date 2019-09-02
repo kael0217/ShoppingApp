@@ -33,7 +33,7 @@ public class ShoppingHandlerImpl implements ShoppingHandler {
 			Product p = productService.findById(id);
 			
 			ShoppingCartEntry s = new ShoppingCartEntry();
-			
+			s.setId(id);
 			int quantity = shoppingCartMap.getQuantity(id);
 			
 			s.setImageUrl(p.getImageUrl());

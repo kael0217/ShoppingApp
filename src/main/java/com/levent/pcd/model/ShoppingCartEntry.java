@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class ShoppingCartEntry {
 	
+	private String id;
 	private String imageUrl;
 	private String productName;
 	private double price;

@@ -74,7 +74,7 @@
 					'price': price,
 					'productTotalPrice': productTotalPrice,
 					'productName': prodName
-				
+					
 				
 				}
 			});

@@ -32,6 +32,8 @@ import com.paypal.base.rest.PayPalRESTException;
 
 	    @Autowired ShoppingCartMap cart;
 	    String orderId;
+	    
+	    @Autowired ProductService pService;
 //	    PayPalClient(){}
 
 	    public String createPayment(String sum, String string, String username){
@@ -51,7 +53,7 @@ import com.paypal.base.rest.PayPalRESTException;
 	        payment.setIntent("sale");
 	        payment.setPayer(payer);
 	        payment.setTransactions(transactions);
-	        Order o=rep.insert(Order.builder().date(LocalDateTime.now()).status(OrderStatus.ORDER_INITIATED).totalPrice(Double.parseDouble(sum)).totalProducts(cart.getItemSize()).username(username).build());
+	        Order o=rep.insert(Order.builder().date(LocalDateTime.now()).status(OrderStatus.ORDER_INITIATED).username(username).build());
 	         orderId=o.getOrderId();
 	        RedirectUrls redirectUrls = new RedirectUrls();
 	        redirectUrls.setCancelUrl("http://localhost:9000/payment_failure");
@@ -80,7 +82,7 @@ import com.paypal.base.rest.PayPalRESTException;
 	            System.out.println("Error happened during payment creation!");
 	            return "redirect:/payment_failure";
 	        }
-	        rep.save(Order.builder().orderId(orderId).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_INITIATED).totalPrice(Double.parseDouble(sum)).totalProducts(cart.getItemSize()).username(username).build());
+	        rep.save(Order.builder().orderId(orderId).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_INITIATED).username(username).build());
 	        
 	        return "redirect:"+redirectUrl;
 	    }
@@ -103,8 +105,10 @@ import com.paypal.base.rest.PayPalRESTException;
 	            System.err.println(e.getDetails());
 	            return "redirect:/payment_failure";
 	        }
-	        rep.save(Order.builder().orderId(orderId).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_SUCCESS).totalPrice(Double.parseDouble(sum)).totalProducts(cart.getItemSize()).username(username).build());
+	        rep.save(Order.builder().orderId(orderId).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_SUCCESS).username(username).build());
 	        
+	        
+	        pService.updateProductsRemained(orderId,cart.getCartItems().values(),username);
 	        return "redirect:/payment_success";
 	    }
 

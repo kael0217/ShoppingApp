@@ -57,4 +57,8 @@ public class Product {
 	private String url;
 
 
+
+	public Product(String id) {
+		this.id= id;
+	}
 }

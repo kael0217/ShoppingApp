@@ -2,6 +2,7 @@ package com.levent.pcd.model;
 
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,15 +17,17 @@ import lombok.NoArgsConstructor;
 public class Order {
 	
 	private String orderId;
-	double totalPrice;
-	int totalProducts;
 	 private String username;
 	 LocalDateTime date;
 	 private OrderStatus status;
-	 ShoppingCartMap cart;
+	 Map<ShoppingCartEntry, ProductStatus> order;
 	 
 	 public enum OrderStatus{
-			ORDER_INITIATED, PAYMENT_INITIATED, PAYMENT_SUCCESS, ORDER_CONFIRMED
+			ORDER_INITIATED, PAYMENT_INITIATED, PAYMENT_SUCCESS, ORDER_ON_HOLD,ORDER_CONFIRMED
+	 }
+	 
+	 public enum ProductStatus{
+		 	NOT_AVAILABLE, AVAILABLE
 	 }
 }
 

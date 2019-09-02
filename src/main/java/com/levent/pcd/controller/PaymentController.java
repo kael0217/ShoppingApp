@@ -1,7 +1,6 @@
 package com.levent.pcd.controller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.levent.pcd.mail.Email;
 import com.levent.pcd.mail.EmailComponent;
-import com.levent.pcd.model.Order;
-import com.levent.pcd.model.Order.OrderStatus;
 import com.levent.pcd.model.ShoppingCartMap;
 import com.levent.pcd.model.UserEntry;
 import com.levent.pcd.model.UserInfo;
@@ -45,7 +42,7 @@ public class PaymentController {
 	
 	@GetMapping("/payment_success")
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-	public String processPaymentSuccess( ) throws Exception {
+	public String sendPaymentSuccessMail( ) throws Exception {
 		
 		UserInfo user= entry.getUser();
 		Map<String, String> templateTokens = new HashMap<String, String>();
