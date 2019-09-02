@@ -51,15 +51,11 @@
 			var id = $(this).attr('id');
 			var quantity = $("#quantity").val();
 			
-		/* 	var imageUrl=document.getElementsByTagName("img")[0].src;
-			var price= parseInt($("#price")[0].innerHTML);
-			var productTotalPrice= parseInt(price)*parseInt(quantity);
-			var prodName= $("#prodName")[0].innerHTML; */
-			alert( $("#qty")[0].innerHTML);
 			if(quantity == '') {
 				return false;
 			}		
 			if(quantity > $("#qty")[0].innerHTML) {
+				alert("rejected")
 				return false;
 			}
 		
