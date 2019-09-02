@@ -12,7 +12,7 @@ import com.levent.pcd.model.Product;
  * Repository Layer is responsible for retrievel of data
  */
 @Repository("productRepository")
-public interface ProductRepository extends MongoRepository<Product, String> {
+public interface ProductRepository extends MongoRepository<Product, String>, ProductRepositoryCustom {
 
 	/*
 	 * Same functionality with the query below

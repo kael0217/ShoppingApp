@@ -29,7 +29,7 @@ public interface ProductService {
 
 	public Product findById(String id);
 	void addProduct(Product product);
-	public void updateProductsRemained(String orderId,Collection<ShoppingCartEntry> values, String username);
+	public void updateProductsRemained(String orderId, String username);
 	
 	
 }
