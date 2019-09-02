@@ -1,5 +1,6 @@
 package com.levent.pcd.service;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ import com.paypal.base.rest.PayPalRESTException;
 	    @Autowired ProductService pService;
 //	    PayPalClient(){}
 
-	    public String createPayment(String sum, String string, String username){
+	    public String createPayment(String sum, String path, String username){
 	        Map<String, Object> response = new HashMap<String, Object>();
 	        Amount amount = new Amount();
 	        amount.setCurrency("INR");
@@ -56,8 +57,8 @@ import com.paypal.base.rest.PayPalRESTException;
 	        Order o=rep.insert(Order.builder().date(LocalDateTime.now()).status(OrderStatus.ORDER_INITIATED).username(username).build());
 	         orderId=o.getOrderId();
 	        RedirectUrls redirectUrls = new RedirectUrls();
-	        redirectUrls.setCancelUrl("http://localhost:9000/payment_failure");
-	        redirectUrls.setReturnUrl("http://localhost:9000/payment_start?sum="+sum);
+	        redirectUrls.setCancelUrl(path+"/payment_failure");
+	        redirectUrls.setReturnUrl(path+"/payment_start?sum="+sum);
 	        payment.setRedirectUrls(redirectUrls);
 	        Payment createdPayment;
 	        String redirectUrl = "";
@@ -107,8 +108,7 @@ import com.paypal.base.rest.PayPalRESTException;
 	        }
 	        rep.save(Order.builder().orderId(orderId).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_SUCCESS).username(username).build());
 	        
-	        
-	        pService.updateProductsRemained(orderId,username);
+	         pService.updateProductsRemained(orderId,username);
 	        return "redirect:/payment_success";
 	    }
 

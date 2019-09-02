@@ -1,6 +1,7 @@
 package com.levent.pcd.service;
 
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,14 +85,16 @@ public class ProductServiceImpl implements ProductService {
 	public void updateProductsRemained(String orderId, String username) {
 	
 		//If few items in cart gets out of stock, just place order with products in store. Cart will reflect items to be out_of_stock for which order not placed.
-		for(ShoppingCartEntry entry: cart.getCartItems().values()) {
+		Iterator<ShoppingCartEntry> it= cart.getCartItems().values().iterator();
+		while(it.hasNext()){
+			ShoppingCartEntry entry= it.next();
 			Optional<Product> p=productRepository.findById(entry.getId());
 			if(!p.isPresent()) {
 				throw new InventoryMismatchExcpetion("Invalid cart details!. Product is invalid"+ entry);
 			}else {
 				Product prod=p.get();
 				if(productRepository.deductQuantity(prod.getId(), entry.getQuantity())) {
-					cart.removeItem(prod.getId());
+					it.remove();
 					
 				}else {
 					entry.setStatus(ItemStatus.OUT_OF_STOCK);
@@ -100,7 +103,9 @@ public class ProductServiceImpl implements ProductService {
 			}
 		}
 		
+		
 		   rep.save(Order.builder().orderId(orderId).date(LocalDateTime.now()).status(OrderStatus.ORDER_CONFIRMED).username(username).build());
+		   
 		
 	}
 

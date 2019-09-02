@@ -3,8 +3,8 @@ package com.levent.pcd.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
-import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.trace.http.HttpTrace.Principal;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.levent.pcd.business.ShoppingHandler;
 import com.levent.pcd.model.Product;
-import com.levent.pcd.model.ShoppingCartEntry;
 import com.levent.pcd.model.ShoppingCartMap;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
@@ -89,22 +88,15 @@ public class ProductController {
 		
 		ModelAndView model = new ModelAndView("product-details");
 		model.addObject("product", product);
-		model.addObject("shoppingCartMap", shoppingCartMap);
 		
 		return model;
 	}
 	
 	@RequestMapping(value = "/shopping-cart")
-	public ModelAndView shoppingCart() {
+	public ModelAndView shoppingCart(HttpSession session) {
 		ModelAndView model = new ModelAndView("shopping-cart");
-		
-		List<ShoppingCartEntry> shoppingCartEntries = shoppingHandler.getShoppingCartEntries(shoppingCartMap);
-		
-		model.addObject("shoppingCartEnries", shoppingCartEntries);
-		model.addObject("shoppingItemSize", shoppingCartMap.getItemSize());
-		model.addObject("totalPrice", shoppingHandler.getTotalPrice(shoppingCartEntries));
-		model.addObject("taxPrice", shoppingHandler.getTotalTax(shoppingCartEntries));
-		
+		model.addObject("shoppingCartMap", shoppingCartMap);
+		session.setAttribute("shoppingCartMap", shoppingCartMap);
 		return model;
 	}
 	

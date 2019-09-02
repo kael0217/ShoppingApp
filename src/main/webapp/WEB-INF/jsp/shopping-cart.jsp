@@ -103,11 +103,12 @@ script
 		<div>
 
 			<div class="row">
+			<c:set var="count" value="0"></c:set>
 				<!-- left category  -->
-				<c:if test="${not empty shoppingCartEnries}">
+				<c:if test="${not empty sessionScope.shoppingCartMap.cartItems}">
 					<form action="./make_payment" method="get">
 						<c:set var="totalPrice" value="0" />
-						<c:forEach var="cartEntry" items="${shoppingCartEnries}">
+						<c:forEach var="cartEntry" items="${sessionScope.shoppingCartMap.cartItems.values()}">
 
 							<div class="row">
 								<div class="col-lg-3 col-md-3">
@@ -120,6 +121,7 @@ script
 								<div class="col-lg-3 col-md-3">
 									<p>Quantity: ${cartEntry.getQuantity()}</p>
 								</div>
+								<c:set  var="count" value="${count+ cartEntry.getQuantity()}"></c:set>
 								<div class="col-lg-3 col-md-3">
 									Total Price:
 									<p id="totalPrice">${cartEntry.getProductTotalPrice()}</p>
@@ -143,7 +145,7 @@ script
 
 		<div class="row">
 			<h4>
-				<c:out value="${shoppingItemSize} items on your basket." />
+				<c:out value="${count} items on your basket." />
 			</h4>
 
 			<input type="hidden" value="${totalPrice+taxPrice }" name="sum">
@@ -152,7 +154,7 @@ script
 
 			</form>
 			</c:if>
-			<c:if test="${ empty shoppingCartEnries}">
+			<c:if test="${ empty sessionScope.shoppingCartMap.cartItems}">
 				<c:out value="Your shopping Cart is empty!"></c:out>
 			</c:if>
 		</div>

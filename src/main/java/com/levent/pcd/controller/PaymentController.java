@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -121,13 +122,15 @@ public class PaymentController {
 	
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping( "/make_payment")
-	public String makePayment(@RequestParam("sum") String sum, HttpServletRequest request) {
-		 return payPalClient.createPayment(sum, request.getContextPath(), entry.getUser().getUsername());
+	public String makePayment(@RequestParam("sum") String sum, HttpServletRequest req) {
+		 return payPalClient.createPayment(sum, req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath(), entry.getUser().getUsername());
 	}
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
 	@GetMapping("/complete_payment")
 	public String completePayment( @RequestParam("paymentId") String paymentId,
-			@RequestParam("PayerID") String payerId , @RequestParam("sum") String sum) {
-		return payPalClient.completePayment(paymentId, payerId,entry.getUser().getUsername(), sum);
+			@RequestParam("PayerID") String payerId , @RequestParam("sum") String sum, HttpSession session) {
+		String result= payPalClient.completePayment(paymentId, payerId,entry.getUser().getUsername(), sum);
+		session.setAttribute("shoppingCartMap", shoppingCartMap);
+		return result;
 	}
 }

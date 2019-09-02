@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -60,7 +62,7 @@ public class CartController {
 
 	
 	@PostMapping("/addToCart")
-	public String addToCart(@ModelAttribute ShoppingCartEntry entry	, BindingResult result,Model model) {
+	public String addToCart(@ModelAttribute ShoppingCartEntry entry	, BindingResult result,Model model, HttpSession session) {
 		System.out.println("In addto cart");
 		if(result.hasErrors()) {
 			System.out.println(result.getAllErrors());
@@ -78,7 +80,8 @@ public class CartController {
 			model.addAttribute("message", "Currently the number of items for this product in repository is only "+ quantityAvailable);
 			
 		}
-		return "forward:/products";
+		session.setAttribute("shoppingCartMap", shoppingCartMap);
+		return "redirect:/products";
 	}
 
 	@ResponseBody
@@ -109,10 +112,11 @@ public class CartController {
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PutMapping("/saveCart")
 	@ResponseStatus(code = HttpStatus.OK)
-	public void saveCart() {		
+	public void saveCart(HttpSession session) {		
 		Map<String,ShoppingCartEntry> productList = shoppingCartMap.getCartItems();
 		userEntry.getUser().setCartItems(productList);
 		userInfoRepository.save(userEntry.getUser());
+		session.setAttribute("shoppingCartMap", shoppingCartMap);
 	}
 	
 	@ResponseBody
