@@ -2,6 +2,9 @@ package com.levent.pcd.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.trace.http.HttpTrace.Principal;
 import org.springframework.stereotype.Controller;
@@ -121,7 +124,12 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/login-forward")
-	public ModelAndView addLoginForwardView() {
+	public ModelAndView addLoginForwardView(HttpServletRequest request,Principal principal) {
+		System.out.println(request.getHeader("Referer"));
+		if (request.getHeader("Referer")==null||(principal.getName() != null || !request.getHeader("Referer").contains("login"))) {
+			ModelAndView model = new ModelAndView("redirect:/products");
+			return model;
+		}
 		ModelAndView model = new ModelAndView("/login-forward");
 		model.addObject("msg","No username or wrong password, try again or register");
 		return model;
