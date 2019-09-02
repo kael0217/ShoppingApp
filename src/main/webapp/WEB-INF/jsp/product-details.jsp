@@ -118,7 +118,7 @@
 						<div class="col-lg-3 col-md-3">
 							<input 
 								id="${ product.id}" type="submit"
-								 value="Add to basket" onclick="validateData()"/>
+								 value="Add to basket" onclick="return validateData()"/>
 						</div>
 					</div>
 					<br />
