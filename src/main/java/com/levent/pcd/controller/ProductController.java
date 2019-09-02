@@ -125,7 +125,6 @@ public class ProductController {
 	
 	@RequestMapping("/login-forward")
 	public ModelAndView addLoginForwardView(HttpServletRequest request,Principal principal) {
-		System.out.println(request.getHeader("Referer"));
 		if (request.getHeader("Referer")==null||(principal.getName() != null || !request.getHeader("Referer").contains("login"))) {
 			ModelAndView model = new ModelAndView("redirect:/products");
 			return model;
