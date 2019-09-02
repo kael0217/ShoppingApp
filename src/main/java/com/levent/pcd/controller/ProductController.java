@@ -117,10 +117,10 @@ public class ProductController {
 	@RequestMapping("/register")
 	public ModelAndView addRegisterView(Principal principal) {
 		if (principal.getName() != null) {
-			ModelAndView model = new ModelAndView("/register");
+			ModelAndView model = new ModelAndView("redirect:/products");
 			return model;
 		}
-		else return new ModelAndView("redirect:/products");
+		else return new ModelAndView("/register");
 	}
 	
 	@RequestMapping("/login-forward")
