@@ -44,7 +44,7 @@
 	<!-- Nav-bar -->
 	<jsp:include page="navbar.jsp"/>
 	<!-- /.Nav-bar -->
-
+${message}
     <!-- Page Content -->
     <div class="container">
 

@@ -50,33 +50,21 @@
 		$(".add-to-basket-btn").click(function() {
 			var id = $(this).attr('id');
 			var quantity = $("#quantity-input").val();
-			var imageUrl=document.getElementsByTagName("img")[0].src;
+		/* 	var imageUrl=document.getElementsByTagName("img")[0].src;
 			var price= parseInt($("#price")[0].innerHTML);
 			var productTotalPrice= parseInt(price)*parseInt(quantity);
-			var prodName= $("#prodName")[0].innerHTML;
+			var prodName= $("#prodName")[0].innerHTML; */
 			if(quantity == '') {
 				$("#modal-body-msg").text('Please enter a quantity');
 				
-				return;
+				return false;
 			}		
 			if(quantity > $("#qty")[0].innerHTML) {
 				$("#modal-body-msg").text('Please enter a valid quantity. ');
 				
-				return;
+				return false;
 			}
-						
-			$.ajax({
-				url: 'services/addToCart',
-				data: {
-					'id' : id,
-					'quantity': quantity,
-					'imageUrl': imageUrl,
-					'price': price,
-					'productTotalPrice': productTotalPrice,
-					'productName': prodName
-					
-				
-				}
+		
 			});
 			
 			var msg = quantity + ' items added to your cart.';
@@ -112,13 +100,14 @@
 
 		<hr>
 
+<form action="services/addToCart">
 		<!-- page content  -->
 		<div class="row">
 			<!-- left category  -->
 			<div class="col-md-6">
 				<img class="img-responsive" src="${product.getImageUrl()}" alt="">
 			</div>
-
+			
 			<!-- right category  -->
 			<div class="col-md-6">
 				<div>
@@ -128,15 +117,20 @@
 						<div class="col-lg-6 col-md-6">
 							<div class="input-group">
 								<span class="input-group-addon">Quantity</span> <input
-									id="quantity-input" type="text" class="form-control"
+									id="quantity" name="quantity" type="text" class="form-control"
 									placeholder="0" aria-describedby="quantity-input">
 							</div>
 						</div>
+						<input type="hidden"  name="id" value="${product.id}"/>
+						<input type="hidden"  name="imageUrl" value="${product.imageUrl}"/>
+						<input type="hidden"  name="price" value="${product.price}"/>
+						<input type="hidden"  name="prodName" value="${product.productName}"/>
+						<input type="hidden" name="productTotalPrice" value="0"/>
 						<div class="col-lg-3 col-md-3">
-							<button class="add-to-basket-btn"
-								id="${ product.id}" type="button"
+							<input class="add-to-basket-btn"
+								id="${ product.id}" type="submit"
 								class="btn btn-primary btn-md" data-toggle="modal"
-								data-target="#success-modal">Add To Basket</button>
+								data-target="#success-modal" value="Add to basket">
 						</div>
 					</div>
 					<br />
@@ -192,7 +186,7 @@
 				</div>
 			</div>
 		</div>
-
+</form>
 		<hr>
 
 		<!-- Footer -->

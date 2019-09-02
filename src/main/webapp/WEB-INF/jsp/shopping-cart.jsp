@@ -27,17 +27,39 @@
 <spring:url value="/resources/css/custom.css" var="customCSS" />
 <link href="${customCSS}" rel="stylesheet">
 <style>
-<spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss" />
-<link href="${bootstrapCss}" rel="stylesheet">
-<spring:url value="/resources/css/4-col-portfolio.css" var="themeCSS" />
-<link href="${themeCSS}" rel="stylesheet">
-<spring:url value="/resources/css/custom.css" var="customCSS" />
-<link href="${customCSS}" rel="stylesheet">
-<spring:url value="/resources/js/jquery-3.1.0.min.js" var="resourceJquery" />
-<script src="${resourceJquery}"></script>
-<spring:url value="/resources/js/bootstrap.min.js" var="resourceBootstrapJs" />
-<script src="${resourceBootstrapJs}"></script>
+<
+spring:url value ="/resources/css/bootstrap.min.css " var
+	="bootstrapCss" /> <link href ="${bootstrapCss
+	
+}
 
+"
+rel ="stylesheet"> <spring:url value ="/resources/css/4-col-portfolio.css
+	" var ="themeCSS" /> <link href ="${themeCSS
+	
+}
+
+"
+rel ="stylesheet"> <spring:url value ="/resources/css/custom.css " var
+	="customCSS" /> <link href ="${customCSS
+	
+}
+
+"
+rel ="stylesheet"> <spring:url value ="/resources/js/jquery-3.1.0.min.js
+	" var ="resourceJquery" /> <script src ="${resourceJquery
+	
+}
+
+"></
+script> <spring:url value ="/resources/js/bootstrap.min.js " var
+	="resourceBootstrapJs" /> <script src ="${resourceBootstrapJs
+	
+}
+
+"></
+script
+>
 @font-face {
 	font-family: 'Glyphicons Halflings';
 	src: url('${file1}');
@@ -76,7 +98,7 @@
 		</div>
 		<!-- /.row -->
 
-		
+
 
 		<div>
 
@@ -84,9 +106,9 @@
 				<!-- left category  -->
 				<c:if test="${not empty shoppingCartEnries}">
 					<form action="./make_payment" method="get">
-					<c:set var="totalPrice" value="0"/>
+						<c:set var="totalPrice" value="0" />
 						<c:forEach var="cartEntry" items="${shoppingCartEnries}">
-							
+
 							<div class="row">
 								<div class="col-lg-3 col-md-3">
 									<img class="img-responsive" src="${cartEntry.getImageUrl()}"
@@ -101,48 +123,52 @@
 								<div class="col-lg-3 col-md-3">
 									Total Price:
 									<p id="totalPrice">${cartEntry.getProductTotalPrice()}</p>
-									<c:set value="${totalPrice+ cartEntry.getProductTotalPrice()}" var="totalPrice"></c:set>
+									<c:set value="${totalPrice+ cartEntry.getProductTotalPrice()}"
+										var="totalPrice"></c:set>
 								</div>
 								<div class="col-lg-3 col-md-3">
 									Status
-									<p id="status" style="color:red">${cartEntry.status}</p>
+									<p id="status" style="color: red">${cartEntry.status}</p>
 
 								</div>
 							</div>
 							<hr>
 
 						</c:forEach>
-
-
-							</div>
-						</div>
-						<hr>
-
-				
-
-					<div class="row">
-						<h4><c:out value="${shoppingItemSize} items on your basket."/> </h4>
-
-						<input type="hidden" value="${totalPrice+taxPrice }" name="sum">
-						<input type="submit" value="Make Payment">
-
-
-					</form>
-				</c:if>
 			</div>
-		
-
 		</div>
+		<hr>
+
+
+
 		<div class="row">
-			<span class="pull-right">Total: ${ totalPrice }</span>
-			<c:set var="total" value="${totalPrice}"></c:set>
-		</div>
-		<div class="row">
-			<span class="pull-right">Tax: ${ taxPrice }</span>
+			<h4>
+				<c:out value="${shoppingItemSize} items on your basket." />
+			</h4>
+
+			<input type="hidden" value="${totalPrice+taxPrice }" name="sum">
+			<input type="submit" value="Make Payment">
+
+
+			</form>
+			</c:if>
+			<c:if test="${ empty shoppingCartEnries}">
+				<c:out value="Your shopping Cart is empty!"></c:out>
+			</c:if>
 		</div>
 
 
-	
+	</div>
+	<div class="row">
+		<span class="pull-right">Total: ${ totalPrice }</span>
+		<c:set var="total" value="${totalPrice}"></c:set>
+	</div>
+	<div class="row">
+		<span class="pull-right">Tax: ${ taxPrice }</span>
+	</div>
+
+
+
 	</div>
 	<!-- Footer -->
 	<footer>
