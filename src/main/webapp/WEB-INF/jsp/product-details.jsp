@@ -126,6 +126,7 @@
 						<input type="hidden"  name="price" value="${product.price}"/>
 						<input type="hidden"  name="prodName" value="${product.productName}"/>
 						<input type="hidden" name="productTotalPrice" value="0"/>
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 						<div class="col-lg-3 col-md-3">
 							<input class="add-to-basket-btn"
 								id="${ product.id}" type="submit"
