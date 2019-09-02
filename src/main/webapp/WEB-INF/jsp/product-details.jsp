@@ -49,19 +49,17 @@
 	function validateData(){
 		
 			var id = $(this).attr('id');
-			var quantity = $("#quantity-input").val();
+			var quantity = $("#quantity").val();
+			
 		/* 	var imageUrl=document.getElementsByTagName("img")[0].src;
 			var price= parseInt($("#price")[0].innerHTML);
 			var productTotalPrice= parseInt(price)*parseInt(quantity);
 			var prodName= $("#prodName")[0].innerHTML; */
+			alert( $("#qty")[0].innerHTML);
 			if(quantity == '') {
-				$("#modal-body-msg").text('Please enter a quantity');
-				
 				return false;
 			}		
 			if(quantity > $("#qty")[0].innerHTML) {
-				$("#modal-body-msg").text('Please enter a valid quantity. ');
-				
 				return false;
 			}
 		
@@ -122,10 +120,9 @@
 						<input type="hidden" name="productTotalPrice" value="0"/>
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 						<div class="col-lg-3 col-md-3">
-							<input class="add-to-basket-btn"
+							<input 
 								id="${ product.id}" type="submit"
-								class="btn btn-primary btn-md" data-toggle="modal"
-								data-target="#success-modal" value="Add to basket" onclick="validateData()">
+								" value="Add to basket" onclick="validateData()">
 						</div>
 					</div>
 					<br />
