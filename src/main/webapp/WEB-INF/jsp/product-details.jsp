@@ -100,7 +100,7 @@
 
 		<hr>
 
-<form action="services/addToCart">
+<form action="services/addToCart" method="post">
 		<!-- page content  -->
 		<div class="row">
 			<!-- left category  -->

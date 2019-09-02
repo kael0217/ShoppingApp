@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,8 +61,11 @@ public class CartController {
 
 	// endpoints
 	
-	@RequestMapping("/addToCart")
-	public String addToCart(@ModelAttribute ShoppingCartEntry entry	, Model model) {
+	@PostMapping("/addToCart")
+	public String addToCart(@ModelAttribute ShoppingCartEntry entry	, BindingResult result,Model model) {
+		if(result.hasErrors()) {
+			System.out.println(result.getAllErrors());
+		}
 		entry.setProductTotalPrice(entry.getPrice()* entry.getQuantity());
 		System.out.println(SecurityContextHolder.getContext().getAuthentication().getCredentials());
 		System.out.println(userEntry.getUser());
