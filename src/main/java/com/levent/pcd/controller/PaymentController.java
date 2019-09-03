@@ -102,6 +102,7 @@ public class PaymentController {
 		email.setFromEmail("jahanvi.bansal@gmail.com");
 		email.setSubject("Order Status for order number: "+ order.getOrderId());
 		email.setTo("payal@rjtcompuquest.com");
+		
 		email.setTemplateName("email_template_checkout.ftl");
 		email.setTemplateTokens(templateTokens);
 

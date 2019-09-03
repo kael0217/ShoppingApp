@@ -3,7 +3,7 @@
 <head>
 <!-- If you delete this meta tag, Earth will fall into the sun. -->
 <meta name="viewport" content="width=device-width" />
-email_template_checkout
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title></title>
 	
