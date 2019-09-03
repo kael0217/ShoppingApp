@@ -66,7 +66,18 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2 -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-oauth2-client</artifactId>
+		</dependency>
+		<dependency>
+	        <groupId>org.springframework.security.oauth.boot</groupId>
+	        <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+	        <version>2.0.0.RELEASE</version>
+    	</dependency>
+				
+		
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>

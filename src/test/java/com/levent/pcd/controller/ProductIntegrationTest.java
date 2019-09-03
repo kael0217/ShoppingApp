@@ -45,15 +45,15 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 
 
-@TestConfiguration
-class MyConfig{
-	@Bean
-	public TestRestTemplate template() {
-		return new TestRestTemplate();
-	}
-}
+//@TestConfiguration
+//class MyConfig{
+//	@Bean
+//	public TestRestTemplate template() {
+//		return new TestRestTemplate();
+//	}
+//}
 
-@SpringBootTest
+@SpringBootTest(classes = ProductController.class)
 @WebAppConfiguration
 @ContextConfiguration
 @AutoConfigureMockMvc

@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" isELIgnored="false"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Login Fail</title>
+<title>Third Party Login</title>
 <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss" />
 <link href="${bootstrapCss}" rel="stylesheet">
 <spring:url value="/resources/css/4-col-portfolio.css" var="themeCSS" />
@@ -21,6 +20,8 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+
 <style>
 body {
 	padding-top: 50px;
@@ -62,17 +63,18 @@ h1 {
 	<!-- Nav-bar -->
 	<jsp:include page="navbar.jsp" />
 	<!-- /.Nav-bar -->
-	<div class="container">
-		<div class="form row">
-			<form action="/addUser" id="registerForm" method="post" class="form-horizontal">
 
-				<div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1 register">
-					<div class="row text-center">
-						<c:out value="${msg}"></c:out>
-					</div>
-				</div>
-			</form>
-		</div>
+	<div >
+		<a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
+			<div> Log in with Google</div>
+		</a>
+		<a className="btn btn-block social-btn facebook" href={FACEBOOK_AUTH_URL}>
+			<div> Log in with Facebook</div>
+		</a>
+		<a className="btn btn-block social-btn github" href={GITHUB_AUTH_URL}>
+			<div> Log in with Github</div>
+		</a>
 	</div>
+
 </body>
 </html>
