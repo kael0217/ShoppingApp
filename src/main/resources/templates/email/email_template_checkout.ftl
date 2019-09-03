@@ -318,18 +318,7 @@ ul.sidebar li a h1,ul.sidebar li a h2,ul.sidebar li a h3,ul.sidebar li a h4,ul.s
 							</li>
 						  </ul>
 					  </td>
-					  <td valign="top">											
-						<ul class="sidebar">
-							<li>
-								<a>
-									<h5>${ADDRESS_DELIVERY_TITLE} &raquo;</h5>
-									<p>
-										${ADDRESS_DELIVERY}
-									</p>
-								</a>
-							</li>
-						  </ul>
-					  </td>
+					  
 				</tr>
 			
 				</table>
