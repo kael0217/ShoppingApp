@@ -1,6 +1,7 @@
 package com.levent.pcd.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import com.levent.pcd.model.ShoppingCartEntry;
 import com.levent.pcd.model.ShoppingCartMap;
 import com.levent.pcd.model.UserEntry;
 import com.levent.pcd.model.UserInfo;
+import com.levent.pcd.model.Order.OrderStatus;
 import com.levent.pcd.repository.OrderRepository;
 import com.levent.pcd.service.PayPalClient;
 
@@ -47,7 +49,7 @@ public class PaymentController {
 	@GetMapping("/send_mail")
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
 	public String sendPaymentSuccessMail( @RequestParam String orderId) throws Exception {
-	
+		
 		Optional<Order> orderOptional=rep.findById(orderId);
 		if(!orderOptional.isPresent()) {
 			throw new RuntimeException("Error processing order with orderId: "+ orderId);
@@ -63,25 +65,25 @@ public class PaymentController {
 		templateTokens.put("EMAIL_ORDER_THANKS", "Thanks for taking our service!");
 		templateTokens.put("EMAIL_ORDER_DETAILS_TITLE", "Your order details:");
 		StringBuilder details= new StringBuilder();
-		if(order.getProductsPlaced().size()>0) {
-			details.append("Following items woruld be shipped at given address:/n");
+		if(order.getProductsPlaced()!= null && order.getProductsPlaced().size()>0) {
+			details.append("Following items woruld be shipped at given address:\n");
 		for(ShoppingCartEntry entry: order.getProductsPlaced()) {
 			
-			details.append("Product Name: "+entry.getProductName()+"/n");
-			details.append("Number of items : "+entry.getQuantity()+"/n");
-			details.append("Product Price: "+entry.getProductTotalPrice()+"/n");
+			details.append("Product Name: "+entry.getProductName()+"\n");
+			details.append("Number of items : "+entry.getQuantity()+"\n");
+			details.append("Product Price: "+entry.getProductTotalPrice()+"\n");
 			
 		}
 		}
 		
 		
-		if(order.getProductsCancelled().size()>0) {
-			details.append("Following items were cancelled due to non-availability /n");
+		if(order.getProductsCancelled()!= null && order.getProductsCancelled().size()>0) {
+			details.append("Following items were cancelled due to non-availability \n");
 			for(ShoppingCartEntry entry: order.getProductsCancelled()) {
 				
-				details.append("Product Name: "+entry.getProductName()+"/n");
-				details.append("Number of items : "+entry.getQuantity()+"/n");
-				details.append("Product Price: "+entry.getProductTotalPrice()+"/n");
+				details.append("Product Name: "+entry.getProductName()+"\n");
+				details.append("Number of items : "+entry.getQuantity()+"\n");
+				details.append("Product Price: "+entry.getProductTotalPrice()+"\n");
 				
 			}
 		}
@@ -99,7 +101,7 @@ public class PaymentController {
 		email.setFrom("Shopper's club");
 		email.setFromEmail("jahanvi.bansal@gmail.com");
 		email.setSubject("Order Status for order number: "+ order.getOrderId());
-		email.setTo(user.getEmail()+",payal@rjtcompuquest.com");
+		email.setTo("payal@rjtcompuquest.com");
 		email.setTemplateName("email_template_checkout.ftl");
 		email.setTemplateTokens(templateTokens);
 
@@ -119,7 +121,7 @@ public class PaymentController {
 	@GetMapping("/complete_payment")
 	public String completePayment( @RequestParam("paymentId") String paymentId,
 			@RequestParam("PayerID") String payerId , @RequestParam("sum") String sum,@RequestParam String orderId, HttpSession session) {
-		String result= payPalClient.completePayment(paymentId, payerId, sum, orderId);
+		String result= payPalClient.completePayment(paymentId, payerId, sum, orderId, entry.getUser().getUsername());
 		session.setAttribute("shoppingCartMap", shoppingCartMap);
 		return result;
 	}

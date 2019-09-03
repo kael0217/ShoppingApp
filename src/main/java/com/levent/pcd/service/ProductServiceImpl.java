@@ -113,7 +113,7 @@ public class ProductServiceImpl implements ProductService {
 		
 		
 		 Order o=  rep.insert(Order.builder().date(LocalDateTime.now()).productsPlaced(orderPlaced).productsCancelled(orderCancelled).amountDeducted(sum).status(OrderStatus.ORDER_INITIATED).username(username).build());
-		   
+		   System.out.println(o);
 		return o;
 	}
 

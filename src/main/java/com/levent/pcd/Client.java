@@ -33,7 +33,7 @@ public class Client  implements WebMvcConfigurer, RepositoryRestConfigurer {
 	
 
 	public static void main(String[] args) throws Exception {
-		ApplicationContext ctx=SpringApplication.run(Client.class, args);
+		SpringApplication.run(Client.class, args);
 		
 	}
 

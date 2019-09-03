@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -53,7 +54,8 @@ import com.paypal.base.rest.PayPalRESTException;
 	        payment.setIntent("sale");
 	        payment.setPayer(payer);
 	        payment.setTransactions(transactions);
-	        Order o=rep.save(Order.builder().orderId(order.getOrderId()).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_INITIATED).build());
+	        Order o=rep.save(Order.builder().orderId(order.getOrderId()).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_INITIATED).amountDeducted(order.getAmountDeducted()).productsCancelled(order.getProductsCancelled()).productsPlaced(order.getProductsPlaced()).username(username).build());
+	        System.out.println(o);
 	        RedirectUrls redirectUrls = new RedirectUrls();
 	        redirectUrls.setCancelUrl(path+"/send_mail?orderId="+ o.getOrderId());
 	        redirectUrls.setReturnUrl(path+"/payment_start?sum="+o.getAmountDeducted()+"&orderId="+order.getOrderId());
@@ -78,15 +80,21 @@ import com.paypal.base.rest.PayPalRESTException;
 	                
 	            }
 	        } catch (PayPalRESTException e) {
-	        	 rep.save(Order.builder().orderId(o.getOrderId()).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_FAILED).build());
-	            return "redirect:/send_mail?orderId="+ o.getOrderId();
+	        	 Order o1=rep.save(Order.builder().orderId(order.getOrderId()).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_FAILED).amountDeducted(order.getAmountDeducted()).productsCancelled(order.getProductsCancelled()).productsPlaced(order.getProductsPlaced()).username(username).build());
+	            System.out.println(o1);
+	        	return "redirect:/send_mail?orderId="+ o.getOrderId();
 	        }
 	             
 	        return "redirect:"+redirectUrl;
 	    }
 
 
-	    public String completePayment(String paymentId, String payerId, String sum, String orderId){
+	    public String completePayment(String paymentId, String payerId, String sum, String orderId, String username){
+	    	Optional<Order> optionalOrder= rep.findById(orderId);
+	    	if(!optionalOrder.isPresent()) {
+	    		throw new RuntimeException("Error processing order with orderId:"+ orderId);
+	    	}
+	    	Order order= optionalOrder.get();
 	        Map<String, Object> response = new HashMap<>();
 	        Payment payment = new Payment();
 	        payment.setId(paymentId);
@@ -100,11 +108,12 @@ import com.paypal.base.rest.PayPalRESTException;
 	                response.put("payment", createdPayment);
 	            }
 	        } catch (PayPalRESTException e) {
-	        	 rep.save(Order.builder().orderId(orderId).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_FAILED).build());
+	        	 Order o=rep.save(Order.builder().orderId(order.getOrderId()).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_FAILED).amountDeducted(order.getAmountDeducted()).productsCancelled(order.getProductsCancelled()).productsPlaced(order.getProductsPlaced()).username(username).build());
+	 	        System.out.println(o);
 	            return "redirect:/send_mail?orderId="+ orderId;
 	        }
-	        rep.save(Order.builder().orderId(orderId).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_SUCCESS).build());
-	        
+	        Order o=rep.save(Order.builder().orderId(order.getOrderId()).date(LocalDateTime.now()).status(OrderStatus.PAYMENT_SUCCESS).amountDeducted(order.getAmountDeducted()).productsCancelled(order.getProductsCancelled()).productsPlaced(order.getProductsPlaced()).username(username).build());
+	        System.out.println(o);
 	        
 	        return "redirect:/send_mail?orderId="+ orderId;
 	    }
