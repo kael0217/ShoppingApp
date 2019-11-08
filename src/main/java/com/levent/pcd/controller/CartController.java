@@ -72,7 +72,15 @@ public class CartController {
 		System.out.println(userEntry.getUser());
 		int quantityAvailable=productService.findById(entry.getId()).getInStore();
 		int required= entry.getQuantity();
-		if(quantityAvailable>=required) {
+
+	    int inCart=0;
+	    for(String id : shoppingCartMap.getCartItems().keySet() ) {
+	    	if(shoppingCartMap.getCartItems()!=null && shoppingCartMap.getCartItems().get(id)!=null) {
+	    		inCart=shoppingCartMap.getCartItems().get(id).getQuantity();
+	    	}
+	    }
+		
+		if(quantityAvailable>=required +inCart) {
 			shoppingCartMap.addItem(entry.getId(), entry);
 			model.addAttribute("message", "Product added to cart!");
 		}
