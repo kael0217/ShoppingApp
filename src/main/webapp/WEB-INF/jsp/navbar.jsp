@@ -28,7 +28,7 @@ import="com.levent.pcd.model.UserEntry"%>
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -38,7 +38,7 @@ import="com.levent.pcd.model.UserEntry"%>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             
-                <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav collapse navbar-collapse bs-example-navbar-collapse-1">
                     <li>
                         <a href="${productListPageURL}">Product List</a>
                     </li>
@@ -46,57 +46,50 @@ import="com.levent.pcd.model.UserEntry"%>
                     <li>
                         <a href="${shoppingCartPageURL}">Shopping Cart</a>
                     </li>
-                    <li><c:if test="${sessionScope.userRole=='admin'}">
-                    	<a href="${addProductPageURL}">Add Product</a> 
-                    </c:if></li>
-                </ul>
-                
-                <!-- search -->
-		    
-			        <form id="search-field-form" class="navbar-form navbar-left" role="search" action="<c:url value="products" />" method="GET">
-				        <div class="input-group">
-				        	<input id="search-field" type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-				            <div class="input-group-btn">
-			                	<button id="search-field-btn" class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i>
-			                	</button>
-				            </div>
-				        </div>
-			        </form>
-		      
-		        <!-- search close-->
-  
-             <div  id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav">
-            
+                    <li>
+                    	<c:if test="${sessionScope.userRole=='admin'}">
+                    		<a href="${addProductPageURL}">Add Product</a> 
+                    	</c:if>
+                    </li>
+            </ul>
+            <ul class="nav navbar-nav collapse navbar-collapse navbar-right bs-example-navbar-collapse-1">
 				<c:if test="${pageContext.request.userPrincipal.name != null}">
-
 					<!-- <div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right" " role="group" aria-label="Basic example">		 -->				
-						<li>
-
-							<button class="btn btn-link border-secondary">
-							
-								<c:out value="Welcome! Dear ${sessionScope.userEntry.getUser().getNickname()}" />
-								
-							</button>
-							<button class="btn btn-default border-secondary" onclick="javascript:location.href='/logout'">Logout</button>						
-					<!-- </div> --></li>
+					<li>
+						<a href="/history">History</a>
+					</li>
+					<li>
+						<a>
+							<c:out value="Welcome! ${sessionScope.userEntry.getUser().getNickname()}" />	
+						</a>
+					</li>
+					<li>
+						<a href="/logout">Logout</a>						<!-- </div> -->
+					</li>
 				</c:if>
 				<c:if test="${pageContext.request.userPrincipal.name == null}">
 					<!-- <div class="col-sm-3 col-rg-2 form-inline btn-group border pull-right" role="group" aria-label="Basic example"> -->
 					<li>
-					<c:if test="${pageContext.request.userPrincipal.name == null}">
-						<button class="btn btn-default border-secondary" onclick="javascript:location.href='/login'">Login</button>
-						</c:if>
-						<c:if test="${pageContext.request.userPrincipal.name == null}">
-						<button class="btn btn-default border-secondary" onclick="javascript:location.href='/register'">Register</button>
-						</c:if>
+						<a href="/login">Login</a>
+					</li>
+					<li>
+						<a href="/register">Register</a>
 					</li><!-- </div> -->
 				</c:if>
 			</ul>
 			<!-- Login/Register Close-->
-		</div>
+			<!-- search -->
+			<form id="search-field-form" class="navbar-form navbar-right" role="search" action="<c:url value="products" />" method="GET">
+				<div class="input-group">
+				    <input id="search-field" type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+				    <div class="input-group-btn">
+			            <button id="search-field-btn" class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+				    </div>
+				</div>
+			</form>
+		    <!-- search close-->
         <!-- /.container -->
-</div>
-    </nav>
+		</div>
+   	</nav>
 </body>
 </html>
