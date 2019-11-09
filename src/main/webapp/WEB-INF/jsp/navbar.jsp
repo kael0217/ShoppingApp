@@ -14,6 +14,8 @@ import="com.levent.pcd.model.UserEntry"%>
 	<spring:url value="/shopping-cart" var="shoppingCartPageURL" />	
 	<spring:url value="/resources/images" var="images" />	
     <spring:url value="/resources/css/bootstrap.min.css" var="bootstrapCss" />
+    <spring:url value="/addproduct" var="addProductPageURL" />	
+    
     <link href="${bootstrapCss}" rel="stylesheet">
     <spring:url value="/resources/css/4-col-portfolio.css" var="themeCSS" />
     <link href="${themeCSS}" rel="stylesheet">
@@ -44,6 +46,9 @@ import="com.levent.pcd.model.UserEntry"%>
                     <li>
                         <a href="${shoppingCartPageURL}">Shopping Cart</a>
                     </li>
+                    <li><c:if test="${sessionScope.userRole=='admin'}">
+                    	<a href="${addProductPageURL}">Add Product</a> 
+                    </c:if></li>
                 </ul>
                 
                 <!-- search -->

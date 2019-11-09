@@ -83,7 +83,15 @@ public class ProductServiceImpl implements ProductService {
 	public Product findById(String id) {
 		return productRepository.findById(id).orElse(new Product());
 	}
-
+	@Override
+	public void updateProduct(Product product) {
+		productRepository.updateProduct(product);
+		
+	}
+	@Override
+	public void deleteProduct(String id) {
+		productRepository.deleteById(id);
+	}
 	@Override
 	public Order updateProductsRemained(String username) {
 	double sum=0;

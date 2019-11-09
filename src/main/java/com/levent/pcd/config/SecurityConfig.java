@@ -147,17 +147,26 @@ class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessH
     public static final String RETURN_TYPE = "html"; 
 	@Autowired	UserEntry userEntry;
 	@Autowired  UserInfoRepository rep;
-	
+	@Autowired  UserAuthRepository rep2;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         
         userEntry.setUser(rep.findByUsername(authentication.getName()));
+        
         userEntry.isLogin = true;
 //        System.out.println("Success");
 //        System.out.println(userEntry.getUser());
 //        System.out.println(userEntry.getUser().getNickname());
 //        System.out.println(userEntry);
         request.getSession(false).setAttribute("userEntry", userEntry);   
+        if(rep2.findByUsername(authentication.getName()).getUserRoles().size()>1) {
+        	request.getSession(false).setAttribute("userRole", "admin");  
+   
+        }else {
+    
+        	request.getSession(false).setAttribute("userRole", "user");
+        	
+        }
         super.setDefaultTargetUrl("/");
         super.onAuthenticationSuccess(request, response, authentication);
   
