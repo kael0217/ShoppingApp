@@ -26,7 +26,7 @@ import com.mongodb.MongoClient;
 @SpringBootApplication
 @Configuration
 @EnableCaching
-@EnableTransactionManagement
+@EnableTransactionManagement(proxyTargetClass= false)//jdk proxy: interfaces
 @EnableMongoRepositories(basePackages="com.levent.pcd.repository")
 @Import(SecurityConfig.class)
 public class Client  implements WebMvcConfigurer, RepositoryRestConfigurer {
