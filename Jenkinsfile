@@ -5,6 +5,7 @@ pipeline {
       // Install the Maven version configured as "M3" and add it to the path.
       maven "maven"
       jdk "java8"
+    
    }
    
    triggers {
@@ -59,14 +60,16 @@ pipeline {
            jacoco execPattern: 'target/**.exec', sourceExclusionPattern: '**/src/test/java'
           }
       }
-      
-      stage('quality check'){
+    
+   stage('SonarCloud'){
+     
           steps{
+              
+         
               sh "mvn -DskipTests sonar:sonar -Dsonar.projectKey=${params.projectKey} -Dsonar.organization=${params.organization} -Dsonar.host.url=${params.url} -Dsonar.login=${params.login}" 
           
-       timeout(time: 10, unit: 'MINUTES') {
-            waitForQualityGate abortPipeline: true
-        }
+     
+                
     }
               
           
@@ -82,6 +85,9 @@ pipeline {
       
          
       }
+
+  
+    
     
     
    }
