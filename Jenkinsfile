@@ -45,15 +45,16 @@ pipeline {
       }
       stage('cleanup'){
         
+         steps{
             deleteDir()
-            
+         
             step([$class: 'Mailer',
                 notifyEveryUnstableBuild: true,
                 recipients: "payal@rjtcompuquest.com",
                 sendToIndividuals: true])
         }
       
-      
+      }
     
    }
    
