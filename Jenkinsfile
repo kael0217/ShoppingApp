@@ -10,7 +10,22 @@ pipeline {
    triggers {
        pollSCM('* * * * *')
    }
-
+   parameters{ 
+      string(defaultValue: "B11", 
+             description: 'Enter the branch name to be used for this build:', name: 'BRANCH_NAME')
+     string(defaultValue: "payalbnsl_ShoppingApp", 
+             description: 'Enter the projectKey for sonar analysis:', name: 'projectKey')
+      string(defaultValue: "payalbnsl-github", 
+             description: 'Enter the projectKey for sonar analysis:', name: 'organization')
+     string(defaultValue: "https://sonarcloud.io", 
+             description: 'Enter the url for sonar analysis:', name: 'url')
+     string(defaultValue: "879e860cbdec39587da8e729bf50dd823518dfcf", 
+             description: 'Enter the login for sonar analysis:', name: 'login')
+      
+   }
+     options { 
+         buildDiscarder(logRotator(numToKeepStr: '2')) 
+    }
    stages {
        
        stage('git checkout'){
