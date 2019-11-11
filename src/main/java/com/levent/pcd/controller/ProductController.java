@@ -7,13 +7,19 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.trace.http.HttpTrace.Principal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.levent.pcd.model.Product;
+import com.levent.pcd.model.ShoppingCartEntry;
 import com.levent.pcd.model.ShoppingCartMap;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
@@ -89,6 +95,24 @@ public class ProductController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/product-update-{id}")
+	public ModelAndView updateProductById(@PathVariable("id") String id) {
+		
+		Product product = productService.findById(id);
+		
+		ModelAndView model = new ModelAndView("product-update");
+		model.addObject("product", product);
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/product-delete-{id}")
+	public String deleteProductById(@PathVariable("id") String id) {
+		
+		productService.deleteProduct(id);		
+		return "redirect:/products";
+	}
+	
 	@RequestMapping(value = "/shopping-cart")
 	public ModelAndView shoppingCart(HttpSession session) {
 		ModelAndView model = new ModelAndView("shopping-cart");
@@ -102,6 +126,18 @@ public class ProductController {
 		ModelAndView model = new ModelAndView("/addproduct");
 		return model;
 	}
+	
+	@PostMapping("/updateProduct")
+	public String updateProduct(@ModelAttribute Product product	, BindingResult result,Model model, HttpSession session) {
+		System.out.println("update product");
+		if(result.hasErrors()) {
+			System.out.println(result.getAllErrors());
+		}
+		productService.updateProduct(product);
+		return "redirect:/products";
+	}
+	
+	
 	
 	@RequestMapping("/register")
 	public ModelAndView addRegisterView(Principal principal) {

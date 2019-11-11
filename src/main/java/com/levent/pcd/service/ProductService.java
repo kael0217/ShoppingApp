@@ -26,6 +26,10 @@ public interface ProductService {
 
 	public Product findById(String id);
 	void addProduct(Product product);
+	
+	public void updateProduct(Product product);
+	public void deleteProduct(String id);
+	
 	public Order updateProductsRemained( String username);
 	
 	

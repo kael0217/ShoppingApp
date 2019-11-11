@@ -5,12 +5,28 @@ pipeline {
       // Install the Maven version configured as "M3" and add it to the path.
       maven "maven"
       jdk "java8"
+    
    }
    
    triggers {
        pollSCM('* * * * *')
    }
-
+   parameters{ 
+      string(defaultValue: "B11", 
+             description: 'Enter the branch name to be used for this build:', name: 'BRANCH_NAME')
+     string(defaultValue: "payalbnsl_ShoppingApp", 
+             description: 'Enter the projectKey for sonar analysis:', name: 'projectKey')
+      string(defaultValue: "payalbnsl-github", 
+             description: 'Enter the projectKey for sonar analysis:', name: 'organization')
+     string(defaultValue: "https://sonarcloud.io", 
+             description: 'Enter the url for sonar analysis:', name: 'url')
+     string(defaultValue: "879e860cbdec39587da8e729bf50dd823518dfcf", 
+             description: 'Enter the login for sonar analysis:', name: 'login')
+      
+   }
+     options { 
+         buildDiscarder(logRotator(numToKeepStr: '2')) 
+    }
    stages {
        
        stage('git checkout'){
@@ -44,14 +60,16 @@ pipeline {
            jacoco execPattern: 'target/**.exec', sourceExclusionPattern: '**/src/test/java'
           }
       }
-      
-      stage('quality check'){
+    
+   stage('SonarCloud'){
+     
           steps{
+              
+         
               sh "mvn -DskipTests sonar:sonar -Dsonar.projectKey=${params.projectKey} -Dsonar.organization=${params.organization} -Dsonar.host.url=${params.url} -Dsonar.login=${params.login}" 
           
-       timeout(time: 10, unit: 'MINUTES') {
-            waitForQualityGate abortPipeline: true
-        }
+     
+                
     }
               
           
@@ -67,6 +85,9 @@ pipeline {
       
          
       }
+
+  
+    
     
     
    }

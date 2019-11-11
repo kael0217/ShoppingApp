@@ -31,6 +31,11 @@
     src: url('${file1}');
     src: url('${file1}?#iefix') format('embedded-opentype'), url('${file4}') format('woff'), url('${file3}') format('truetype'), url('${file2}#glyphicons_halflingsregular') format('svg');
 	}
+	.adminEdit {
+	  display: flex;
+    justify-content: space-around;
+	}
+	
     </style>
     
 	<spring:url value="/resources/js/jquery-3.1.0.min.js" var="resourceJquery" />
@@ -82,6 +87,13 @@ ${message}
 				                    <img class="img-responsive" src="${listValue.getImageUrl()}" alt="" width="250px;" height="250px;">
 				                </a>
     							<p >${listValue.getProductName()}</p>
+    							<c:if test="${sessionScope.userRole=='admin'}">
+    								<p class="adminEdit">
+                    				<a href="<c:url value='product-update-${listValue.id}' />">Update Product</a> 
+                    				<a href="<c:url value='product-delete-${listValue.id}' />">Delete Product</a> 
+                    				</p>
+                    			</c:if>
+    							
 				            </div>
 				            <c:set var="divCount" value="${divCount + 1}" />
 				            <c:if test="${divCount % 2 == 0}">
