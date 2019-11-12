@@ -42,11 +42,10 @@ public class ProductController {
 
 	
 	@RequestMapping(value = "/products")
-	public ModelAndView listProducts(@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="100") int limit) {
+	public ModelAndView listProducts(@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="6") int limit) {
 		
 		List<String> categories = categoryService.findAll();
 		List<Product> products = productService.findAll(page, limit);
-		
 		ModelAndView model = new ModelAndView("products");
 		model.addObject("page", page);
 		model.addObject("productList", products);
