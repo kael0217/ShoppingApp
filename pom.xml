@@ -12,21 +12,11 @@
 		<version>2.1.6.RELEASE</version>
 	</parent>
 	<properties>
-		<!-- Sonar -->
-		<!-- Tell sonar where to look for the binaries coverage files. Property 
-			inherited by submodules -->
-		<!-- <sonar.junit.reportPaths>${project.build.directory}/surefire-reports</sonar.junit.reportPaths> 
-			<sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath> 
-			<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths> 
-			Integration tests <sonar.jacoco.itReportPath>${project.build.directory}/jacoco-it.exec</sonar.jacoco.itReportPath> 
-			<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin> <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin> 
-			<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis> -->
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<spring-cloud-version>2.1.2.RELEASE</spring-cloud-version>
 		<aws-s3-version>1.11.615</aws-s3-version>
 		<aws-sdk-sts-version>1.11.616</aws-sdk-sts-version>
-		<!-- <spring-security-web-version>5.1.6.RELEASE</spring-security-web-version> -->
 	</properties>
 
 	<dependencies>
@@ -213,7 +203,7 @@
 	</dependencies>
 	<profiles>
 		<profile>
-			<id>quality_control</id>
+			<id>quality_control</id> 
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -380,5 +370,61 @@
 	</profiles>
 	<build>
 		<finalName>ProductCatalogDemo</finalName>
+		<plugins>
+		<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.21.0</version>
+				<configuration>
+					<dockerHost>tcp://192.168.99.101:2376</dockerHost>
+					<verbose>true</verbose>
+					<extensions>true</extensions>
+					<!-- Needed if pushing to docker hub : must store these in local env -->
+					<!-- Moved this in settings.xml inside .m2 folder -->
+					<!-- <authConfig> <username>username</username> <password>password</password> 
+						</authConfig> -->
+					<images>
+						<image>
+							<!-- name of the image -->
+							<name>payalbnsl/product-catalog-demo</name>
+							<build>
+								<!-- docker runs as daemon. CMD shud send all info to docker. Docker 
+									looks in this folder and sub-folder to build -->
+								<dockerFileDir>${project.basedir}/src/main/resources/</dockerFileDir>
+								<!-- copies artifact to docker build dir in target -->
+								<assembly>
+									<descriptorRef>artifact</descriptorRef>
+								</assembly>
+								<tags>
+									<tag>latest</tag>
+								</tags>
+
+							</build>
+						</image>
+					</images>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>mydeploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>
