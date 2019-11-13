@@ -52,7 +52,35 @@
 ${message}
     <!-- Page Content -->
     <div class="container">
-
+    
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>History Order:</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+				<c:if test="${not empty productList}">
+					<div class="row">
+					    <c:forEach items="${productList}" var="listValue" begin="0" end="5">
+			                <div class="col-md-2 col-sm-4 col-xs-12 portfolio-item">
+			                    <a href="<c:url value='product-details-${listValue.id}' />">
+			                        <img class="img-responsive" src="${listValue.getImageUrl()}" alt="" width="250px;" height="250px;">
+			                    </a>
+                                <p>${listValue.getProductName()}</p>
+                                <c:if test="${sessionScope.userRole=='admin'}">
+                                    <p class="adminEdit">
+                                        <a href="<c:url value='product-update-${listValue.id}' />">Update Product</a> 
+                                        <a href="<c:url value='product-delete-${listValue.id}' />">Delete Product</a> 
+                                    </p>
+                                </c:if>
+				            </div>
+				        </c:forEach>
+				    </div>
+				</c:if>
+			</div>
+        </div>
+    
         <!-- Page Heading -->
         <div class="row">
             <div class="col-lg-12">
