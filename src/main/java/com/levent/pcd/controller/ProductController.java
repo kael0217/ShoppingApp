@@ -123,15 +123,18 @@ public class ProductController {
 	public ModelAndView shoppingCart(HttpSession session,HttpServletRequest request, 
 			HttpServletResponse response) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("shopping-cart");
-		
+		synchronized (shoppingCartMap) {
 		for(ShoppingCartEntry entry:shoppingCartMap.getCartItems().values()) {
 			Product product=productService.findById(entry.getId());
 			if(entry.getPrice()/entry.getQuantity()!=product.getPrice()) {
-				entry.setPrice(product.getPrice()*entry.getQuantity());
+				entry.setPrice(product.getPrice());
+				entry.setProductTotalPrice(product.getPrice()*entry.getQuantity());
 				shoppingCartMap.removeItem(entry.getId());
 				shoppingCartMap.addItem(entry.getId(), entry);
+				
 			}
 		}	
+		}
 		model.addObject("shoppingCartMap", shoppingCartMap);
 		session.setAttribute("shoppingCartMap", shoppingCartMap);
 		
