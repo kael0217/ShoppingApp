@@ -1,14 +1,17 @@
 package com.levent.pcd.controller;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.levent.pcd.service.AWSS3Helper;
@@ -27,6 +30,11 @@ public class S3Controller {
 //		binder.setDisallowedFields("file");
 //	}
 
+	/*@PostMapping(consumes= MediaType.MULTIPART_FORM_DATA_VALUE)
+	public String uploadImageToS3(File file) {
+		
+	}
+	*/
 	@GetMapping("/getImageByKey/{fileName}")
 	public String getImageByKey(@PathVariable String fileName) throws FileNotFoundException, IOException {
 		System.out.println(awshelper.getFileUrlByName(fileName));

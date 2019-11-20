@@ -52,7 +52,35 @@
 ${message}
     <!-- Page Content -->
     <div class="container">
-
+    
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>History Order:</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+				<c:if test="${not empty productList}">
+					<div class="row">
+					    <c:forEach items="${productList}" var="listValue" begin="0" end="5">
+			                <div class="col-md-2 col-sm-4 col-xs-12 portfolio-item">
+			                    <a href="<c:url value='product-details-${listValue.id}' />">
+			                        <img class="img-responsive" src="${listValue.getImageUrl()}" alt="" width="250px;" height="250px;">
+			                    </a>
+                                <p>${listValue.getProductName()}</p>
+                                <c:if test="${sessionScope.userRole=='admin'}">
+                                    <p class="adminEdit">
+                                        <a href="<c:url value='product-update-${listValue.id}' />">Update Product</a> 
+                                        <a href="<c:url value='product-delete-${listValue.id}' />">Delete Product</a> 
+                                    </p>
+                                </c:if>
+				            </div>
+				        </c:forEach>
+				    </div>
+				</c:if>
+			</div>
+        </div>
+    
         <!-- Page Heading -->
         <div class="row">
             <div class="col-lg-12">
@@ -70,10 +98,19 @@ ${message}
 	                <p class="lead">Top Categories</p>
 	                <div id="category-options" class="list-group">
 						<c:if test="${not empty categoryList}">
-							<c:forEach var="listValue" items="${categoryList}">
-								<a href="<c:url value='products-by-category-${listValue}' />" class="list-group-item category-select-option" data-category-name="${listValue}">${listValue}</a>
+							<c:forEach items="${categoryList}" var="list" begin="0" end="9">
+								<a href="<c:url value='products-by-category-${list}' />" class="list-group-item category-select-option" data-category-name="${list}">${list}</a>
 							</c:forEach>
+      						<h4 class="list-group-item panel-title">
+        						<a data-toggle="collapse" href="#collap" aria-haspopup="true" aria-expanded="false">display all</a>
+      						</h4>
+    						<div id="collap" class="panel-collapse collapse">
+    							<c:forEach items="${categoryList}" var="list" begin="10" >
+									<a href="<c:url value='products-by-category-${list}' />" class="list-group-item category-select-option" data-category-name="${list}">${list}</a>
+								</c:forEach>
+    						</div>
 						</c:if>
+						
 	                </div>
 	            </div>
 				
@@ -96,30 +133,31 @@ ${message}
     							
 				            </div>
 				            <c:set var="divCount" value="${divCount + 1}" />
-				            <c:if test="${divCount % 2 == 0}">
-		            		</div>		            	
-		            		<div class="row">
+				            <c:if test="${divCount % 3 == 0}">
+		            	</div>		            	
+		            	<div class="row">
 				            </c:if>
 						</c:forEach>
 					<div class="col-md-4 col-md-offset-3">
 						<nav aria-label="Page navigation example">
 							<ul class="pagination">
 							<c:if test="${page>0 }">
-								<li class="page-item"><a class="page-link" href="./products?page=${page-1}&limit=100"
+								<li class="page-item">
+									<a class="page-link" href="./products?page=${page-1}&limit=6"
 									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 										<span class="sr-only">Previous</span>
 								</a></li>
 								</c:if>
 														
-								<li class="page-item"><a   class="page-link" href="#">${page+1}</a></li>
-								<c:if test="${productList.size()==100}">
-								<li class="page-item"><a class="page-link" href="./products?page=${page+1 }&limit=100"
+								<li class="page-item"><a class="page-link" href="#">${page+1}</a></li>
+								<c:if test="${productList.size()==6}">
+								<li class="page-item">
+									<a class="page-link" href="./products?page=${page+1 }&limit=6"
 									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 										<span class="sr-only">Next</span>
 								</a></li>
 								</c:if>
 							</ul>
-
 						</nav>
 					</div>
 				</div>

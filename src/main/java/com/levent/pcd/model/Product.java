@@ -23,7 +23,7 @@ public class Product {
 	
 	@Id private String id;
 
-	@Version
+	@Version//good
 	private int version;
 	private List<Category> category;
 	private String type;
