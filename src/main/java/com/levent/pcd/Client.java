@@ -36,11 +36,12 @@ public class Client  implements WebMvcConfigurer, RepositoryRestConfigurer {
 		SpringApplication.run(Client.class, args);
 		
 	}
-
+	@Override
 	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
 		config.setRepositoryDetectionStrategy(RepositoryDetectionStrategies.ANNOTATED);
 		
 	}
+	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addRedirectViewController("/", "/products");
 		registry.addViewController("/payment").setViewName("payment");

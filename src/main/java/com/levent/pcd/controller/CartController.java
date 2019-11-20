@@ -72,22 +72,24 @@ public class CartController {
 		System.out.println(userEntry.getUser());
 		int quantityAvailable=productService.findById(entry.getId()).getInStore();
 		int required= entry.getQuantity();
-
-	    int inCart=0;
-	    for(String id : shoppingCartMap.getCartItems().keySet() ) {
-	    	if(shoppingCartMap.getCartItems()!=null && shoppingCartMap.getCartItems().get(id)!=null) {
-	    		inCart=shoppingCartMap.getCartItems().get(id).getQuantity();
-	    	}
-	    }
 		
-		if(quantityAvailable>=required +inCart) {
-			shoppingCartMap.addItem(entry.getId(), entry);
+	    if(!shoppingCartMap.getCartItems().containsKey(entry.getId())) {
+	    	shoppingCartMap.addItem(entry.getId(), entry);
 			model.addAttribute("message", "Product added to cart!");
-		}
-		else {
-			model.addAttribute("message", "Currently the number of items for this product in repository is only "+ quantityAvailable);
-			
-		}
+	    }else {
+	    	int inCart=shoppingCartMap.getCartItems().get(entry.getId()).getQuantity();
+	    	if(quantityAvailable>=required +inCart) {
+    			shoppingCartMap.addItem(entry.getId(), entry);
+    			model.addAttribute("message", "Product added to cart!");
+    		}
+    		else {
+    			model.addAttribute("message", "Currently the number of items for this product in repository is only "+ quantityAvailable);
+    			
+    		}
+	    }
+	   
+		
+		
 		session.setAttribute("shoppingCartMap", shoppingCartMap);
 		return "redirect:/products";
 	}

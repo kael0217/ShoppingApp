@@ -67,6 +67,12 @@ script
 		format('woff'), url('${file3}') format('truetype'),
 		url('${file2}#glyphicons_halflingsregular') format('svg');
 }
+
+#change{
+font:bold;
+font-style:italic;
+padding-bottom:10px;
+}
 </style>
 
 <spring:url value="/resources/js/jquery-3.1.0.min.js"
@@ -98,8 +104,14 @@ script
 		</div>
 		<!-- /.row -->
 
+<c:if test="${not empty sessionScope.priceChange}">
+<c:forEach items="${sessionScope.priceChange}" var="priceChangedProduct" > 
 
-
+<div id="change">
+Price of ${priceChangedProduct.key} changed from ${priceChangedProduct.value}. 
+</div>
+</c:forEach>
+</c:if>
 		<div>
 
 			<div class="row">
