@@ -12,7 +12,7 @@ public class TestPriceUtilities {
 		double value = 5.98321;
 		
 		String output = PriceUtilities.roundToTwoDecimalPlaces(value);
-		assertEquals(output, "5.98");
+		assertEquals("5.98",output);
 	}
 	
 	@Test
@@ -20,7 +20,7 @@ public class TestPriceUtilities {
 		double value = 5.91234;
 		
 		String output = PriceUtilities.roundToTwoDecimalPlaces(value);
-		assertEquals(output, "5.91");
+		assertEquals("5.91",output);
 	}
 
 }

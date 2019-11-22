@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -150,9 +151,10 @@ public class ProductController {
 			
 				if(itemOriginal.size()>0) {
 					Map<String, String> priceChangeMap=new HashMap<>();
-					for(String id: itemOriginal.keySet()) {
-						if(shoppingCartMap.getCartItems().containsKey(id) && itemOriginal.get(id)!=shoppingCartMap.getCartItems().get(id).getPrice()) {
-							priceChangeMap.put(shoppingCartMap.getCartItems().get(id).getProductName(), itemOriginal.get(id)+" to "+shoppingCartMap.getCartItems().get(id).getPrice());				
+					for(Entry<String, Double> entry : itemOriginal.entrySet()) {
+					//for(EntString id: itemOriginal.keySet()) {
+						if(shoppingCartMap.getCartItems().containsKey(entry.getKey()) && entry.getValue()!=shoppingCartMap.getCartItems().get(entry.getKey()).getPrice()) {
+							priceChangeMap.put(shoppingCartMap.getCartItems().get(entry.getKey()).getProductName(), itemOriginal.get(entry.getKey())+" to "+shoppingCartMap.getCartItems().get(entry.getKey()).getPrice());				
 						}			
 					}
 					if(priceChangeMap.size()>0) {
@@ -165,10 +167,6 @@ public class ProductController {
 			
 			}
 		}
-        
-
-		
-		
 		
 		
 		return model;
@@ -203,9 +201,8 @@ public class ProductController {
 	
 	@RequestMapping("/login-forward")
 	public ModelAndView addLoginForwardView(HttpServletRequest request,Principal principal) {
-		if (request.getHeader("Referer")==null||(principal.getName() != null || !request.getHeader("Referer").contains("login"))) {
-			ModelAndView model = new ModelAndView("redirect:/products");
-			return model;
+		if (request.getHeader("Referer")==null||(principal.getName() != null || !request.getHeader("Referer").contains("login"))) {	
+			return new ModelAndView("redirect:/products");
 		}
 		ModelAndView model = new ModelAndView("/login-forward");
 		model.addObject("msg","No username or wrong password, try again or register");

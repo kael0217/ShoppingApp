@@ -125,7 +125,7 @@
 					<div class="row">
 						<table class="table">
 							<thead>
-								<td>Product Details</td>
+								<tr><th scope="col">Product Details</th></tr>
 							</thead>
 							<tbody>
 							
