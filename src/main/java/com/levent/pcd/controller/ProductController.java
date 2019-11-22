@@ -17,16 +17,21 @@ import org.springframework.boot.actuate.trace.http.HttpTrace.Principal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartEntry;
 import com.levent.pcd.model.ShoppingCartMap;
+import com.levent.pcd.model.UserEntry;
+import com.levent.pcd.model.UserInfo;
 import com.levent.pcd.service.CartCookie;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
@@ -49,16 +54,21 @@ public class ProductController {
 	private CartCookie cartCookie;
 
 	
-	@RequestMapping(value = "/products")
-	public ModelAndView listProducts(@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="6") int limit) {
+	@GetMapping(value = "/products")
+	public ModelAndView listProducts(@RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="0") int hisPage, @RequestParam(defaultValue="6") int limit, @SessionAttribute(required = false) UserEntry userEntry ) {
 		
 		List<String> categories = categoryService.findAll();
 		List<Product> products = productService.findAll(page, limit);
+		
+		List<Product> historys = null;
+		if( userEntry != null ) 
+			historys = productService.findHisProducts(userEntry.getUser().getUsername(), hisPage, limit);
 		ModelAndView model = new ModelAndView("products");
 		model.addObject("page", page);
+		model.addObject("hisPage", hisPage);
 		model.addObject("productList", products);
 		model.addObject("categoryList", categories);
-		
+		model.addObject("historyList", historys);
 		return model;
 	}
 	
@@ -181,7 +191,7 @@ public class ProductController {
 	public String updateProduct(@ModelAttribute Product product	, BindingResult result,Model model, HttpSession session) {
 		System.out.println("update product");
 		if(result.hasErrors()) {
-			System.out.println(result.getAllErrors());
+			System.err.println(result.getAllErrors());
 		}
 		productService.updateProduct(product);
 		return "redirect:/products";
@@ -192,8 +202,7 @@ public class ProductController {
 	@RequestMapping("/register")
 	public ModelAndView addRegisterView(Principal principal) {
 		if (principal.getName() != null) {
-			ModelAndView model = new ModelAndView("redirect:/products");
-			return model;
+			return new ModelAndView("redirect:/products");
 		}
 		else return new ModelAndView("/register");
 	}

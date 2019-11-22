@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.FileEditor;
 import org.springframework.data.domain.PageRequest;
@@ -57,8 +58,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public List<Product> searchProductsByRegex(String searchString){
-		List<Product> r = productRepository.searchProduct(searchString);
-		return r;
+		return productRepository.searchProduct(searchString);
 	}
 	
 	@Override
@@ -120,13 +120,46 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		
-		 Order o=  rep.insert(Order.builder().date(LocalDateTime.now()).productsPlaced(orderPlaced).productsCancelled(orderCancelled).amountDeducted(sum).status(OrderStatus.ORDER_INITIATED).username(username).build());
-		   System.out.println(o);
-		return o;
+		 return rep.insert(Order.builder().date(LocalDateTime.now()).productsPlaced(orderPlaced).productsCancelled(orderCancelled).amountDeducted(sum).status(OrderStatus.ORDER_INITIATED).username(username).build());
+//		   System.out.println(o);
 	}
 
-	
-	
-	
-	
+	@Override
+	public List<Product> findHisProducts(String username, int page, int limit) {
+		List<Order> orders = rep.findOrdersByUsername(username, Sort.by("date").descending());
+		if( orders.size() != 0 ) {
+			List<String> idList = new ArrayList<>();
+			for( Order order : orders ) {
+				List<ShoppingCartEntry> placed = order.getProductsPlaced();
+				List<ShoppingCartEntry> canceled = order.getProductsCancelled();
+				if( placed != null && placed.size() != 0 ) {
+					for(ShoppingCartEntry entry: placed) {
+						idList.add(entry.getId());
+					}
+				}else if( canceled != null && canceled.size() != 0){
+					for(ShoppingCartEntry entry: canceled) {
+						idList.add(entry.getId());
+					}
+				}
+			}
+			List<Product> rtnList = new ArrayList<>();
+			Optional<Product> product;
+			int i = 0;
+			for( String id : idList ) {
+				if( i >= page * limit && i < (page + 1) * limit) {
+					product = productRepository.findById(id);
+					if(product.isPresent())
+						rtnList.add(product.get());
+					else
+						--i;
+					if( (i+1) == idList.size() && (i+1) % 6 == 0 )
+						rtnList.add(null);
+				}
+				++i;
+			}
+			return rtnList;
+		}
+		else 
+			return null;
+	}
 }
