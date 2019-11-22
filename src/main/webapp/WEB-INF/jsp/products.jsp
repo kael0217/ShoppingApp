@@ -53,20 +53,28 @@ ${message}
     <!-- Page Content -->
     <div class="container">
     
-        <div class="row">
-            <div class="col-lg-12">
+        <c:if test="${ (sessionScope.userRole=='admin' || sessionScope.userRole=='user' ) && not empty historyList }">
+            <div class="row">
+                <div class="col-lg-12">
                 <h1>History Order:</h1>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-				<c:if test="${not empty productList}">
-					<div class="row">
-					    <c:forEach items="${productList}" var="listValue" begin="0" end="5">
-			                <div class="col-md-2 col-sm-4 col-xs-12 portfolio-item">
-			                    <a href="<c:url value='product-details-${listValue.id}' />">
-			                        <img class="img-responsive" src="${listValue.getImageUrl()}" alt="" width="250px;" height="250px;">
-			                    </a>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+					<div class="col-md-1">
+					<c:if test="${hisPage>0 }">
+						<a class="page-link" href="./?hisPage=${hisPage-1}&limit=6&page=${page}"
+							aria-label="Previous">
+							Previous
+						</a>
+					</c:if>
+					</div>
+					<div class="row col-md-10">
+				        <c:forEach items="${historyList}" var="listValue" begin="0" end="5">
+		                    <div class="col-md-2 col-sm-4 col-xs-12 portfolio-item">
+		                        <a href="<c:url value='product-details-${listValue.id}' />">
+		                            <img class="img-responsive" src="${listValue.getImageUrl()}" alt="" width="250px" height="250px">
+		                        </a>
                                 <p>${listValue.getProductName()}</p>
                                 <c:if test="${sessionScope.userRole=='admin'}">
                                     <p class="adminEdit">
@@ -74,12 +82,20 @@ ${message}
                                         <a href="<c:url value='product-delete-${listValue.id}' />">Delete Product</a> 
                                     </p>
                                 </c:if>
-				            </div>
-				        </c:forEach>
-				    </div>
-				</c:if>
-			</div>
-        </div>
+			                </div>
+			            </c:forEach>
+			        </div>
+			        <div class="col-md-1">
+				        <c:if test="${historyList.size()==6}" >
+							<a class="page-link" href="./products?hisPage=${hisPage+1}&limit=6&page=${page}"
+								aria-label="Previous">
+								Next
+							</a>
+						</c:if>
+					</div>
+				</div>
+            </div>
+        </c:if>
     
         <!-- Page Heading -->
         <div class="row">
@@ -143,19 +159,22 @@ ${message}
 							<ul class="pagination">
 							<c:if test="${page>0 }">
 								<li class="page-item">
-									<a class="page-link" href="./products?page=${page-1}&limit=6"
-									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+									<a class="page-link" href="./products?page=${page-1}&limit=6&hisPage=${hisPage}"
+									aria-label="Previous">
+										<span aria-hidden="true">&laquo;</span>
 										<span class="sr-only">Previous</span>
-								</a></li>
-								</c:if>
-														
-								<li class="page-item"><a class="page-link" href="#">${page+1}</a></li>
+									</a>
+								</li>
+							</c:if>
+							<li class="page-item"><a class="page-link" href="#">${page+1}</a></li>
 								<c:if test="${productList.size()==6}">
-								<li class="page-item">
-									<a class="page-link" href="./products?page=${page+1 }&limit=6"
-									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-										<span class="sr-only">Next</span>
-								</a></li>
+									<li class="page-item">
+										<a class="page-link" href="./products?page=${page+1 }&limit=6&hisPage=${hisPage}"
+										aria-label="Next">
+											<span aria-hidden="true">&raquo;</span>
+											<span class="sr-only">Next</span>
+										</a>
+									</li>
 								</c:if>
 							</ul>
 						</nav>
@@ -171,7 +190,6 @@ ${message}
 
         <!-- Footer -->
         <footer>
-       <!--  <img class="img-responsive" src="https://bucket-image-productcatagory.s3.us-east-2.amazonaws.com/01_men_one.jpg" alt=""> -->
             <div class="row">
                 <div class="col-lg-12">
                     <p>Copyright &copy; Divilioglu LTD. 2016</p>

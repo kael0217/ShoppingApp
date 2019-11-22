@@ -21,6 +21,7 @@ public interface ProductService {
 	public List<Product> findProductsByCategory(String categoryName, int page, int size);
 	public List<Product> findProductsByName(String searchString);
 	public List<Product> searchProductsByRegex(String searchString);
+	public List<Product> findHisProducts(String username, int page, int limit);
 	
 	void updateProductsRemained(Product product, int inStore);
 
