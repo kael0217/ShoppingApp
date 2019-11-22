@@ -152,7 +152,6 @@ public class ProductController {
 				if(itemOriginal.size()>0) {
 					Map<String, String> priceChangeMap=new HashMap<>();
 					for(Entry<String, Double> entry : itemOriginal.entrySet()) {
-					//for(EntString id: itemOriginal.keySet()) {
 						if(shoppingCartMap.getCartItems().containsKey(entry.getKey()) && entry.getValue()!=shoppingCartMap.getCartItems().get(entry.getKey()).getPrice()) {
 							priceChangeMap.put(shoppingCartMap.getCartItems().get(entry.getKey()).getProductName(), itemOriginal.get(entry.getKey())+" to "+shoppingCartMap.getCartItems().get(entry.getKey()).getPrice());				
 						}			
