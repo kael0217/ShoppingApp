@@ -87,7 +87,6 @@ public class ProductController {
 	 */
 	@GetMapping(value = "/products", params="srch-term")
 	public ModelAndView listProductsByNameSearch(@RequestParam("srch-term") String searchTerm, @SessionAttribute(required = false) UserEntry userEntry ) {
-		
 		List<Product> products = productService.searchProductsByRegex(searchTerm);
 		List<String> categories = categoryService.findAll();
 		ModelAndView model = new ModelAndView("products");
@@ -118,7 +117,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/product-details-{id}")
-	public ModelAndView listProductById(@PathVariable("id") String id, @SessionAttribute UserEntry userEntry) {
+	public ModelAndView listProductById(@PathVariable("id") String id, @SessionAttribute(required = false) UserEntry userEntry) {
 		
 		Product product = productService.findById(id);
 		if( userEntry != null ) {
