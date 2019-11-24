@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.levent.pcd.model.Tailors;
 import com.levent.pcd.model.UserAuth;
 import com.levent.pcd.model.UserEntry;
 import com.levent.pcd.model.UserInfo;
 import com.levent.pcd.model.UserRole;
+import com.levent.pcd.repository.TailorsRepository;
 import com.levent.pcd.repository.UserAuthRepository;
 import com.levent.pcd.repository.UserInfoRepository;
 
@@ -28,6 +30,7 @@ import com.levent.pcd.repository.UserInfoRepository;
 public class UserRegisterCtrl {
 	@Autowired UserInfoRepository userInfoRep;
 	@Autowired UserAuthRepository userAuthRep;
+	@Autowired TailorsRepository tailorsRep;
 	@Autowired UserEntry userEntry;
 	
 //	@GetMapping("/addUser")
@@ -38,7 +41,7 @@ public class UserRegisterCtrl {
 	
 	@PostMapping("/addAdmin")
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-	public ModelAndView registAdmin(@ModelAttribute UserInfo userInfo,@ModelAttribute UserAuth userAuth, @RequestParam String username) {
+	public ModelAndView registAdmin(@ModelAttribute UserInfo userInfo,@ModelAttribute UserAuth userAuth, @RequestParam Tailors tailors, @RequestParam String username) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("/register");
 		
@@ -49,12 +52,14 @@ public class UserRegisterCtrl {
 		
 		userInfo.setUsername(username);
 		userAuth.setUsername(username);
+		tailors.setUsername(username);
 		if (userInfoRep.findByUsername(username)!=null) {			
 			model.addObject("msg","Username has been used, try another one.");
 			return model;
 		}
 		userInfoRep.save(userInfo);
 		userAuthRep.save(userAuth);
+		tailorsRep.save(tailors);
 		userEntry.setUser(userInfo);
 		userEntry.setLogin(true);		
 		model.addObject("msg", "Success!");		
@@ -62,17 +67,19 @@ public class UserRegisterCtrl {
 	}	
 	
 	@PostMapping("/addUser")
-	public ModelAndView registUser(@ModelAttribute UserInfo userInfo,@ModelAttribute UserAuth userAuth, @RequestParam String username, 
-			HttpSession session, HttpServletRequest request) throws ServletException {
+	public ModelAndView registUser(@ModelAttribute UserInfo userInfo, @ModelAttribute UserAuth userAuth, @RequestParam String username, 
+		 HttpServletRequest request) throws ServletException {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("redirect:/products");
 		
-		List<UserRole> roles = new ArrayList<UserRole>();
+		List<UserRole> roles = new ArrayList<>();
 		roles.add(UserRole.ROLE_USER);
 		userAuth.setUserRoles(roles);
 		
+		Tailors tailors = Tailors.builder().username(username).build();
 		userInfo.setUsername(username);
 		userAuth.setUsername(username);
+		
 		if (userInfoRep.findByUsername(username)!=null) {
 			model.setViewName("/register");
 			model.addObject("msg","Email has been used, try another one.");
@@ -80,13 +87,18 @@ public class UserRegisterCtrl {
 		}
 		userInfoRep.save(userInfo);
 		userAuthRep.save(userAuth);
+		tailorsRep.save(tailors);
+		
 		userEntry.setUser(userInfo);
 		userEntry.isLogin=true;	
 		
 		System.out.println(userEntry);        
         request.login(userAuth.getUsername(),userAuth.getPassword());
-        /*session.setAttribute("userEntry", userEntry);*/
         
+        HttpSession session = request.getSession(false);
+        session.setAttribute("userEntry", userEntry);
+        session.setAttribute("tailors", tailors);
+        session.setAttribute("userRole", "user");
         
 		model.addObject("msg", "Success!");		
 		return model;

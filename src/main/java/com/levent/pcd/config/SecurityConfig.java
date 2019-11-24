@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -38,6 +39,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.stereotype.Component;
@@ -46,10 +48,12 @@ import org.springframework.util.StringUtils;
 import com.levent.pcd.model.AuthProvider;
 import com.levent.pcd.model.OAuth2UserInfo;
 import com.levent.pcd.model.OAuth2UserInfoFactory;
+import com.levent.pcd.model.Tailors;
 import com.levent.pcd.model.UserAuth;
 import com.levent.pcd.model.UserEntry;
 import com.levent.pcd.model.UserInfo;
 import com.levent.pcd.model.UserRole;
+import com.levent.pcd.repository.TailorsRepository;
 import com.levent.pcd.repository.UserAuthRepository;
 import com.levent.pcd.repository.UserInfoRepository;
 
@@ -146,26 +150,36 @@ class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessH
 	 
     public static final String RETURN_TYPE = "html"; 
 	@Autowired	UserEntry userEntry;
+	@Autowired  Tailors tailors;
+	
 	@Autowired  UserInfoRepository rep;
 	@Autowired  UserAuthRepository rep2;
+	@Autowired  TailorsRepository tr;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         
         userEntry.setUser(rep.findByUsername(authentication.getName()));
         
+        System.out.println(authentication.getName());
+        Optional<Tailors> tls = tr.findById(authentication.getName());
+        
+        if( tls.isPresent() )
+        	tailors = tls.get();
+        else
+			System.out.println("errorrooorororo");
         userEntry.isLogin = true;
 //        System.out.println("Success");
 //        System.out.println(userEntry.getUser());
 //        System.out.println(userEntry.getUser().getNickname());
 //        System.out.println(userEntry);
-        request.getSession(false).setAttribute("userEntry", userEntry);   
+        HttpSession session = request.getSession(false);
+        session.setAttribute("userEntry", userEntry);   
+        session.setAttribute("tailors", tailors);
         if(rep2.findByUsername(authentication.getName()).getUserRoles().size()>1) {
-        	request.getSession(false).setAttribute("userRole", "admin");  
+        	session.setAttribute("userRole", "admin");  
    
         }else {
-    
-        	request.getSession(false).setAttribute("userRole", "user");
-        	
+        	session.setAttribute("userRole", "user");
         }
         super.setDefaultTargetUrl("/");
         super.onAuthenticationSuccess(request, response, authentication);
