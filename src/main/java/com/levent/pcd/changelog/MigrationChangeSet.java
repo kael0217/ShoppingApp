@@ -18,6 +18,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.levent.pcd.model.Product;
+import com.levent.pcd.model.Tailors;
 import com.levent.pcd.model.UserAuth;
 import com.levent.pcd.model.UserInfo;
 import com.levent.pcd.model.UserRole;
@@ -75,6 +76,7 @@ public class MigrationChangeSet {
 	public void change02(MongoTemplate template) throws IOException{
 		UserInfo adminInfo = UserInfo.builder().nickname("ADMIN").username("admin@admin").build();
 		UserAuth adminAuth = UserAuth.builder().username("admin@admin").password("admin").build();
+		Tailors adminTailors = Tailors.builder().username("admin@admin").build();
 		List<UserRole> roles = new ArrayList<UserRole>();
 		roles.add(UserRole.ROLE_USER);
 		roles.add(UserRole.ROLE_ADMIN);
@@ -82,7 +84,7 @@ public class MigrationChangeSet {
 		
 		template.insert(adminAuth,"userAuths");
 		template.insert(adminInfo,"userInfos");
-		
+		template.insert(adminTailors, "tailors");
 		
 	}
 }
