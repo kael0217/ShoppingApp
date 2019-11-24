@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
+import com.amazonaws.handlers.IRequestHandler2;
 import com.levent.pcd.model.Category;
 import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartEntry;
@@ -92,11 +93,12 @@ public class CartController {
     			
     		}
 	    }
-	    for( Category cat: productService.findById(entry.getId()).getCategory() ) {
-	    	userEntry.getTailors().addToCategory(cat.getProductName());
+	    if( userEntry.getTailors() != null ) {
+	    	for( Category cat: productService.findById(entry.getId()).getCategory() ) {
+	    		userEntry.getTailors().addToCategory(cat.getProductName());
+	    	}
+	    	tailorsRepository.save(userEntry.getTailors());
 	    }
-	    tailorsRepository.save(userEntry.getTailors());
-	    
 		session.setAttribute("shoppingCartMap", shoppingCartMap);
 		return "redirect:/products";
 	}
