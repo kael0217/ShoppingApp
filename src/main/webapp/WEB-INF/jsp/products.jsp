@@ -65,7 +65,7 @@ ${message}
 					<c:if test="${hisPage>0 }">
 						<a class="page-link" href="./products?page=${page}&hisPage=${hisPage-1}&recPage=${recPage}&limit=6"
 							aria-label="Previous">
-							Previous
+							<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 						</a>
 					</c:if>
 					</div>
@@ -88,8 +88,8 @@ ${message}
 			        <div class="col-md-1">
 				        <c:if test="${historyList.size()==6}" >
 							<a class="page-link" href="./products?page=${page}&hisPage=${hisPage+1}&recPage=${recPage}&limit=6"
-								aria-label="Previous">
-								Next
+								aria-label="Next">
+								<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 							</a>
 						</c:if>
 					</div>
@@ -109,7 +109,7 @@ ${message}
 						<c:if test="${recPage>0 }">
 							<a class="page-link" href="./products?page=${page}&hisPage=${hisPage}&recPage=${recPage-1}&limit=6"
 								aria-label="Previous">
-								Previous
+								<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 							</a>
 						</c:if>
 					</div>
@@ -133,7 +133,7 @@ ${message}
 				        <c:if test="${recommendList.size()==6}" >
 							<a class="page-link" href="./products?page=${page}&hisPage=${hisPage}&recPage=${recPage+1}&limit=6"
 								aria-label="Previous">
-								Next
+								<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 							</a>
 						</c:if>
 					</div>
