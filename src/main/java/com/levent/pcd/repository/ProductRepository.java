@@ -26,7 +26,6 @@ public interface ProductRepository extends MongoRepository<Product, String>, Pro
 
 	/*@Query("{ inStore:{$gt:0},'category.productName':   ?0 }")*/
 	List<Product> findProductsByCategoryProductNameAndInStoreGreaterThan(String productName,int inStore, Pageable page);
-
 	/*
 	 * db.products.find( { 'productName': /mens/i } );
 	 * 
@@ -35,6 +34,8 @@ public interface ProductRepository extends MongoRepository<Product, String>, Pro
 	 */
 	@Query("{inStore:{$gt:0}, 'productName':{$regex:?0,$options:'i'} }")
 	List<Product> findProductsByProductNameRegex(String searchString);
+	
+	List<Product> findProductsByProductNameAndInStoreGreaterThan(String searchString, int inStore);
 
 	@Query("{inStore:{$gt:0}, 'sku' : ?0 }")
 	Product findBySku(String sku);

@@ -30,11 +30,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartEntry;
 import com.levent.pcd.model.ShoppingCartMap;
+import com.levent.pcd.model.Tailors;
 import com.levent.pcd.model.UserEntry;
 import com.levent.pcd.model.UserInfo;
+import com.levent.pcd.repository.TailorsRepository;
 import com.levent.pcd.service.CartCookie;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
+
+import javassist.expr.NewArray;
 
 @Controller
 public class ProductController {
@@ -51,23 +55,31 @@ public class ProductController {
 	private ShoppingCartMap shoppingCartMap;
 	
 	@Autowired
+	private TailorsRepository tailorsRepository;
+	
+	@Autowired
 	private CartCookie cartCookie;
-
 	
 	@GetMapping(value = "/products")
-	public ModelAndView listProducts(@RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="0") int hisPage, @RequestParam(defaultValue="6") int limit, @SessionAttribute(required = false) UserEntry userEntry ) {
-		
+	public ModelAndView listProducts(@RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="0") int hisPage, 
+			@RequestParam(defaultValue="0") int recPage, @RequestParam(defaultValue="6") int limit,
+				@SessionAttribute(required = false) UserEntry userEntry, @SessionAttribute(required = false) Tailors tailors) {
 		List<String> categories = categoryService.findAll();
 		List<Product> products = productService.findAll(page, limit);
-		
 		List<Product> historys = null;
+		List<Product> recommend = null;
 		if( userEntry != null ) 
 			historys = productService.findHisProducts(userEntry.getUser().getUsername(), hisPage, limit);
+		if( tailors != null ) {
+			recommend = productService.tailingResultPage(tailors, recPage, limit);
+		}
 		ModelAndView model = new ModelAndView("products");
 		model.addObject("page", page);
 		model.addObject("hisPage", hisPage);
+		model.addObject("recPage", recPage);
 		model.addObject("productList", products);
 		model.addObject("categoryList", categories);
+		model.addObject("recommendList", recommend);
 		model.addObject("historyList", historys);
 		return model;
 	}
@@ -75,13 +87,16 @@ public class ProductController {
 	/*
 	 * Product with search string
 	 */
-	@RequestMapping(value = "/products", params="srch-term")
-	public ModelAndView listProductsByNameSearch(@RequestParam("srch-term") String searchTerm) {
+	@GetMapping(value = "/products", params="srch-term")
+	public ModelAndView listProductsByNameSearch(@RequestParam("srch-term") String searchTerm, @SessionAttribute(required = false) Tailors tailors ) {
+		
 		List<Product> products = productService.searchProductsByRegex(searchTerm);
 		List<String> categories = categoryService.findAll();
-		System.out.println(searchTerm);
 		ModelAndView model = new ModelAndView("products");
-		
+		if( tailors != null && !tailors.getUsername().isEmpty() ) {
+			tailors.addToSearch(searchTerm);
+			tailorsRepository.save(tailors);
+		}
 		model.addObject("categoryList", categories);
 		model.addObject("productList", products);
 		
@@ -89,10 +104,14 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/products-by-category-{categoryName}")
-	public ModelAndView listProductsByCategory(@PathVariable("categoryName") String categoryName,@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="100") int limit) {
+	public ModelAndView listProductsByCategory(@PathVariable("categoryName") String categoryName,@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="100") int limit, @SessionAttribute(required = false) Tailors tailors) {
 		List<Product> products = productService.findProductsByCategory(categoryName, page, limit);
 		List<String> categories = categoryService.findAll();
-		
+		System.out.println("username: "+tailors.getUsername());
+		if( tailors != null && !tailors.getUsername().isEmpty() ) {
+			tailors.addToCategory(categoryName);
+			tailorsRepository.save(tailors);
+		}
 		ModelAndView model = new ModelAndView("products");
 		
 		model.addObject("categoryList", categories);

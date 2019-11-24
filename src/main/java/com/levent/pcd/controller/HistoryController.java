@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -34,4 +35,13 @@ public class HistoryController {
 		return mv;
 	}
 	
+	@DeleteMapping(value="/history")
+	public ModelAndView deleteOrders( @RequestParam String id, @RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="6") int limit, @SessionAttribute UserEntry userEntry ) {
+		ModelAndView mv = new ModelAndView("history");
+		or.deleteById(id);
+		List<Order> orders = or.findOrdersByUsername(userEntry.getUser().getUsername(), PageRequest.of(page, limit, Sort.by("date").descending()));
+		mv.addObject("page", page);
+		mv.addObject("pastorders", orders);
+		return mv;
+	}
 }
