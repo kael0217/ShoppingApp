@@ -20,5 +20,6 @@ public class UserEntry implements Serializable{
 
 	private static final long serialVersionUID = 8226676716937932576L;
 	private UserInfo user;
+	private Tailors tailors;
 	public boolean isLogin=false;
 }

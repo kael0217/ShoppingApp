@@ -150,7 +150,6 @@ class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessH
 	 
     public static final String RETURN_TYPE = "html"; 
 	@Autowired	UserEntry userEntry;
-	@Autowired  Tailors tailors;
 	
 	@Autowired  UserInfoRepository rep;
 	@Autowired  UserAuthRepository rep2;
@@ -164,7 +163,7 @@ class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessH
         Optional<Tailors> tls = tr.findById(authentication.getName());
         
         if( tls.isPresent() )
-        	tailors = tls.get();
+        	userEntry.setTailors(tls.get());
         else
 			System.out.println("errorrooorororo");
         userEntry.isLogin = true;
@@ -174,7 +173,6 @@ class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessH
 //        System.out.println(userEntry);
         HttpSession session = request.getSession(false);
         session.setAttribute("userEntry", userEntry);   
-        session.setAttribute("tailors", tailors);
         if(rep2.findByUsername(authentication.getName()).getUserRoles().size()>1) {
         	session.setAttribute("userRole", "admin");  
    
@@ -296,12 +294,16 @@ class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessH
 
 	@Autowired	UserEntry userEntry;
 	@Autowired  UserInfoRepository rep;
+	@Autowired  TailorsRepository tr;
 	@Autowired  OAuth2Config appProperties;
 	
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
        
         userEntry.setUser(rep.findByUsername(authentication.getName()));
+        Optional<Tailors> tailors = tr.findById(authentication.getName());
+        if( tailors.isPresent() )
+        	userEntry.setTailors(tailors.get());
         userEntry.isLogin = true;
 //        System.out.println("OAUTH Success");
 //        System.out.println(authentication.getName());

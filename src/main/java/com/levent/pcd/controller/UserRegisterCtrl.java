@@ -61,6 +61,7 @@ public class UserRegisterCtrl {
 		userAuthRep.save(userAuth);
 		tailorsRep.save(tailors);
 		userEntry.setUser(userInfo);
+		userEntry.setTailors(tailors);
 		userEntry.setLogin(true);		
 		model.addObject("msg", "Success!");		
 		return model;
@@ -90,6 +91,7 @@ public class UserRegisterCtrl {
 		tailorsRep.save(tailors);
 		
 		userEntry.setUser(userInfo);
+		userEntry.setTailors(tailors);
 		userEntry.isLogin=true;	
 		
 		System.out.println(userEntry);        
@@ -97,7 +99,6 @@ public class UserRegisterCtrl {
         
         HttpSession session = request.getSession(false);
         session.setAttribute("userEntry", userEntry);
-        session.setAttribute("tailors", tailors);
         session.setAttribute("userRole", "user");
         
 		model.addObject("msg", "Success!");		

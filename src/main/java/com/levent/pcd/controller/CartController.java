@@ -92,13 +92,10 @@ public class CartController {
     			
     		}
 	    }
-	    Tailors tailors = (Tailors) session.getAttribute("tailors");
-	    if( !tailors.getUsername().isEmpty() ) {
-	    	for( Category cat: productService.findById(entry.getId()).getCategory() ) {
-	    		tailors.addToCategory(cat.getProductName());
-	    	}
-	    	tailorsRepository.save(tailors);
+	    for( Category cat: productService.findById(entry.getId()).getCategory() ) {
+	    	userEntry.getTailors().addToCategory(cat.getProductName());
 	    }
+	    tailorsRepository.save(userEntry.getTailors());
 	    
 		session.setAttribute("shoppingCartMap", shoppingCartMap);
 		return "redirect:/products";
@@ -124,11 +121,10 @@ public class CartController {
 
 	@ResponseBody
 	@GetMapping("/getProductsByCategories/{categoryName}")
-	public List<Product> getProductById(@PathVariable String categoryName,@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="100") int limit, HttpSession session) {
-		Tailors tailors = (Tailors) session.getAttribute("tailors");
-		if( tailors != null && !tailors.getUsername().isEmpty() ) {
-			tailors.addToCategory(categoryName);
-			tailorsRepository.save(tailors);
+	public List<Product> getProductById(@PathVariable String categoryName,@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="100") int limit) {
+		if( !userEntry.getTailors().getUsername().isEmpty() ) {
+			userEntry.getTailors().addToCategory(categoryName);
+			tailorsRepository.save(userEntry.getTailors());
 		}
 		return productService.findProductsByCategory(categoryName, page, limit);
 	}
