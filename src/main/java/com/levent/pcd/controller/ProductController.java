@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -134,6 +135,23 @@ public class ProductController {
 	public ModelAndView shoppingCart(HttpSession session,HttpServletRequest request, 
 			HttpServletResponse response) throws UnsupportedEncodingException {
 		ModelAndView model = new ModelAndView("shopping-cart");
+		
+
+		 Map<String, ShoppingCartEntry> map = new ConcurrentHashMap<String, ShoppingCartEntry>();			
+		 	map.putAll(shoppingCartMap.getCartItems());
+		 	for (ShoppingCartEntry entry : map.values()) {
+				Product product=productService.findById(entry.getId());
+				if(entry.getPrice()/entry.getQuantity()!=product.getPrice()) {
+					entry.setPrice(product.getPrice());
+					entry.setProductTotalPrice(product.getPrice()*entry.getQuantity());
+					shoppingCartMap.removeItem(entry.getId());
+					shoppingCartMap.addItem(entry.getId(), entry);
+					
+				}
+			}	
+		 	
+
+/*
 		synchronized (shoppingCartMap) {
 		for(ShoppingCartEntry entry:shoppingCartMap.getCartItems().values()) {
 			Product product=productService.findById(entry.getId());
@@ -145,7 +163,7 @@ public class ProductController {
 				
 			}
 		}	
-		}
+		}*/
 		model.addObject("shoppingCartMap", shoppingCartMap);
 		session.setAttribute("shoppingCartMap", shoppingCartMap);
 		
