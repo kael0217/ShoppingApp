@@ -1,6 +1,7 @@
 package com.levent.pcd.controller;
 
 import java.io.UnsupportedEncodingException;
+
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
@@ -23,19 +24,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.levent.pcd.model.Category;
 import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartEntry;
 import com.levent.pcd.model.ShoppingCartMap;
+import com.levent.pcd.model.Tailors;
 import com.levent.pcd.model.UserEntry;
-import com.levent.pcd.model.UserInfo;
+import com.levent.pcd.repository.TailorsRepository;
 import com.levent.pcd.service.CartCookie;
 import com.levent.pcd.service.CategoryService;
 import com.levent.pcd.service.ProductService;
+
 
 @Controller
 public class ProductController {
@@ -52,23 +55,30 @@ public class ProductController {
 	private ShoppingCartMap shoppingCartMap;
 	
 	@Autowired
+	private TailorsRepository tailorsRepository;
+	
+	@Autowired
 	private CartCookie cartCookie;
-
 	
 	@GetMapping(value = "/products")
-	public ModelAndView listProducts(@RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="0") int hisPage, @RequestParam(defaultValue="6") int limit, @SessionAttribute(required = false) UserEntry userEntry ) {
-		
+	public ModelAndView listProducts(@RequestParam(defaultValue="0") int page, @RequestParam(defaultValue="0") int hisPage, 
+			@RequestParam(defaultValue="0") int recPage, @RequestParam(defaultValue="6") int limit,
+				@SessionAttribute(required = false) UserEntry userEntry ) {
 		List<String> categories = categoryService.findAll();
 		List<Product> products = productService.findAll(page, limit);
-		
 		List<Product> historys = null;
-		if( userEntry != null ) 
+		List<Product> recommend = null;
+		if( userEntry != null ) {
 			historys = productService.findHisProducts(userEntry.getUser().getUsername(), hisPage, limit);
+			recommend = productService.tailingResultPage(userEntry.getTailors(), recPage, limit);
+		}
 		ModelAndView model = new ModelAndView("products");
 		model.addObject("page", page);
 		model.addObject("hisPage", hisPage);
+		model.addObject("recPage", recPage);
 		model.addObject("productList", products);
 		model.addObject("categoryList", categories);
+		model.addObject("recommendList", recommend);
 		model.addObject("historyList", historys);
 		return model;
 	}
@@ -76,13 +86,15 @@ public class ProductController {
 	/*
 	 * Product with search string
 	 */
-	@RequestMapping(value = "/products", params="srch-term")
-	public ModelAndView listProductsByNameSearch(@RequestParam("srch-term") String searchTerm) {
+	@GetMapping(value = "/products", params="srch-term")
+	public ModelAndView listProductsByNameSearch(@RequestParam("srch-term") String searchTerm, @SessionAttribute(required = false) UserEntry userEntry ) {
 		List<Product> products = productService.searchProductsByRegex(searchTerm);
 		List<String> categories = categoryService.findAll();
-		System.out.println(searchTerm);
 		ModelAndView model = new ModelAndView("products");
-		
+		if( userEntry != null ) {
+			userEntry.getTailors().addToSearch(searchTerm);
+			tailorsRepository.save(userEntry.getTailors());
+		}
 		model.addObject("categoryList", categories);
 		model.addObject("productList", products);
 		
@@ -90,10 +102,13 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/products-by-category-{categoryName}")
-	public ModelAndView listProductsByCategory(@PathVariable("categoryName") String categoryName,@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="100") int limit) {
+	public ModelAndView listProductsByCategory(@PathVariable("categoryName") String categoryName,@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="100") int limit, @SessionAttribute(required = false) UserEntry userEntry) {
 		List<Product> products = productService.findProductsByCategory(categoryName, page, limit);
 		List<String> categories = categoryService.findAll();
-		
+		if( userEntry != null ) {
+			userEntry.getTailors().addToCategory(categoryName);
+			tailorsRepository.save(userEntry.getTailors());
+		}
 		ModelAndView model = new ModelAndView("products");
 		
 		model.addObject("categoryList", categories);
@@ -103,10 +118,14 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value = "/product-details-{id}")
-	public ModelAndView listProductById(@PathVariable("id") String id) {
+	public ModelAndView listProductById(@PathVariable("id") String id, @SessionAttribute(required = false) UserEntry userEntry) {
 		
 		Product product = productService.findById(id);
-		
+		if( userEntry != null ) {
+			for( Category cat: product.getCategory() )
+				userEntry.getTailors().addToCategory(cat.getProductName());
+			tailorsRepository.save(userEntry.getTailors());
+		}
 		ModelAndView model = new ModelAndView("product-details");
 		model.addObject("product", product);
 		

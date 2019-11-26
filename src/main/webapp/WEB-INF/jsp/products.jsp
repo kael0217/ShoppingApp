@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
@@ -56,16 +56,16 @@ ${message}
         <c:if test="${ (sessionScope.userRole=='admin' || sessionScope.userRole=='user' ) && not empty historyList }">
             <div class="row">
                 <div class="col-lg-12">
-                <h1>History Order:</h1>
+                <h1>Buy it Again</h1>
             </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
 					<div class="col-md-1">
 					<c:if test="${hisPage>0 }">
-						<a class="page-link" href="./?hisPage=${hisPage-1}&limit=6&page=${page}"
+						<a class="page-link" href="./products?page=${page}&hisPage=${hisPage-1}&recPage=${recPage}&limit=6"
 							aria-label="Previous">
-							Previous
+							<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 						</a>
 					</c:if>
 					</div>
@@ -87,9 +87,53 @@ ${message}
 			        </div>
 			        <div class="col-md-1">
 				        <c:if test="${historyList.size()==6}" >
-							<a class="page-link" href="./products?hisPage=${hisPage+1}&limit=6&page=${page}"
+							<a class="page-link" href="./products?page=${page}&hisPage=${hisPage+1}&recPage=${recPage}&limit=6"
+								aria-label="Next">
+								<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+							</a>
+						</c:if>
+					</div>
+				</div>
+            </div>
+        </c:if>
+        
+        <c:if test="${ (sessionScope.userRole=='admin' || sessionScope.userRole=='user' ) && not empty recommendList }">
+            <div class="row">
+                <div class="col-lg-12">
+                	<h1>You may like</h1>
+            	</div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+					<div class="col-md-1">
+						<c:if test="${recPage>0 }">
+							<a class="page-link" href="./products?page=${page}&hisPage=${hisPage}&recPage=${recPage-1}&limit=6"
 								aria-label="Previous">
-								Next
+								<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+							</a>
+						</c:if>
+					</div>
+					<div class="row col-md-10">
+				        <c:forEach items="${recommendList}" var="listValue" begin="0" end="5">
+		                    <div class="col-md-2 col-sm-4 col-xs-12 portfolio-item">
+		                        <a href="<c:url value='product-details-${listValue.id}' />">
+		                            <img class="img-responsive" src="${listValue.getImageUrl()}" alt="" width="250px" height="250px">
+		                        </a>
+                                <p>${listValue.getProductName()}</p>
+                                <c:if test="${sessionScope.userRole=='admin'}">
+                                    <p class="adminEdit">
+                                        <a href="<c:url value='product-update-${listValue.id}' />">Update Product</a> 
+                                        <a href="<c:url value='product-delete-${listValue.id}' />">Delete Product</a> 
+                                    </p>
+                                </c:if>
+			                </div>
+			            </c:forEach>
+			        </div>
+			        <div class="col-md-1">
+				        <c:if test="${recommendList.size()==6}" >
+							<a class="page-link" href="./products?page=${page}&hisPage=${hisPage}&recPage=${recPage+1}&limit=6"
+								aria-label="Previous">
+								<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 							</a>
 						</c:if>
 					</div>
@@ -157,20 +201,20 @@ ${message}
 					<div class="col-md-4 col-md-offset-3">
 						<nav aria-label="Page navigation example">
 							<ul class="pagination">
-							<c:if test="${page>0 }">
-								<li class="page-item">
-									<a class="page-link" href="./products?page=${page-1}&limit=6&hisPage=${hisPage}"
-									aria-label="Previous">
-										<span aria-hidden="true">&laquo;</span>
-										<span class="sr-only">Previous</span>
-									</a>
-								</li>
-							</c:if>
-							<li class="page-item"><a class="page-link" href="#">${page+1}</a></li>
+								<c:if test="${page>0 }">
+									<li class="page-item">
+										<a class="page-link" href="./products?page=${page-1}&hisPage=${hisPage}&recPage=${recPage}&limit=6"
+										aria-label="Previous">
+											<span aria-hidden="true">&laquo;</span>
+											<span class="sr-only">Previous</span>
+										</a>
+									</li>
+								</c:if>
+								<li class="page-item"><a class="page-link" href="#">${page+1}</a></li>
 								<c:if test="${productList.size()==6}">
 									<li class="page-item">
-										<a class="page-link" href="./products?page=${page+1 }&limit=6&hisPage=${hisPage}"
-										aria-label="Next">
+										<a class="page-link" href="./products?page=${page+1}&hisPage=${hisPage}&recPage=${recPage}&limit=6"
+											aria-label="Next">
 											<span aria-hidden="true">&raquo;</span>
 											<span class="sr-only">Next</span>
 										</a>

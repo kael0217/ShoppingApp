@@ -2,6 +2,7 @@ package com.levent.pcd.service;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,11 +40,15 @@ public class AWSS3HelperImpl implements AWSS3Helper {
 
 	
 
-	private File convertMultiPartToFile(MultipartFile file) throws IOException {
+	private File convertMultiPartToFile(MultipartFile file) {
 		File convFile = new File(file.getOriginalFilename());
-		FileOutputStream fos = new FileOutputStream(convFile);
-		fos.write(file.getBytes());
-		fos.close();
+		try (FileOutputStream fos = new FileOutputStream(convFile)){
+			fos.write(file.getBytes());
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found in the target folder");
+		} catch (IOException e) {
+			System.out.println("IOException");
+		}
 		return convFile;
 	}
 

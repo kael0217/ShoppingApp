@@ -1,6 +1,7 @@
 package com.levent.pcd.controller;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +28,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
+import com.amazonaws.handlers.IRequestHandler2;
+import com.levent.pcd.model.Category;
 import com.levent.pcd.model.Product;
 import com.levent.pcd.model.ShoppingCartEntry;
 import com.levent.pcd.model.ShoppingCartMap;
+import com.levent.pcd.model.Tailors;
 import com.levent.pcd.model.UserEntry;
+import com.levent.pcd.repository.TailorsRepository;
 import com.levent.pcd.repository.UserInfoRepository;
 import com.levent.pcd.service.AWSS3Helper;
 import com.levent.pcd.service.CategoryService;
@@ -51,6 +56,8 @@ public class CartController {
 	private CategoryService categoryService;
 	@Autowired
 	private UserInfoRepository userInfoRepository;
+	@Autowired
+	private TailorsRepository tailorsRepository;
 
 
 	// session scoped POJOs
@@ -58,7 +65,6 @@ public class CartController {
 	private ShoppingCartMap shoppingCartMap;
 	@Autowired
 	private UserEntry userEntry;
-
 
 	
 	@PostMapping("/addToCart")
@@ -87,9 +93,12 @@ public class CartController {
     			
     		}
 	    }
-	   
-		
-		
+	    if( userEntry.getTailors() != null ) {
+	    	for( Category cat: productService.findById(entry.getId()).getCategory() ) {
+	    		userEntry.getTailors().addToCategory(cat.getProductName());
+	    	}
+	    	tailorsRepository.save(userEntry.getTailors());
+	    }
 		session.setAttribute("shoppingCartMap", shoppingCartMap);
 		return "redirect:/products";
 	}
@@ -115,6 +124,10 @@ public class CartController {
 	@ResponseBody
 	@GetMapping("/getProductsByCategories/{categoryName}")
 	public List<Product> getProductById(@PathVariable String categoryName,@RequestParam(defaultValue="0") int page,@RequestParam(defaultValue="100") int limit) {
+		if( !userEntry.getTailors().getUsername().isEmpty() ) {
+			userEntry.getTailors().addToCategory(categoryName);
+			tailorsRepository.save(userEntry.getTailors());
+		}
 		return productService.findProductsByCategory(categoryName, page, limit);
 	}
 

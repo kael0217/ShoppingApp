@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.levent.pcd.model.Order;
 import com.levent.pcd.model.Product;
+import com.levent.pcd.model.Tailors;
 
 /*
  * Service Layer should be used for Transactional processes
@@ -21,7 +22,6 @@ public interface ProductService {
 	public List<Product> findProductsByCategory(String categoryName, int page, int size);
 	public List<Product> findProductsByName(String searchString);
 	public List<Product> searchProductsByRegex(String searchString);
-	public List<Product> findHisProducts(String username, int page, int limit);
 	
 	void updateProductsRemained(Product product, int inStore);
 
@@ -32,6 +32,10 @@ public interface ProductService {
 	public void deleteProduct(String id);
 	
 	public Order updateProductsRemained( String username);
+	
+	public List<Product> findHisProducts(String username, int page, int limit);
+	public List<Product> tailingResultPage( Tailors tailors, int page, int limit );
+	public List<Product> tailingResult( Tailors tailors );
 	
 	
 }
