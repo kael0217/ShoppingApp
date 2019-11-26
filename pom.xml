@@ -370,61 +370,6 @@
 	</profiles>
 	<build>
 		<finalName>ProductCatalogDemo</finalName>
-		<plugins>
-		<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.21.0</version>
-				<configuration>
-					<dockerHost>tcp://192.168.99.101:2376</dockerHost>
-					<verbose>true</verbose>
-					<extensions>true</extensions>
-					<!-- Needed if pushing to docker hub : must store these in local env -->
-					<!-- Moved this in settings.xml inside .m2 folder -->
-					<!-- <authConfig> <username>username</username> <password>password</password> 
-						</authConfig> -->
-					<images>
-						<image>
-							<!-- name of the image -->
-							<name>payalbnsl/product-catalog-demo</name>
-							<build>
-								<!-- docker runs as daemon. CMD shud send all info to docker. Docker 
-									looks in this folder and sub-folder to build -->
-								<dockerFileDir>${project.basedir}/src/main/resources/</dockerFileDir>
-								<!-- copies artifact to docker build dir in target -->
-								<assembly>
-									<descriptorRef>artifact</descriptorRef>
-								</assembly>
-								<tags>
-									<tag>latest</tag>
-								</tags>
-
-							</build>
-						</image>
-					</images>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>install</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>mydeploy</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>push</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
-		</plugins>
+		
 	</build>
 </project>
