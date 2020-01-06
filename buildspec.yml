@@ -1,23 +1,39 @@
 version: 0.2
 
+env:
+
+  variables:
+
+    spring.profiles.active: prod
+
 phases:
+
   install:
+
     runtime-versions:
+
       java: openjdk8
+
     commands:
-      - echo install
-  pre_build:
-    commands:
-      - echo pre_build
+
+      - echo Installation done
+
   build:
+
     commands:
-      - mvn package
-      - echo build
+
+      - echo Entered the build phase...
+
+      - mvn clean package -DskipTests
+
   post_build:
+
     commands:
-      - echo post_build
+
+      - echo Entered the post_build phase...
 
 artifacts:
-  files:
-    - target/ProductCatalogDemo.jar
 
+  files:
+
+    - target/ProductCatalogDemo.jar
